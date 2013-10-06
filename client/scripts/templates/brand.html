@@ -1,0 +1,70 @@
+<template name="brand">
+	<div class="container">
+		<a href="/brand/edit">
+			<button class="btn">Edit Product Data</button>
+		</a>
+		{{> brand_top_1}}
+		{{> brand_top_2}}
+		{{> product_form}}
+	</div>
+</template>
+
+<template name="brand_top_1">
+<ul class="nav nav-pills">
+	{{#each Categories}}
+		<li class=""><button class="btn" id="mainButton">{{Main}}</button></li>
+	{{/each}}
+</ul>
+</template>
+
+<template name="brand_top_2">
+<ul class="nav nav-pills">
+	{{#each SubCategories}}
+		<li class=""><button class="btn" id="subButton">{{this}}</button></li>
+	{{/each}}
+</ul>
+</template>
+
+<template name="product_form">
+	<form>
+		{{> product_form_header}}
+		{{> product_form_body}}
+		<div>
+			<input type="submit" value="Submit Specs" class="btn btn-success">
+		</div>
+	</form>
+</template>
+<template name="product_form_header">
+	{{toggle}}
+	<div id="topInfo">
+		<label><strong>Product Name</strong></label>
+		<input type="text" name="Product Name">
+		<label><strong>Model ID</strong></label>
+		<input type="text" name="Model ID">
+		<label><strong>Add image url</strong></label>
+		<div id="productImage">
+			<input type="text" name="Product Image">
+		</div>
+		<button class="btn btn-medium" id="addImage">Add</button>
+		<label><strong>Key Features</strong></label>
+		<textarea name="key features" class="keyFeature"></textarea>
+	</div>
+</template>
+<template name="product_form_body">
+	{{toggle}}
+	{{#each Feature}}
+		{{#labelCheck name}}
+			<br>
+			<strong class="specHighlight">{{value}}</strong>
+			<br>
+		{{else}}
+			{{#addFeatCheck name}}
+				<label>Additional {{value}} Features</label>
+				<textarea name="Additional {{value}} Features"></textarea>
+			{{else}}
+				<label>{{value}}</label>
+				<input type="text" name="{{value}}"/>
+			{{/addFeatCheck}}
+		{{/labelCheck}}
+	{{/each}}
+</template>

@@ -1,0 +1,37 @@
+<!--
+<template name="framework_two_form">
+	{{toggle}}
+	<form class="form_two">	
+		<label><strong>Fill In Spec</strong></label>
+		<div id="inputFillIn">
+			<input type="text" name="fillin"/>
+		</div>
+		<button id="addFillIn">Add Fill Ins</button>
+		<input type="submit" value="Add to database" class="btn btn-medium btn-info">
+	</form>
+</template>
+-->
+<template name="framework_two_form">
+	<form class="form-horizontal">
+		<div id="addFeatureInput">
+			<div class="control-group">
+				<label for="section1" class="control-label"><strong>Primary Label</strong></label>
+				<div class="controls">
+					<input id="section1" name="label" type="text">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"><strong>Feature List</strong></label>
+				<div class="controls" id="singleFeatureInput">
+					<input name="feature" type="text"/>
+				</div>
+				<button class="btn controls" id="singleFeatureButton"><i class="icon-plus"></i></button>
+				<button class="btn" id="remSingleFeature"><i class="icon-remove"></i></button>
+			</div>
+		</div>
+		<button id="addFeatureButton" class="btn controls">Add Feature Category</button>
+		<div>
+			<input type="submit" value="Add to database" class="offset1 btn btn-medium btn-info">
+		</div>
+	</form>
+</template>

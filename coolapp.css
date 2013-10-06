@@ -1,0 +1,63 @@
+/* CSS declarations go here */
+.toggle{
+	width:50px;
+	height:30px;
+	position: relative;
+	box-shadow: inset 0px 0px 5px #333;
+	border: 1px solid #888;
+	border-radius: 5px;
+	-webkit-transition: background-color 0.5s;
+	-moz-transition: background-color 0.5s;
+	-ms-transition: background-color 0.5s;
+	-o-transition: background-color 0.5s;
+	transition: background-color 0.5s;
+	cursor: pointer;
+}
+.toggle div{
+	width:25px;
+	float: left;
+	text-align: center;
+	line-height: 30px;
+}
+.toggle .cover{
+	width:25px;
+	height:100%;
+	position: absolute;
+	border-radius: 5px;
+	-webkit-transition: left 0.5s;
+	-moz-transition: left 0.5s;
+	-ms-transition: left 0.5s;
+	-o-transition: left 0.5s;
+	transition: left 0.5s;
+	background: #fcfff4; /* Old browsers */
+	background: -moz-linear-gradient(top,  #fcfff4 0%, #dfe5d7 40%, #b3bead 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfff4), color-stop(40%,#dfe5d7), color-stop(100%,#b3bead)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 ); /* IE6-9 */
+}
+.toggle.off .cover{
+	left:0px;
+	top:0px;
+}
+.toggle.on{
+	background-color: #1DE40C;
+}
+.toggle.on .cover{
+	left:25px;
+	top:0px;
+}
+#shopName {margin-bottom: 15px;}
+#shopAddress {margin-bottom: 15px;}
+#addFeature{margin-bottom: 15px;}
+.products-list{
+	overflow-y: auto;
+}
+.header{
+	height:10%;
+}
+.content{
+	height:90%;
+}

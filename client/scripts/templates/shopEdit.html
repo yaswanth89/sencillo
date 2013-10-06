@@ -1,0 +1,32 @@
+<template name="shopEdit">
+  <table class="table">
+    <thead>
+      <th>Brand</th>
+      <th>Name</th>
+      <th>Model</th>
+      <th>Price</th>
+      <th>Discount</th>
+      <th>Instock</th>
+    </thead>
+    <form id="editProducts">
+    {{#each allProducts}}
+      <tr>
+        <td><input class="input-small" id="brand_{{_id}}" type='text' value='{{Brand}}' /></td>
+        <td>{{ProductName}}</td>
+        <td>{{ModelID}}</td>
+        <td><input class="input-small" id="price_{{_id}}" type="text" value="{{price}}" /></td>
+        <td><button class="btn btn-primary">Add New</button></td>
+        <td>
+          <div class="toggle {{#if inStock}}on{{else}}off{{/if}}" id='stock_{{_id}}'>
+            <div>In</div>
+            <div class="cover"></div>
+            <div>Out</div>
+          </div>
+        </td>
+        <input type="hidden" class='productId' value="{{_id}}"/>
+      </tr>
+    {{/each}}
+  </form>
+  </table>
+  <button class='btn btn-primary' id='saveChanges'>Save changes</button>
+</template>

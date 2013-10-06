@@ -1,0 +1,70 @@
+<template name="register">
+  <div class="container">
+    <div class="row">
+      <button class="btn btn-medium btn-success" id="shopRegisterBtn">Shop Register</button>
+      <button class="btn btn-medium" id="brandRegisterBtn">Brand Register</button>
+    </div>
+    <br>
+    <div>
+      {{#if shop}}
+        {{> shopRegister}}
+      {{else}}
+        {{> brandRegister}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="shopRegister">
+    <form id="register-form-shop" action="action">
+      <fieldset>
+        <label>User Name</label>
+       <input type="text" id="shop-username" /><br>
+        <label>Shop Name</label>
+       <input type="text" id="shop-shopname" /><br>
+       <label>Password</label>
+       <input type="password" id="shop-password" /><br>
+       <label>Shop Address</label>
+       <textarea id='shop-shopaddress'></textarea><br>
+       <p class="lead">Geo Location</p>
+       <table class="table geoLocation">
+        <tr>
+          <td>
+            <label>Longitude</label>
+            <input id = "shopLongitude" type="text" name="longitude">
+          </td>
+          <td>
+            <label>Latitude</label>
+            <input id="shopLatitude" type="text" name="latitude">
+          </td>
+          <td>
+            <button id="getLocation" class="btn btn-medium">Get GeoLocation</button>
+          </td>
+        </tr>
+       </table>
+       <label>Contact Name</label>
+       <input type="text" id="shop-contactname" /><br>
+       <label>Contact Number</label>
+       <input type="text" id="shop-contactnum" /><br>
+       <input type="submit" id="create-account" value="Create an Account" />
+     </fieldset>
+   </form>
+    
+  </template>
+  <template name="brandRegister">
+   <form id="register-form-brand" action="action">
+      <fieldset>
+        <label>User Name</label>
+       <input type="text" id="brand-username" /><br>
+        <label>Brand Name</label>
+       <input type="text" id="brand-brandname" /><br>
+       <label>Password</label>
+       <input type="password" id="brand-password" /><br/>
+       <label>Contact Name</label>
+       <input type="text" id="brand-contactname" /><br>
+       <label>Contact Number</label>
+       <input type="text" id="brand-contactnum" /><br>
+       <input type="submit" value="Create an Account" />
+     </fieldset>
+   </form>
+ </template>

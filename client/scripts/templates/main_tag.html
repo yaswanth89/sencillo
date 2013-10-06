@@ -1,0 +1,23 @@
+<template name="main_tag">
+	<div class="span6">
+		{{> main_tag_1}}
+	</div>
+	<div class="span6">
+		{{> main_tag_2}}
+	</div>
+</template>
+<template name="main_tag_1">
+	<div id="tagchunk_{{tag}}">
+	<label>Main Tag</label>
+	<input type="text" name="MainTag">
+	<div id="inputSubTag_{{tag}}">
+		<label>Sub Tags</label>
+		<input type="text" name="SubTag">
+	</div>
+	<button id="addSubTag">Add Sub Tags</button>
+	<button id="removeSubTag">Remove Sub Tag</button>
+	</div>
+</template>
+<template name="main_tag_2">
+
+	</template>

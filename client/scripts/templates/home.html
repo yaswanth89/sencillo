@@ -1,0 +1,88 @@
+<template name="home">
+    {{> homeView}}
+</template>
+
+<template name="homeView">
+  <div id="homecontainer">
+    <div class="" id="productList">
+      {{> homeProducts}}
+    </div>
+    <div class="" id="productDisplay">
+      {{> homeModal}}
+    </div>
+  </div>    
+</template>
+
+<template name="homeBrand">
+    {{#each BrandArr}}
+      <li><input class="brand" value="{{Name}}" type='checkbox'>{{Name}}</input></li>
+    {{/each}}
+</template>
+
+<template name="homeProducts">
+  <div class="products-list">
+    <div class="products-row">
+   {{#each ProductArr}}
+      <div class="productWrapper span3">
+        
+        <table class="table imageShow" width="100%">
+        <tr>
+        
+          <td><a id="product_{{_id}}" href="#homeModal" class="homeProductView" role="button">
+            <img class="item-image" src="{{Image.[0]}}" height="200" width="200"/></a>
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <h4>{{Brand}} {{ProductName}} {{ModelID}}</h4>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              {{#each showSpec}}
+                <p>{{value}}</p>
+              {{/each}}
+          </td>
+        </tr>
+        </table>
+      </div>
+      {{#if br}}
+        </div> <div class='products-row'>
+      {{/if}}
+   {{/each}}
+  </div>
+</template>
+
+<template name='homeModal'>
+<div id="homeModal">
+    {{#isolate}}
+    <h3 id="homeModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
+    <p>
+      <img class="item-image" src="{{product.Image.[0]}}" />
+      <table class="table">
+        </u></caption>
+          {{#each product.ProductInfo}}
+            {{#labelCheck name}}
+            <th>
+              <u><strong>{{value}}</strong></u>
+            </th>
+            {{else}}
+              {{#each value}}
+              <tr>
+                <td><strong>{{name}}:</strong></td>
+                <td>{{value}}</td>
+              </tr>
+              {{/each}}
+            {{/labelCheck}}
+          {{/each}}
+      </table>
+      <div>
+      {{#each product.shopList}}
+            <a href="/cv/{{shopname}}">{{shopname}}</a>:<span>Rs {{price}}</span>
+          {{/each}}
+      </div>
+    </p>
+    {{/isolate}}
+</div>
+</template>

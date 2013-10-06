@@ -1,0 +1,16 @@
+<template name='ProductFull'>
+	<div>
+	<a href="/productview/{{_id}}">
+      <div class="add-item" id="product_{{_id}}" style="cursor:pointer;">
+        <img class="item-image" src="{{Image.[0]}}" />
+        <h4>{{Brand}} {{Model}}</h4>
+        <ul class="product-specs" style='list-style-type:none;'>
+         <!-- <li>Type: {{Type}}</li>
+          <li>Resolution: {{Resolution}}</li>
+          <li><input type='button' class='addProduct btn btn-primary' id="{{_id}}" value='Add to Shop'/>
+          </li>-->
+        </ul>
+      </div>
+      </a>
+    </div>
+</template>

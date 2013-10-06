@@ -1,0 +1,38 @@
+<template name="header">
+	
+	<div class="navbar header-navbar">
+	  <div class="navbar-inner">
+		    <a class="brand" href="/">Sencillo</a>
+		    <ul class="nav">
+			    <li><a href="/framework/p1">Admin</a></li>
+			    <li><a href="/dashboard">Brand</a></li>
+			    <li><a href="/dashboard">Retailer</a></li>
+		    </ul>
+		    <ul class="nav pull-right">
+		    	{{#if currentUser}}
+		    	<li><a href="/dashboard">Dashboard</a></li>
+		    	<li><a href="#" id="logout">Logout</a></li>
+		    	{{else}}
+			    <li><a href="/login">Login</a></li>
+			    <li><a href="/register">Register</a></li>
+		    	{{/if}}
+		    </ul>
+		
+	  </div>
+	</div>
+	<nav id="bt-menu" class="bt-menu">
+	  		<a class="bt-menu-trigger" href=""><span>Menu</span></a>
+	  		<ul>
+	  			{{#each MainCatArr}}
+	  			<li><a href="">{{Main}}</a>
+	  				<ul>
+	  				{{#each Sub}}
+	  					<li><a href="{{subCatLink this}}">{{this}}</a></li>
+	  				{{/each}}
+	  			    </ul>
+	  			</li>
+	  			{{/each}}
+	  		</ul>
+	  		<div class="bt-overlay"></div>
+		</nav>
+</template>

@@ -1,0 +1,27 @@
+<template name="framework_one">
+	<div class="container text-center">
+		<form class="form-horizontal" id="catForm">
+			{{> framework_subcat}}
+
+				<button id="addSub">Add</button>
+				<button id="remSub"><i class="icon-remove"></i></button>
+				<input type="submit" value="Submit">
+			
+		</form>
+	</div>
+	<a href="/framework/p2"><button class="btn btn-medium">Next</button></a>
+</template>
+
+<template name="framework_subcat">
+	{{toggle}}
+	<div>
+		<label for="mainCat"><strong>Main Category</strong></label>
+		<input type="text" name="mainCat" />
+	</div>
+	<div>
+		<label for="subCat"><strong>Sub-Categories</strong></label>
+		<div id="inputSub">
+			<input type="text" name='subCat'/>
+		</div>
+	</div>
+</template>

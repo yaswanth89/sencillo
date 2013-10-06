@@ -1,0 +1,145 @@
+<template name="customerView">
+  <!--
+  <div class="row">
+    <div class="span4">
+      <div class="row">
+        <div id="featuresCarousel" class="carousel slide span4">
+          <ol class="carousel-indicators">
+            <li data-target="#featuresCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#featuresCarousel" data-slide-to="1"></li>
+            <li data-target="#featuresCarousel" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="active item">
+              <img src="http://images.indiaplaza.com/spotlights/20121207-Coffee-Day-Combo-Offers.jpg" alt="Special Offer"/>
+              <div class="carousel-caption">
+                <p>special offers on combo purchases</p>
+              </div>
+            </div>
+            <div class="item">
+              <img src="http://www.motorbeam.com/wp-content/uploads/Volkswagen-Festive-Offer-2012.jpg" alt="Special Offer"/>
+              <div class="carousel-caption">
+                <p>special offers on combo purchases</p>
+              </div>
+            </div>
+            <div class="item">
+              <img src="http://www.relaisdellepicchiaie.it/imgoffers/special_offer[1].jpg" alt="Special Offer"/>
+              <div class="carousel-caption">
+                <p>special offers on combo purchases</p>
+              </div>
+            </div>
+          </div>
+          
+          <a class="carousel-control left" href="#featuresCarousel" data-slide="prev">&lsaquo;</a>
+          <a class="carousel-control right" href="#featuresCarousel" data-slide="next">&rsaquo;</a>
+        </div>
+      </div>
+    -->
+      <div class="row">
+        <div class="span3">
+          {{> ShopMainCat}}
+        </div>
+        <div>
+          {{> ShopBrand}}
+        </div>
+      </div>
+    </div>
+    <div class="span8">
+      {{> ShopProducts}}
+    </div>
+  </div>
+  {{> ProductModal}}
+</template>
+
+<template name="ShopMainCat"> 
+  <div id="accordion">
+    {{#each MainCatArr}}
+      <h4><a id="mainCat">{{Main}}</a></h4>
+      <div>
+        <ul class="nav nav-pills nav-stacked">
+          {{#each Sub}}
+          <li><a id="subCat">{{this}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/each}}
+  </div>
+</template>
+
+
+<template name='ProductModal'>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    {{#isolate}}
+    <h3 id="myModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
+    </div>
+    <div class="modal-body">
+    <p>
+      <img class="item-image" src="{{product.Image.[0]}}" />
+      <table class="table">
+        <caption>Product Specification</caption>
+          {{#each product.ProductInfo}}
+            {{#labelCheck name}}
+            <th>
+              <u><strong>{{value}}</strong></u>
+            </th>
+            {{else}}
+              {{#each value}}
+              <tr>
+                <td><strong>{{name}}:</strong></td>
+                <td>{{value}}</td>
+              </tr>
+              {{/each}}
+            {{/labelCheck}}
+          {{/each}}
+      </table>
+    </p>
+    {{/isolate}}
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+</template>
+
+<template name="ShopSubCat">
+    <!--<div class="products-subcat">-->
+    <ul id="subcat_list">
+    {{#each SubCatArr}}
+      <li class="subcat" id="{{Name}}">{{Name}}</li>
+    {{/each}}
+    </ul>
+</template>
+
+<template name="ShopBrand">
+    <div style="text-align:left;display:inline-block;height:100px;">
+    {{#each BrandArr}}
+      <input class="brand" value="{{Name}}" type="checkbox">{{Name}}</input><br>
+    {{/each}}
+    </div>
+</template>
+
+<template name="ShopProducts">
+  <table>
+    <tbody>
+   {{#each ProductArr}}
+      <a href="#myModal" id="product_{{_id}}" role="button" data-toggle="modal" class="productView" href="/productview/{{_id}}">
+      <div class="add-item" style="cursor:pointer;">
+        <img class="item-image" src="{{Image.[0]}}" />
+        <h4>{{Brand}} {{ProductName}} {{ModelName}}</h4>
+        <ul class="product-specs" style='list-style-type:none;'>
+          {{#each showSpec}}
+            <li>{{name}}: {{value}}</li>
+          {{/each}}
+          <li>Rs.{{price}}</li>
+        </ul>
+      </div>
+      </a>
+      {{#if br}}
+        </div><div>
+      {{/if}}
+   {{/each}}
+    </tbody>
+ </table>
+</template>

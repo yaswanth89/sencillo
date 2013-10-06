@@ -1,0 +1,30 @@
+<template name="framework_two">
+	<br>
+	<a href="/framework/p1"><button class="btn btn-medium btn-inverse">Previous</button></a>
+	{{> framework_two_1}}
+	{{> framework_two_2}}
+	
+	<div id="framework_two_form">
+		{{> framework_two_form}}
+	</div>
+</template>
+<template name="framework_two_1">
+	<div>
+		<ul class="nav nav-pills">
+			{{#each Categories}}
+			<li><button class="btn btn-medium" id="mainFrameButton">{{Main}}</li>
+			{{/each}}
+		</ul>
+	</div>
+</template>
+<template name="framework_two_2">
+	<div>
+		<ul class="nav nav-pills">
+			{{#each SubCategories}}
+					<li><button id="subFrameButton" class="btn">{{this}}</button></li>
+			{{/each}}
+		</ul>
+	</div>
+</template>
+
+

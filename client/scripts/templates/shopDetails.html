@@ -1,0 +1,15 @@
+<template name="shopDetails">
+	{{#with details}}
+		<form id='shopdetails'>
+			<label>Shop Name</label>
+			<input type="text" id='shopname' value='{{shopname}}' />
+			<label>Shop Address</label>
+			<textarea id='address'>{{address}}</textarea>
+			<label>Contact Name</label>
+			<input type="text" id='contactname' value='{{contactname}}' />
+			<label>Contact Number</label>
+			<input type="text" id='contactnum' value='{{contactnum}}' /><br>
+			<input type='submit' class='btn btn-primary' value='Save Changes' />
+		</form>
+	{{/with}}
+</template>

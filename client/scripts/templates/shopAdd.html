@@ -1,0 +1,58 @@
+<template name="shopAdd">
+  <div class='products-blanket'></div>
+  {{> MainCat}}
+  {{> SubCat}}
+  {{> Brand}}
+  {{> Products}}
+</template>
+
+<template name="MainCat"> 
+      <div class="products-maincat">
+        <select id='mainCat'>
+          <option value="select">Select</option>
+      {{#each MainCatArr}}
+          <option class="maincat" value="{{Main}}">{{Main}}</option>
+      {{/each}}
+        </select>
+      </div>
+</template>
+
+<template name="SubCat">
+    <div class="products-subcat">
+    <select id='subCat' disabled>
+      <option value="select">Select</option>
+    {{#each SubCatArr}}
+      <option class="subcat" value="{{Name}}">{{Name}}</option>
+    {{/each}}
+  </select>
+    </div>
+</template>
+
+<template name="Brand">
+    <div class="products-brand">
+    {{#each BrandArr}}
+      <input class="brand" value="{{Name}}" type='checkbox'>{{Name}}</input><br>
+    {{/each}}
+    </div>
+</template>
+
+<template name="Products">
+  <div class="products-list">
+    <div class="products-row">
+   {{#each ProductArr}}
+      <div class="add-item" id="product_{{_id}}" style="cursor:pointer;">
+        <a href="#myModal" role="button" data-toggle="modal">
+        <img class="item-image" src="{{Image.[0]}}" />
+        <h4>{{Brand}} {{ProductName}} {{ModelID}}</h4>
+        {{#each showSpec}}
+          <p>{{value}}</p>
+        {{/each}}
+        <input type='button' class='addProduct btn btn-primary' id="{{_id}}" value='Add to Shop'/>
+        </a>
+      </div>
+      {{#if br}}
+        </div> <div class='products-row'>
+      {{/if}}
+   {{/each}}
+  </div>
+</template>
