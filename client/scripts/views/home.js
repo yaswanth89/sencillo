@@ -104,6 +104,8 @@ Template.homeBrand.events = {
   }
   Template.homeProducts.events = {
   "click a.homeProductView" : function(e,t){
+      Session.set("toggle",this._id);
+      console.log(Session.get("toggle"));
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');

@@ -4,6 +4,9 @@
 
 <template name="homeView">
   <div id="homecontainer">
+    <div id="homeFilter">
+      {{> homeBrand}}
+    </div>
     <div class="" id="productList">
       {{> homeProducts}}
     </div>
@@ -14,22 +17,23 @@
 </template>
 
 <template name="homeBrand">
+
+  <strong>Brands</strong><br>
     {{#each BrandArr}}
-      <li><input class="brand" value="{{Name}}" type='checkbox'>{{Name}}</input></li>
+      <input class="brand" value="{{Name}}" type='checkbox'>{{Name}}</input>
     {{/each}}
 </template>
 
 <template name="homeProducts">
   <div class="products-list">
-    <div class="products-row">
    {{#each ProductArr}}
-      <div class="productWrapper span3">
+      <div class="productWrapper" id="productWrapper">
         
-        <table class="table imageShow" width="100%">
+        <table class="table imageShow">
         <tr>
         
-          <td><a id="product_{{_id}}" href="#homeModal" class="homeProductView" role="button">
-            <img class="item-image" src="{{Image.[0]}}" height="200" width="200"/></a>
+          <td id="imageHolderList"><a id="product_{{_id}}" href="#homeModal" class="homeProductView" role="button">
+            <img class="item-image" src="{{Image.[0]}}" id="productImageList"></a>
           </td>
 
         </tr>
@@ -38,30 +42,32 @@
             <h4>{{Brand}} {{ProductName}} {{ModelID}}</h4>
           </td>
         </tr>
-        <tr>
-          <td>
-              {{#each showSpec}}
-                <p>{{value}}</p>
-              {{/each}}
-          </td>
-        </tr>
         </table>
       </div>
-      {{#if br}}
-        </div> <div class='products-row'>
-      {{/if}}
+      
    {{/each}}
   </div>
 </template>
 
 <template name='homeModal'>
 <div id="homeModal">
+    {{toggle}}
     {{#isolate}}
     <h3 id="homeModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
-    <p>
       <img class="item-image" src="{{product.Image.[0]}}" />
-      <table class="table">
-        </u></caption>
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
+        <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
+        <li><a href="#availableShop" data-toggle="tab">Available At</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="overview">
+          {{#each product.showSpec}}
+            <p>{{value}}</p>
+          {{/each}}
+        </div>
+        <div class="tab-pane" id="techSpec">
+          <table class="table">
           {{#each product.ProductInfo}}
             {{#labelCheck name}}
             <th>
@@ -77,12 +83,13 @@
             {{/labelCheck}}
           {{/each}}
       </table>
-      <div>
-      {{#each product.shopList}}
+        </div>
+        <div class="tab-pane" id="availableShop">
+          {{#each product.shopList}}
             <a href="/cv/{{shopname}}">{{shopname}}</a>:<span>Rs {{price}}</span>
           {{/each}}
+        </div>
       </div>
-    </p>
     {{/isolate}}
 </div>
 </template>

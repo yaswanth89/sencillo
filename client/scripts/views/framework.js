@@ -1,6 +1,7 @@
 var text,tag=0,tagloop=0;
 Session.set("current","ok");
 Session.set("change",true);
+Session.set("toggle",true);
 Framework = Backbone.View.extend({
 	template:null,
 	initialize:function(page){

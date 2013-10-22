@@ -1,12 +1,11 @@
+
 *,
 *:after,
 *::before {
 
 }
 
-body  {
-	background: #B4B5AE;
-}
+
 
 .container {
 	padding: 80px;
@@ -17,6 +16,7 @@ body  {
 	top: 0;
 	left:0;
 	width:0;
+	z-index:2;
 	height: 0;
 	border-width: 0px;
 	border-style: solid;
@@ -45,14 +45,12 @@ body  {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	z-index:1;
 }
 
 .bt-menu-trigger {
 	position: fixed;
 	top: 10px;
 	left: 20px;
-	z-index: 100;
 	display: block;
 	width: 50px;
 	height:50px;
@@ -66,7 +64,7 @@ body  {
 	display: block;
 	width: 100%;
 	height: 8%;
-	background-color: #fff;
+	background-color: #000;
 	font-size: 0px;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -84,7 +82,7 @@ body  {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: #fff;
+	background: #000;
 	content: '';
 	-webkit-transition: -webkit-transform 0.3s;
 	transition: transform 0.3s;
@@ -103,11 +101,16 @@ body  {
 .bt-menu-open .bt-menu-trigger span:before {
 	-webkit-transform: translateY(-300%);
 	transform: translateY(-300%);
+	background-color: #fff;
 }
 
 .bt-menu-open .bt-menu-trigger span:after {
 	-webkit-transform: translateY(300%);
 	transform: translateY(300%);
+	background-color: #fff;
+}
+.bt-menu-open .bt-menu-trigger span{
+	background-color: #fff;
 }
 
 .bt-menu ul {
@@ -146,8 +149,6 @@ body  {
 	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s 0.1s;
 	transition: transform 0.3s, opacity 0.3s;
 }
-
-/* First menu */
 .bt-menu ul:first-of-type li {
 	width: 250px;
 	height: 50px;
@@ -162,7 +163,6 @@ body  {
 	transform: translate3d(0,0,0);
 }
 
-/* Second menu */
 .bt-menu ul:nth-of-type(2) li {
 	width: 250px;
 	height: 50px;
@@ -207,7 +207,6 @@ body  {
 	
 	color: #fff;
 	text-transform: uppercase;
-	/*letter-spacing: 1px;*/
 	font-size: 1em;
 	-webkit-transition: color 0.2s;
 	transition: color 0.2s;
@@ -226,7 +225,6 @@ body  {
 	width:250px;
 	left:-999em;
 	visibility: hidden;
-	/*padding: 0 20px;*/
 	color: #fff;
 	background: #96b8d9;
 	z-index: 1;
@@ -243,6 +241,4 @@ body  {
 	letter-spacing: 1px;
 	font-size: 1em;
 }
-.products-list{
-	z-index: 2;
-}
+
