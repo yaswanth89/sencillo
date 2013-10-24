@@ -154,3 +154,9 @@ Template.ShopMainCat.rendered = function(){
 		collapsible:true
 	});
 };
+$('#myModal').on('show', function () {
+
+    $(this).find('.modal-header').css({width:'auto',
+                               height:'auto', 
+                              'max-height':'100%'});
+})
