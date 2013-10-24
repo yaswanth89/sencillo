@@ -9,8 +9,7 @@ insecure
 preserve-inputs
 backbone
 bootstrap
-jquery
 underscore
 accounts-ui
 accounts-password
-jquery-ui
+jquery

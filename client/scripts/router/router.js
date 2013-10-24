@@ -11,7 +11,8 @@ this.Router = Backbone.Router.extend({
 		"login":"login",
 		"admin":"admin",
 		"register": "register",
-		"cv/:shop":"customerView",
+		"cv/:shop":'customerView',
+		"cv/:shop/:product": 'customerView',
 		"shop":"shop",
 		"shop/p:page":"shopForm",
 		"*path":"home",
@@ -43,8 +44,11 @@ this.Router = Backbone.Router.extend({
 			}
 		});
 	},
-	customerView:function(shop){
+	customerView:function(shop,product){
 		window.shopUsername = shop;
+		if(product != undefined){
+			window.shopProductId = product;
+		}
 		return this.go(CustomerView);
 	},
 	shopEdit:function(){
