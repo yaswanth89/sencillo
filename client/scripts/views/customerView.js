@@ -2,6 +2,7 @@ this.CustomerView = Backbone.View.extend({
 	initialize:function(){
 		ShopProducts = [];
 		Meteor.call('readProducts',window.shopUsername,function(error, result){
+			console.log(result);
 			for (var i = result.length - 1; i >= 0; i--){
 		      Meteor.call('findProductById',result[i],function(err,productDoc){
 		      	if(productDoc!=undefined){
@@ -15,6 +16,22 @@ this.CustomerView = Backbone.View.extend({
 			        }
 			    }
 		      });
+		    }
+		    if(window.shopProductId != undefined){
+		    	var prod = _.indexOf(_.pluck(result,'_id'), window.shopProductId);
+		    	if(prod != -1){
+		    		Meteor.call('findProductById',result[prod], function(err,productDoc){
+		    			if(err)
+		    				alert(err);
+		    			if(productDoc!=undefined){
+					      	productDoc.inStock = productDoc.shop.inStock;
+				          	productDoc.price = productDoc.shop.price;
+				          	productDoc.discount = productDoc.shop.discount;
+				          	productDoc.shop = null;
+					        Session.set('currentProduct',productDoc);
+			    		}
+		    		});
+		    	}
 		    }
 		});
 		
@@ -116,9 +133,13 @@ Template.ShopProducts.ProductArr = function(){
 	Session.set('ShopUniqueSubCat',subCatEJSON);
 	return finalProducts;
 };
+Template.ShopProducts.shopname = function(){
+	return window.shopUsername;
+}
+
 Template.ShopProducts.events = {
 	"click a.productView" : function(e,t){
-	    e.preventDefault();
+		e.preventDefault();
 	    var now = e.currentTarget;
 	    var id = now.id.split('_');
 	    Meteor.call('findProductById',{"_id":id[1]},function(error, result){
@@ -127,11 +148,18 @@ Template.ShopProducts.events = {
 	      	else
 	        	Session.set('currentProduct',result);
 	    });
+	    return App.router.navigate('/cv/'+window.shopUsername+'/'+id[1],{trigger: false});
 	}
 }
 Template.ProductModal.product = function(){
     return Session.get('currentProduct');
 };
+
+Template.ProductModal.rendered = function(){
+	//alert('render complete');
+	$('#myModal').modal('show');
+};
+
 $(function(){
 	//SubLink = this;
 	prevNav = this;
@@ -148,9 +176,29 @@ $(function(){
 });
 
 Template.ShopMainCat.rendered = function(){
+	//alert('shopmaincat');
 	$('#accordion').accordion({
 		heightStyle:"content",
 		active:false,
 		collapsible:true
 	});
 };
+
+
+	Template.mapCanvas.rendered = function(){
+		//alert('map rendered');
+	      console.log(document.getElementById('googleMap'));
+			var mapProp = {
+		  center:new google.maps.LatLng(51.508742,-0.120850),
+		  zoom:5,
+		  mapTypeId:google.maps.MapTypeId.ROADMAP
+		  };
+			var map=new google.maps.Map(document.getElementById('googleMap')
+		  ,mapProp);
+
+			var marker = new google.maps.Marker({
+		    title:'Meine Position',
+		    icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+		  });
+		  marker.setMap(map); 
+	};

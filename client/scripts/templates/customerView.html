@@ -1,3 +1,5 @@
+<head>
+<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script></head>
 <template name="customerView">
   <!--
   <div class="row">
@@ -35,12 +37,13 @@
         </div>
       </div>
     -->
+        {{>mapCanvas}}
       <div class="row">
         <div class="span3">
           {{> ShopMainCat}}
           {{> ShopBrand}}
         </div>
-        <div class="span9">
+        <div class="span6">
           {{> ShopProducts}}
         </div>
       </div>
@@ -63,12 +66,15 @@
   </div>
 </template>
 
+<template name='mapCanvas'>
+<div id="googleMap" style="width:200px;height:200px;float:right;margin:10px;display:inline;"></div>
+</template>
 
 <template name='ProductModal'>
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    {{#isolate}}
+
     <h3 id="myModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
     </div>
     <div class="modal-body">
@@ -92,7 +98,7 @@
           {{/each}}
       </table>
     </p>
-    {{/isolate}}
+    
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -121,7 +127,7 @@
   <table>
     <tbody>
    {{#each ProductArr}}
-      <a href="#myModal" id="product_{{_id}}" role="button" data-toggle="modal" class="productView" href="/productview/{{_id}}">
+      <a href="/cv/{{shopname}}/{{_id}}" id="product_{{_id}}" role="button" data-toggle="modal" class="productView">
       <div class="add-item" style="cursor:pointer;">
         <img class="item-image" src="{{Image.[0]}}" />
         <h4>{{Brand}} {{ProductName}} {{ModelName}}</h4>
@@ -140,3 +146,4 @@
     </tbody>
  </table>
 </template>
+
