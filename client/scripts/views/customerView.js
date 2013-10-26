@@ -164,6 +164,11 @@ Template.ProductModal.rendered = function(){
     $('#myModal').click(function(){
     	console.log('clicked');
     });
+    if (!this.rendered){
+    	// run my code
+    	$('#myModal').modal('show');
+    	this.rendered = true;
+  	}
 };
 
 $(function(){
