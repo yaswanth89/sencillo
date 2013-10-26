@@ -14,7 +14,7 @@ this.CustomerView = Backbone.View.extend({
 			        if(ShopProducts.length == result.length){
 			        	Session.set('ShopProducts',ShopProducts);
 			        }
-			    }
+			    }   
 		      });
 		    }
 		    if(window.shopProductId != undefined){
@@ -155,9 +155,15 @@ Template.ProductModal.product = function(){
     return Session.get('currentProduct');
 };
 
+
 Template.ProductModal.rendered = function(){
-	//alert('render complete');
-	$('#myModal').modal('show');
+	$('#myModal').on('hide.bs.modal', function(){
+	  console.log('yay');
+      return App.router.navigate('/cv/'+window.shopUsername, {trigger: false});
+    });
+    $('#myModal').click(function(){
+    	console.log('clicked');
+    });
 };
 
 $(function(){

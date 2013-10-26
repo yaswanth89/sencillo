@@ -1,6 +1,7 @@
 <head>
-<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script>
-</head>
+
+<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script></head>
+
 <template name="customerView">
   <div class="row">
 
@@ -120,7 +121,7 @@
   <table>
     <tbody>
    {{#each ProductArr}}
-      <a href="/cv/{{shopname}}/{{_id}}" id="product_{{_id}}" role="button" data-toggle="modal" class="productView">
+      <a href="#myModal" id="product_{{_id}}" role="button" data-toggle="modal" class="productView">
       <div class="add-item" style="cursor:pointer;">
         <img class="item-image" src="{{Image.[0]}}" />
         <h4>{{Brand}} {{ProductName}} {{ModelName}}</h4>
