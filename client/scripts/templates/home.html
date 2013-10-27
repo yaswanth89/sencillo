@@ -85,9 +85,21 @@
       </table>
         </div>
         <div class="tab-pane" id="availableShop">
-          {{#each product.shopList}}
-            <a href="/cv/{{shopname}}/{{product._id}}">{{shopname}}</a>:<span>Rs {{price}}</span>
-          {{/each}}
+          <table class="table">
+            <tr>
+              <th>Seller</th>
+              <th>Price</th>
+              <th>Distance</th>
+            </tr>
+            {{#each product.shopList}}
+            <tr>
+              <td><a href="/cv/{{shopname}}/{{product._id}}">{{shopname}}</a></td>
+              <td>Rs {{price}}</td>
+              <td></td>
+            </tr>
+            {{/each}}
+          </table>
+          
         </div>
       </div>
     {{/isolate}}

@@ -1,7 +1,8 @@
+
 .modal-body {
     overflow-y:auto;
-    height:400px;
+    max-height:300px;
 }
 .modal, .modal.fade.in {
-    top: 0; /* was 10% */
+    top: 0;
 }

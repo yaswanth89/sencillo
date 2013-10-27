@@ -157,6 +157,11 @@ Template.ProductModal.product = function(){
 
 
 Template.ProductModal.rendered = function(){
+	if (!this.rendered){
+    	this.rendered = true;
+    	return
+  	}
+  	$('#myModal').modal('show');
 	$('#myModal').on('hide.bs.modal', function(){
 	  console.log('yay');
       return App.router.navigate('/cv/'+window.shopUsername, {trigger: false});
@@ -164,11 +169,6 @@ Template.ProductModal.rendered = function(){
     $('#myModal').click(function(){
     	console.log('clicked');
     });
-    if (!this.rendered){
-    	// run my code
-    	$('#myModal').modal('show');
-    	this.rendered = true;
-  	}
 };
 
 $(function(){
@@ -187,7 +187,6 @@ $(function(){
 });
 
 Template.mapCanvas.rendered = function(){
-      console.log(document.getElementById('googleMap'));
 		var mapProp = {
 	  center:new google.maps.LatLng(51.508742,-0.120850),
 	  zoom:5,
@@ -195,10 +194,10 @@ Template.mapCanvas.rendered = function(){
 	  };
 		var map=new google.maps.Map(document.getElementById('googleMap')
 	  ,mapProp);
+
 		var marker = new google.maps.Marker({
 	    title:'Meine Position',
 	    icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 	  });
-	  marker.setMap(map);
+	  marker.setMap(map); 
 };
-
