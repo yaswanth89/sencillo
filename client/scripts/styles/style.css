@@ -140,11 +140,15 @@ ul#maincat_list{
 
  #productList{
  	width:60%;
- 	float:left;
+ 	position: absolute;
+ 	height: 90%;
+ 	left:9%;
+ 	overflow-y: scroll;
+ 	overflow-x: hidden;
  }
  #productDisplay{
  	width:30%;
- 	float:left;
+ 	float:right;
  }
  #homeModal{
  	overflow-y:scroll;
@@ -153,8 +157,7 @@ ul#maincat_list{
  }
  .products-list{
  	width:100%;
- 	overflow-y:scroll;
- 	overflow-x:hidden;
+ 	overflow:hidden;
  }
 /*
 ::-webkit-scrollbar { width: 3px; height: 0px;}
@@ -184,11 +187,9 @@ ul#maincat_list{
 	-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.3);
 	background-color: #555;
 }
-.header-navbar{
-	margin-top: 10px;
-	margin-left:100px;
+.navbar-inner{
+	padding-left: 90px;
 }
-
 #productImageList {
    max-height: 180px;
 }
