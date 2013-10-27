@@ -1,3 +1,12 @@
+body {
+	height : 100%;
+}
+.header{
+	height:10%;
+}
+.content{
+	height:90%;
+}
 #featuresCarousel{
 	height: 200px;
 	overflow: hidden;
@@ -146,7 +155,6 @@ ul#maincat_list{
  	width:100%;
  	overflow-y:scroll;
  	overflow-x:hidden;
- 	height:500px;
  }
 /*
 ::-webkit-scrollbar { width: 3px; height: 0px;}

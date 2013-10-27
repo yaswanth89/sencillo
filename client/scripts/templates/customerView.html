@@ -1,58 +1,19 @@
 <head>
-<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-  alert($('#myModal').attr('id'));
-  
-});
-</script></head>
+<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script></head>
 <template name="customerView">
-  <!--
   <div class="row">
-    <div class="span4">
-      <div class="row">
-        <div id="featuresCarousel" class="carousel slide span4">
-          <ol class="carousel-indicators">
-            <li data-target="#featuresCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#featuresCarousel" data-slide-to="1"></li>
-            <li data-target="#featuresCarousel" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner">
-            <div class="active item">
-              <img src="http://images.indiaplaza.com/spotlights/20121207-Coffee-Day-Combo-Offers.jpg" alt="Special Offer"/>
-              <div class="carousel-caption">
-                <p>special offers on combo purchases</p>
-              </div>
-            </div>
-            <div class="item">
-              <img src="http://www.motorbeam.com/wp-content/uploads/Volkswagen-Festive-Offer-2012.jpg" alt="Special Offer"/>
-              <div class="carousel-caption">
-                <p>special offers on combo purchases</p>
-              </div>
-            </div>
-            <div class="item">
-              <img src="http://www.relaisdellepicchiaie.it/imgoffers/special_offer[1].jpg" alt="Special Offer"/>
-              <div class="carousel-caption">
-                <p>special offers on combo purchases</p>
-              </div>
-            </div>
-          </div>
-          
-          <a class="carousel-control left" href="#featuresCarousel" data-slide="prev">&lsaquo;</a>
-          <a class="carousel-control right" href="#featuresCarousel" data-slide="next">&rsaquo;</a>
-        </div>
-      </div>
-    -->
-        {{>mapCanvas}}
-      <div class="row">
-        <div class="span3">
-          {{> ShopMainCat}}
-          {{> ShopBrand}}
-        </div>
-        <div class="span6">
-          {{> ShopProducts}}
-        </div>
-      </div>
+
+    <div class="span3">
+      {{> ShopMainCat}}
+      {{> ShopBrand}}
+    </div>
+    <div class="span6">
+      {{> ShopProducts}}
+    </div>
+    <div class="span3">
+      {{> mapCanvas}}
+    </div>
+  </div>
   {{> ProductModal}}
 </template>
 
@@ -81,13 +42,31 @@ $(document).ready(function(){
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 
+    {{#isolate}}
+    <h3 id="homeModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
+
+
     <h3 id="myModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
     </div>
     <div class="modal-body">
     <p>
+
       <img class="item-image" src="{{product.Image.[0]}}" />
-      <table class="table">
-        <caption>Product Specification</caption>
+  </div>
+  <div class="modal-body">
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
+        <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
+        <li><a href="#availableShop" data-toggle="tab">Available At</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="overview">
+          {{#each product.showSpec}}
+            <p>{{value}}</p>
+          {{/each}}
+        </div>
+        <div class="tab-pane" id="techSpec">
+          <table class="table">
           {{#each product.ProductInfo}}
             {{#labelCheck name}}
             <th>
@@ -103,17 +82,24 @@ $(document).ready(function(){
             {{/labelCheck}}
           {{/each}}
       </table>
+
+        </div>
+        <div class="tab-pane" id="availableShop">
+          {{#each product.shopList}}
+            <a href="/cv/{{shopname}}">{{shopname}}</a>:<span>Rs {{price}}</span>
+          {{/each}}
+        </div>
+      </div>
+    {{/isolate}}
+
     </p>
     
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
   </div>
 </div>
 </template>
 
 <template name="ShopSubCat">
-    <!--<div class="products-subcat">-->
+    
     <ul id="subcat_list">
     {{#each SubCatArr}}
       <li class="subcat" id="{{Name}}">{{Name}}</li>

@@ -189,22 +189,31 @@ Template.ShopMainCat.rendered = function(){
 		collapsible:true
 	});
 };
+/*
+$('#myModal').on('show', function () {
+
+    $(this).find('.modal-header').css({width:'auto',
+                               height:'auto', 
+                              'max-height':'100%'});
+})
+*/
 
 
-	Template.mapCanvas.rendered = function(){
-		//alert('map rendered');
-	      console.log(document.getElementById('googleMap'));
-			var mapProp = {
-		  center:new google.maps.LatLng(51.508742,-0.120850),
-		  zoom:5,
-		  mapTypeId:google.maps.MapTypeId.ROADMAP
-		  };
-			var map=new google.maps.Map(document.getElementById('googleMap')
-		  ,mapProp);
+Template.mapCanvas.rendered = function(){
+	alert('map rendered');
+      console.log(document.getElementById('googleMap'));
+		var mapProp = {
+	  center:new google.maps.LatLng(51.508742,-0.120850),
+	  zoom:5,
+	  mapTypeId:google.maps.MapTypeId.ROADMAP
+	  };
+		var map=new google.maps.Map(document.getElementById('googleMap')
+	  ,mapProp);
 
-			var marker = new google.maps.Marker({
-		    title:'Meine Position',
-		    icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-		  });
-		  marker.setMap(map); 
-	};
+		var marker = new google.maps.Marker({
+	    title:'Meine Position',
+	    icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+	  });
+	  marker.setMap(map); 
+};
+

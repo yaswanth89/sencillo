@@ -115,3 +115,16 @@ Template.homeBrand.events = {
 Template.homeModal.product = function(){
   return Session.get('curHomeProduct');
 }
+
+function autoResizeDiv()
+  {
+      document.getElementById('body').style.height = window.innerHeight +'px';
+      console.log("resized");
+  }
+window.onresize = autoResizeDiv;
+
+
+$(document).ready(function(){
+  autoResizeDiv();
+});
+
