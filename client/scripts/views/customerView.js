@@ -183,6 +183,7 @@ $(function(){
 		$(this).parent().addClass("active");
 		prevNav = this;
 		Session.set("ShopsearchFilter",{Main:mainTemp,Sub:$(this).text()});
+		console.log(Session.get('ShopsearchFilter'));
 		
 	});
 });
