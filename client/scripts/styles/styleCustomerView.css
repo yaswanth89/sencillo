@@ -1,0 +1,19 @@
+.customerView{
+	width:100%;
+}
+.cvCategories{
+	width:20%;
+	float: left;
+}
+.cvProductsList{
+	width:60%;
+	left:20%;
+	height:90%;
+	position:absolute;
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+.cvMapDisplay{
+	float:right;
+	width:20%;
+}
