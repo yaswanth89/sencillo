@@ -3,16 +3,16 @@
 <script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script></head>
 
 <template name="customerView">
-  <div class="row">
+  <div class="customerView">
 
-    <div class="span3">
+    <div class="cvCategories">
       {{> ShopMainCat}}
       {{> ShopBrand}}
     </div>
-    <div class="span6">
+    <div class="cvProductsList">
       {{> ShopProducts}}
     </div>
-    <div class="span3">
+    <div class="cvMapDisplay">
       {{> mapCanvas}}
     </div>
   </div>
@@ -46,9 +46,6 @@
 
     {{#isolate}}
     <h3 id="homeModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
-
-
-    <h3 id="myModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
     </div>
     <div class="modal-body">
     <p>

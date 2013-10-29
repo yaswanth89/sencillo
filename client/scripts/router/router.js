@@ -41,6 +41,9 @@ this.Router = Backbone.Router.extend({
 				case "brand":
 					router.go(BrandDashboard);
 				break;
+				case 'admin':
+					router.go(Framework,page);
+				break;
 			}
 		});
 	},
@@ -85,7 +88,7 @@ this.Router = Backbone.Router.extend({
 		if(Meteor.userId()==null){
 			return this.go(Admin);
 		}
-		this.navigate("framework/p1",{trigger: true});
+		this.navigate("dashboard",{trigger: true});
 	},
 	register:function(){
 		if(Meteor.userId()==null){
