@@ -135,14 +135,14 @@ $(document).ready(function(){
   autoResizeDiv();
   
 });
-$(window).load(function(){
+Template.homeProducts.rendered = function(){
   $("#productList").scroll(function() {
-      if($("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
-        var oldSize = _.size(Session.get('homelimitProducts'));
-        var newSize = parseInt(oldSize / 10 + 1)*10;
-        console.log(newSize);
-        window.extending = true;
-        Session.set('homelimitProducts',_.chain(Session.get('homefinalProducts')).first(newSize).value());
-      }
-    });
-});
+    if($("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
+      var oldSize = _.size(Session.get('homelimitProducts'));
+      var newSize = parseInt(oldSize / 10 + 1)*10;
+      console.log(newSize);
+      window.extending = true;
+      Session.set('homelimitProducts',_.chain(Session.get('homefinalProducts')).first(newSize).value());
+    }
+  });
+}
