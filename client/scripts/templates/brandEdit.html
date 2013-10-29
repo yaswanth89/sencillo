@@ -1,0 +1,59 @@
+<template name='brandEdit'>
+	<h1>HEYYY</h1>
+	{{> filtering}}
+	{{> product_edit_form}}
+</template>
+
+<template name='filtering'>
+	<select id='brandfilter'>
+		<option value=''>Select a Product</option>
+	{{#each listProducts}}
+		<option value='{{_id}}'>{{ProductName}} - {{ModelID}}</option>
+	{{/each}}
+	</select>
+</template>
+
+<template name='product_edit_form'>
+	<form id='editProductForm'>
+	{{toggle}}
+	{{#with thisProduct}}
+		<div id='editTopInfo'>
+		<label><strong>Product Name</strong></label>
+		<input type="text" name="Product Name" value="{{ProductName}}">
+		<label><strong>Model ID</strong></label>
+		<input type="text" name="Model ID" value="{{ModelID}}">
+		<label><strong>Add image url</strong></label>
+		<div id="productImage">
+			{{#each Image}}
+				<input type="text" name="Product Image" value="{{this}}">
+			{{/each}}
+		</div>
+		<button class="btn btn-medium" id="addImage">Add</button>
+		<label><strong>Key Features</strong></label>
+		{{#each showSpec}}
+		<textarea name="key features" class="keyFeature">{{value}}</textarea>
+		{{/each}}
+		</div>
+		<div id='editSpecs'>
+		{{#each ProductInfo}}
+	   	    {{#labelCheck name}}
+	            <br><strong class='specHighlight'>{{value}}</strong><br>
+	        {{else}}
+		        
+			    {{#each value}}
+			    	{{#addFeatCheck name}}
+			    		<label><strong>{{name}}:</strong></label>
+						<textarea name="{{name}}">{{value}}</textarea>
+					{{else}}
+				        <label><strong>{{name}}:</strong></label>
+				        <input type='text' name='{{name}}' value='{{value}}' />
+			    	{{/addFeatCheck}}
+			    {{/each}}
+	        {{/labelCheck}}
+	    {{/each}}
+	    </div>
+    {{/with}}
+	<input type='submit' class='btn' />
+	</form>
+</template>
+

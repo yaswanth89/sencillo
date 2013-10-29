@@ -7,6 +7,7 @@ this.Router = Backbone.Router.extend({
 		"shopDetails": "shopDetails",
 		"dashboard":"dashboard",
 		"framework/p:page":"framework",
+		"brandedit":"brandEdit",
 		"brand":"brand",
 		"login":"login",
 		"admin":"admin",
@@ -17,7 +18,6 @@ this.Router = Backbone.Router.extend({
 		"shop/p:page":"shopForm",
 		"*path":"home",
 		"loggedin": "loggedin",
-		"brand/edit":"brandEdit"
 	},
 	view:null,
 	page_header_sel:"#header",
@@ -112,7 +112,13 @@ this.Router = Backbone.Router.extend({
 		return this.goShop(ShopForm,page);
 	},
 	brandEdit:function(){
-		return this.go(BrandEdit);
+		var router = this;
+		Meteor.call('getUserType', function(error,result){
+			if(result == 'brand')
+				router.go(BrandEdit);
+			else
+				router.navigate('dashboard',{trigger: true});
+		});
 	},
 	goShop:function(viewClass,page){
 		console.log("ok");

@@ -8,7 +8,7 @@ else{
 });
 
 Handlebars.registerHelper('addFeatCheck', function(conditional,options) {
-if (conditional==='additionalFeature'){
+if (conditional==='additionalFeature' || conditional.indexOf('Additional')!= -1){
 	return options.fn(this);
 }
 else{

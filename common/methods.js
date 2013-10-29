@@ -51,6 +51,14 @@ Meteor.methods({
 			return returnvar;
 		}
 	},
+	findProductfromId:function(id){
+		var ret = Products.findOne({'_id': id});
+		console.log(ret);
+		return ret;
+	},
+	findBrandProducts:function(){
+		return Products.find({Brand: Meteor.users.findOne({'_id':Meteor.userId()}).brandname }).fetch();
+	},
 	addFeature:function(all){
 		var tempLabel = _.rest(all,2);
 		FrameData.update({Sub:all[1]},{$pushAll:{featureField:tempLabel}});
@@ -71,6 +79,7 @@ Meteor.methods({
 		return Products.find({Main:filter},{sort: {Model: 1}}).fetch();
 	},
 	getData:function(filt,find){
+		console.log(FrameData.find({Sub:filt}).fetch());
 		var xamp = FrameData.find({Sub:filt}).fetch()[0][find];
 		if(xamp!=undefined)
 			return xamp;
@@ -140,6 +149,10 @@ Meteor.methods({
 	},
 	addProductData:function(inputShow,mainCatInput,subCatInput,showSpec,productName,modelID,imageArray){
 		Products.insert({"Main":mainCatInput,"Sub":subCatInput,"Brand":Meteor.users.findOne({'_id':Meteor.userId()}).brandname,"ProductName":productName,"ModelID":modelID,"Image":imageArray,"showSpec":showSpec,"ProductInfo":inputShow});
+	},
+	updateProductData:function(productID,updateSet){
+		console.log(productID);
+		Products.update({'_id':productID},{ $set : updateSet });
 	},
 	getLocation:function(){
 		if(navigator.geolocation){

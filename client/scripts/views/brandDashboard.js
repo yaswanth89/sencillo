@@ -90,6 +90,7 @@ $(function(){
 		$(prevSub).removeClass("btn-info");
 		$(this).addClass("btn-info");
 		prevSub = this;
+		console.log('text is '+$(this).text())
 		Session.set("subButton",$(this).text());
 	});
 });

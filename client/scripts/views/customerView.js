@@ -153,6 +153,7 @@ Template.ShopProducts.events = {
 }
 Template.ProductModal.product = function(){
     return Session.get('currentProduct');
+    
 };
 
 
