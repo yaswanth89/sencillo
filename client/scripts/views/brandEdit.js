@@ -81,6 +81,7 @@ Template.product_edit_form.events = {
 			updateSet.ModelID = modelID;
 		if(showSpec != prevData.showSpec)
 			updateSet.showSpec = showSpec;
+		updateSet.imageArray = image_array;
 		console.log('updateset');
 		console.log(updateSet);
 		Meteor.call('updateProductData',ProductID,updateSet);	
