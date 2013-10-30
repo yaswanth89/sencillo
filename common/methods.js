@@ -90,6 +90,9 @@ Meteor.methods({
 		var shops = Meteor.users.find({usertype: 'shop'}).fetch();
 		return shops;
 	},
+	getShopLatLng: function(username){
+		return Meteor.users.findOne({'username':username, 'usertype':'shop'});
+	},
 	getMainAvailableProducts:function(filter){
 		var finalProducts = [];
 		if(filter==null||filter==undefined)

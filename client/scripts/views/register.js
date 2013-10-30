@@ -25,7 +25,7 @@ Template.register.events({
       var shopLongitude =t.find('#shopLongitude').value; 
       var contactname = t.find('#shop-contactname').value;
       var contactnum = t.find('#shop-contactnum').value;
-      Accounts.createUser({username: username,shopname: shopname, password : password, address: address, contactname: contactname, contactnum: contactnum,shopLatitude:shopLatitude, shopLongitude:shopLongitude, usertype: 'shop'}, function(err){
+      Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked', address: address, contactname: contactname, contactnum: contactnum,shopLatitude:shopLatitude, shopLongitude:shopLongitude, usertype: 'shop'}, function(err){
           if (err) {
             alert('Could not create');
             // Inform the user that account creation failed
