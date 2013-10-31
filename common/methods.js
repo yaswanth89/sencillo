@@ -95,6 +95,9 @@ Meteor.methods({
 		var shops = Meteor.users.find({usertype: 'shop'}).fetch();
 		return shops;
 	},
+	getShopLatLng: function(username){
+		return Meteor.users.findOne({'username':username, 'usertype':'shop'});
+	},
 	getMainAvailableProducts:function(filter){
 		var finalProducts = [];
 		if(filter==null||filter==undefined)
@@ -114,6 +117,8 @@ Meteor.methods({
 								contactname:rec.contactname,
 								contactnum:rec.contactnum,
 								price:rec.products[i].price,
+								shoplat:rec.shopLatitude,
+								shoplng:rec.shopLongitude,
 								discount:rec.products[i].discount,
 								inStock:rec.products[i].inStock
 							};
@@ -168,6 +173,27 @@ Meteor.methods({
     		alert("Geolocation not supported");
   		}
 	},
+	getUserLocation:function(){
+		if(navigator.geolocation){
+    		navigator.geolocation.getCurrentPosition(function(position){
+    			Session.set('geolocation',position);
+    		});
+  		}
+  		else{
+    		alert("Geolocation not supported");
+  		}
+	},
+	findDistance: function(lat1,lng1,lat2,lng2){
+		var R = 6371; //Approximate Radius of Earth in km!!
+		lat1 = lat1*Math.PI/180;
+		lng1 = lng1*Math.PI/180;
+		lat2 = lat2*Math.PI/180;
+		lng2 = lng2*Math.PI/180;
+		var x = (lng2-lng1) * Math.cos((lat1+lat2)/2);
+		var y = (lat2-lat1);
+		var d = Math.sqrt(x*x + y*y) * R;
+		return d;
+	},
 	findAdmin:function(adminUser){
 		var output = Meteor.users.find({'username':adminUser}).fetch();
 		console.log(output);
@@ -183,5 +209,5 @@ function showPosition(position){
 	var x = document.getElementById("shopLatitude");
 	var y = document.getElementById("shopLongitude");
 	x.value = position.coords.latitude;
-	y.value = position.coords.longitude
+	y.value = position.coords.longitude;
 }
