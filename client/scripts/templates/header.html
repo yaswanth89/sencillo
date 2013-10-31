@@ -9,6 +9,14 @@
 			    <li><a href="/dashboard">Retailer</a></li>
 		    </ul>
 		    <ul class="nav pull-right">
+		    	<li>
+		    		<form id="searchForm" class="form-search" style="margin:6px">
+  						<div class="input-append">
+    						<input type="text" id="searchInput" class="span2 search-query" placeholder="Search" />
+    						<button type="submit" class="btn"><i class="icon-search"></i></button>
+  						</div>
+  					</form>
+				</li>
 		    	{{#if currentUser}}
 		    	<li><a href="/dashboard">Dashboard</a></li>
 		    	<li><a href="#" class="logout" id="logout">Logout</a></li>

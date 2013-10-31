@@ -14,8 +14,13 @@ this.HeaderView = Backbone.View.extend({
 				else
 					App.router.aReplace(e);
 			},
+			'submit #searchForm':function(e){
+				e.preventDefault();
+				var query = $("#searchInput").val().trim();
+				if(query!="")
+					App.router.navigate('search/'+query,{trigger:true});
+			},
 			'click a.bt-menu-trigger':function(e){
-				console.log("menu");
 				e.preventDefault();
 				if(menu.hasClass('bt-menu-open')){
 					resetMenu(menu);

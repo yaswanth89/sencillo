@@ -15,9 +15,10 @@ this.Router = Backbone.Router.extend({
 		"cv/:shop":'customerView',
 		"cv/:shop/:product": 'customerView',
 		"shop":"shop",
+		"search/:query":"search",
 		"shop/p:page":"shopForm",
 		"*path":"home",
-		"loggedin": "loggedin",
+		"loggedin": "loggedin"
 	},
 	view:null,
 	page_header_sel:"#header",
@@ -26,6 +27,9 @@ this.Router = Backbone.Router.extend({
 	initialize:function(){
 		this.headerView = new HeaderView();
 		return $(this.page_header_sel).replaceWith(this.headerView.render().$el);
+	},
+	search:function(query){
+		return this.go(Search,query);
 	},
 	dashboard:function(){
 		if(Meteor.userId()==null){

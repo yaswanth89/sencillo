@@ -7,8 +7,13 @@ Meteor.methods({
 		{
 			FrameData.insert({Main:temp,Sub:all[i].value});
 			FrameDetail.update({Main:temp},{$push:{Sub:all[i].value}});
-
 		}
+	},
+	searchProducts: function(query){
+		var queryString = query.replace(/ /g,"|");
+		var re = new RegExp("\\b("+queryString+")\\b",'i');
+		var matched = Products.find({"searchIndex": {$regex: re}},{sort: {Model: 1}}).fetch();
+		return matched;
 	},
 	getUser: function(){
 		var details = Meteor.users.findOne({'_id': Meteor.userId()});
@@ -148,7 +153,8 @@ Meteor.methods({
 
 	},
 	addProductData:function(inputShow,mainCatInput,subCatInput,showSpec,productName,modelID,imageArray){
-		Products.insert({"Main":mainCatInput,"Sub":subCatInput,"Brand":Meteor.users.findOne({'_id':Meteor.userId()}).brandname,"ProductName":productName,"ModelID":modelID,"Image":imageArray,"showSpec":showSpec,"ProductInfo":inputShow});
+		var brandName = Meteor.users.findOne({'_id':Meteor.userId()}).brandname;
+		Products.insert({"Main":mainCatInput,"Sub":subCatInput,"Brand":brandName,"ProductName":productName,"ModelID":modelID,"Image":imageArray,"showSpec":showSpec,"ProductInfo":inputShow,"searchIndex":brandName+' '+productName+' '+modelID});
 	},
 	updateProductData:function(productID,updateSet){
 		console.log(productID);
@@ -172,7 +178,6 @@ Meteor.methods({
 			return false;
 
 	}
-
 });
 function showPosition(position){
 	var x = document.getElementById("shopLatitude");

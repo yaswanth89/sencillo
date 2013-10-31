@@ -1,50 +1,33 @@
 var global = {};
+Session.set('searchSearchFilter',{'askfja':'asjkfb'});
 window.extending = false;
-Session.set('homeSearchFilter',{'askfja':'asjkfb'});
-this.Home = Backbone.View.extend({
+this.Search = Backbone.View.extend({
 	template:null,
-	initialize:function(page){
-    if(page==undefined){
-      Session.set("homeSearchFilter",{});
+	initialize:function(query){
+      window.query = decodeURI(query);
       return this.template = Meteor.render(function(){
-      return Template.home();
-		});
-    }
-    else
-    {
-      var subCat="";
-      _.each(page,function(val){
-        if(val=="_")
-          subCat+=" ";
-        else
-          subCat+=val;
+        return Template.search();
       });
-      Session.set("homeSearchFilter",{Sub:subCat});
-      return this.template = Meteor.render(function(){
-      return Template.home();
-    });
-    }
 	},
-
 	render:function(){
 		this.$el = this.template;
 		return this;
 	}
 });
-Template.homeBrand.BrandArr = function(){
-  return Session.get("homeUniqueBrand");
+Template.searchBrand.BrandArr = function(){
+  return Session.get("searchUniqueBrand");
 };
-Template.homeBrand.events = {
+Template.searchBrand.events = {
   "change .brand" : function(){
-    var newsearch = Session.get('homeSearchFilter');
+    var newsearch = Session.get('searchSearchFilter');
     var brand = new Array;
     $('.brand').each(function(){ if($(this).is(':checked')) brand.push($(this).val()); });
     newsearch.Brand = {$in: brand};
-    Session.set('homeSearchFilter', newsearch);
+    Session.set('searchSearchFilter', newsearch);
   }
 };
-  Template.homeProducts.ProductArr = function(){
-    var filter = Session.get("homeSearchFilter");
+  Template.searchProducts.ProductArr = function(){
+    var filter = Session.get("searchSearchFilter");
     var Brandfilter = filter.Brand;
     var Subfilter = filter.Sub;
     if (Brandfilter != undefined && Brandfilter.$in.length == 0)
@@ -52,7 +35,7 @@ Template.homeBrand.events = {
     if (Subfilter != undefined && Subfilter.length == 0)
       Subfilter = undefined;
     if(!window.extending){
-      Meteor.call('getMainAvailableProducts',filter.Sub, function(error, result){
+      Meteor.call('searchProducts',window.query, function(error, result){
         if(result!=undefined){
           var productscopy = result;
           var disProducts = _.filter(productscopy,function(rec){
@@ -93,30 +76,30 @@ Template.homeBrand.events = {
             }
             count++;
           });
-          Session.set('homeUniqueBrand',brandEJSON);
-          Session.set('homeUniqueSubCat',subCatEJSON);
-          Session.set('homefinalProducts',disProducts);
-          Session.set('homelimitProducts',_.chain(disProducts).first(10).value());
+          Session.set('searchUniqueBrand',brandEJSON);
+          Session.set('searchUniqueSubCat',subCatEJSON);
+          Session.set('searchfinalProducts',disProducts);
+          Session.set('searchlimitProducts',_.chain(disProducts).first(10).value());
         }
       });
     }
     window.extending = false;
-    return Session.get("homelimitProducts");
+    return Session.get("searchlimitProducts");
   }
-  Template.homeProducts.events = {
-  "click a.homeProductView" : function(e,t){
+  Template.searchProducts.events = {
+  "click a.searchProductView" : function(e,t){
       Session.set("toggle",this._id);
       console.log(Session.get("toggle"));
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');
-      Session.set('curHomeProduct',_.findWhere(Session.get('homelimitProducts'), {"_id":id[1]}));
+      Session.set('curSearchProduct',_.findWhere(Session.get('searchlimitProducts'), {"_id":id[1]}));
     }
 }
-Template.homeModal.product = function(){
-  return Session.get('curHomeProduct');
+Template.searchModal.product = function(){
+  return Session.get('curSearchProduct');
 }
-Template.homeModal.events = {
+Template.searchModal.events = {
   "click a.shopNav" : function(e,t){
     e.preventDefault();
     App.router.aReplace(e);
@@ -135,16 +118,16 @@ $(document).ready(function(){
   autoResizeDiv();
   
 });
-Template.homeProducts.rendered = function(){
+Template.searchProducts.rendered = function(){
   $("#productList").scroll(function() {
     if($("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
-      var oldSize = _.size(Session.get('homelimitProducts'));
-      var totalSize = _.size(Session.get('homefinalProducts'));
+      var oldSize = _.size(Session.get('searchlimitProducts'));
+      var totalSize = _.size(Session.get('searchfinalProducts'));
       if(oldSize==totalSize)
         return;
       var newSize = parseInt(oldSize / 10 + 1)*10;
       window.extending = true;
-      Session.set('homelimitProducts',_.chain(Session.get('homefinalProducts')).first(newSize).value());
+      Session.set('searchlimitProducts',_.chain(Session.get('searchfinalProducts')).first(newSize).value());
     }
   });
 }
