@@ -116,7 +116,6 @@ window.onresize = autoResizeDiv;
 
 $(document).ready(function(){
   autoResizeDiv();
-  
 });
 Template.searchProducts.rendered = function(){
   $("#productList").scroll(function() {

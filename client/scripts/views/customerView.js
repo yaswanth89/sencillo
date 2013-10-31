@@ -190,27 +190,18 @@ $(function(){
 
 Template.mapCanvas.rendered = function(){
 	Meteor.call('getShopLatLng', window.shopUsername, function(error,result){
-		console.log(result);
-		Session.set('ShopLatLng', {'lat': result.shopLatitude, 'lng': result.shopLongitude});
-	});
-
-		var latlng = new google.maps.LatLng(Session.get('ShopLatLng').lat, Session.get('ShopLatLng').lng);
+		var latlng = new google.maps.LatLng(result.shopLatitude, result.shopLongitude);
 		var mapProp = {
-	  center: latlng,
-	  zoom:5,
-	  mapTypeId:google.maps.MapTypeId.ROADMAP
-	  };
-		var map=new google.maps.Map(document.getElementById('googleMap')
-	  ,mapProp);
-
-		/*var marker = new google.maps.Marker({
-	    title:'Meine Position',
-	    icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-	  });*/
+			center: latlng,
+			zoom:5,
+			mapTypeId:google.maps.MapTypeId.ROADMAP
+		};
+		var map=new google.maps.Map(document.getElementById('googleMap'),mapProp);
 		var marker = new google.maps.Marker({
-	      position: latlng,
-	      map: map,
-	      title: 'Hello World!'
-  		});
-	  marker.setMap(map); 
+		    position: latlng,
+		    map: map,
+		    title: 'Hello World!'
+	  	});
+		marker.setMap(map); 
+	});
 };

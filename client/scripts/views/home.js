@@ -74,13 +74,12 @@ Template.homeBrand.events = {
             }
             else
               brand = true;
-            Meteor.call('findDistance',here.coords.latitude,here.coords.longitude,rec.shopList[0].shoplat,rec.shopList[0].shoplng,function(error,result){
-              if(result != undefined && parseInt(result)<5)
+            /*if(parseInt(findDistance(here.coords.latitude,here.coords.longitude,rec.shopList[0].shoplat,rec.shopList[0].shoplng))<=5)
                 Session.set('checkdistance',true);
               else
                 Session.set('checkdistance',false);
-            });
-            return sub && brand && Session.get('checkdistance');
+            });*/
+            return sub && brand /*&& Session.get('checkdistance')*/;
           });
           var subCat = new Array();
           var brand = new Array();
@@ -120,13 +119,17 @@ Template.homeBrand.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       var curProduct = _.findWhere(Session.get('homelimitProducts'), {"_id":id[1]});
-      Meteor.call('getUserLocation');
-      var here = Session.get('geolocation');
-      Meteor.call('findDistance',here.coords.latitude,here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng,function(error,result){
-        if(result != undefined)
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+          var here = position;
+          result = findDistance(here.coords.latitude,here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
           curProduct.shopList[0].distance = (Math.round(result*100)/100);
-        Session.set('curHomeProduct', curProduct);
-      });
+          Session.set('curHomeProduct', curProduct);
+        });
+      }
+      else{
+        alert("Geolocation not supported");
+      }
     }
 }
 Template.homeModal.product = function(){
@@ -149,7 +152,6 @@ window.onresize = autoResizeDiv;
 
 $(document).ready(function(){
   autoResizeDiv();
-  
 });
 Template.homeProducts.rendered = function(){
   $("#productList").scroll(function() {
