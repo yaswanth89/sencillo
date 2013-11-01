@@ -47,6 +47,8 @@ Template.homeBrand.events = {
     var filter = Session.get("homeSearchFilter");
     var Brandfilter = filter.Brand;
     var Subfilter = filter.Sub;
+    Meteor.call('getUserLocation');
+    var here = Session.get('geolocation');
     if (Brandfilter != undefined && Brandfilter.$in.length == 0)
       Brandfilter = undefined;
     if (Subfilter != undefined && Subfilter.length == 0)
@@ -57,6 +59,7 @@ Template.homeBrand.events = {
           var productscopy = result;
           var disProducts = _.filter(productscopy,function(rec){
             var sub = false; var brand = false;
+            var near = false;
             if(Subfilter!=undefined){
               if(Subfilter == rec.Sub){
                 sub =true;
@@ -71,7 +74,13 @@ Template.homeBrand.events = {
             }
             else
               brand = true;
-            return sub && brand;
+            Meteor.call('findDistance',here.coords.latitude,here.coords.longitude,rec.shopList[0].shoplat,rec.shopList[0].shoplng,function(error,result){
+              if(result != undefined && parseInt(result)<5)
+                Session.set('checkdistance',true);
+              else
+                Session.set('checkdistance',false);
+            });
+            return sub && brand && Session.get('checkdistance');
           });
           var subCat = new Array();
           var brand = new Array();
@@ -110,7 +119,14 @@ Template.homeBrand.events = {
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');
-      Session.set('curHomeProduct',_.findWhere(Session.get('homelimitProducts'), {"_id":id[1]}));
+      var curProduct = _.findWhere(Session.get('homelimitProducts'), {"_id":id[1]});
+      Meteor.call('getUserLocation');
+      var here = Session.get('geolocation');
+      Meteor.call('findDistance',here.coords.latitude,here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng,function(error,result){
+        if(result != undefined)
+          curProduct.shopList[0].distance = (Math.round(result*100)/100);
+        Session.set('curHomeProduct', curProduct);
+      });
     }
 }
 Template.homeModal.product = function(){
