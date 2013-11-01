@@ -29,7 +29,7 @@ this.Router = Backbone.Router.extend({
 		return $(this.page_header_sel).replaceWith(this.headerView.render().$el);
 	},
 	search:function(query){
-		return this.go(Search,query);
+		return this.go(Home,query+" 1");
 	},
 	dashboard:function(){
 		if(Meteor.userId()==null){
@@ -80,7 +80,7 @@ this.Router = Backbone.Router.extend({
 		return this.go(ShopAdd);
 	},
 	home:function(page){
-		return this.go(Home,page);
+		return this.go(Home,page+" 0");
 	},
 	login:function(){
 		if(Meteor.userId()==null){
@@ -148,7 +148,6 @@ this.Router = Backbone.Router.extend({
 	render:function(){
 		return $(this.page_parent_sel).html(this.view.render().$el);
 	},
-	
 	aReplace:function(e){
 		var a,route;
 		a = document.createElement("a");

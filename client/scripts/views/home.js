@@ -1,28 +1,50 @@
 var global = {};
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(function(position){
+    window.here = position;
+  });
+}
 window.extending = false;
 Session.set('homeSearchFilter',{'askfja':'asjkfb'});
 this.Home = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
-    if(page==undefined){
-      Session.set("homeSearchFilter",{});
+    page = page.split(' ');
+    seachQuery = page[1];
+    page = page[0];
+    if(seachQuery==1){
+      window.functionName = "searchProducts";
+      window.queryData = decodeURI(page);
+      $("#searchInput").val(window.queryData);
       return this.template = Meteor.render(function(){
-      return Template.home();
-		});
-    }
-    else
-    {
-      var subCat="";
-      _.each(page,function(val){
-        if(val=="_")
-          subCat+=" ";
-        else
-          subCat+=val;
+        return Template.home();
       });
-      Session.set("homeSearchFilter",{Sub:subCat});
-      return this.template = Meteor.render(function(){
-      return Template.home();
-    });
+    }
+    else{
+      window.functionName = "getMainAvailableProducts";
+      $("#searchInput").val('');
+      if(page=='undefined'){
+        window.queryData = undefined;
+        Session.set("homeSearchFilter",{});
+        return this.template = Meteor.render(function(){
+        return Template.home();
+      });
+      }
+      else
+      {
+        var subCat="";
+        _.each(page,function(val){
+          if(val=="_")
+            subCat+=" ";
+          else
+            subCat+=val;
+        });
+        window.queryData = subCat;
+        Session.set("homeSearchFilter",{Sub:subCat});
+        return this.template = Meteor.render(function(){
+        return Template.home();
+      });
+      }
     }
 	},
 
@@ -47,14 +69,12 @@ Template.homeBrand.events = {
     var filter = Session.get("homeSearchFilter");
     var Brandfilter = filter.Brand;
     var Subfilter = filter.Sub;
-    Meteor.call('getUserLocation');
-    var here = Session.get('geolocation');
     if (Brandfilter != undefined && Brandfilter.$in.length == 0)
       Brandfilter = undefined;
     if (Subfilter != undefined && Subfilter.length == 0)
       Subfilter = undefined;
     if(!window.extending){
-      Meteor.call('getMainAvailableProducts',filter.Sub, function(error, result){
+      Meteor.call(window.functionName,window.queryData, function(error, result){
         if(result!=undefined){
           var productscopy = result;
           var disProducts = _.filter(productscopy,function(rec){
@@ -74,7 +94,7 @@ Template.homeBrand.events = {
             }
             else
               brand = true;
-            /*if(parseInt(findDistance(here.coords.latitude,here.coords.longitude,rec.shopList[0].shoplat,rec.shopList[0].shoplng))<=5)
+            /*if(parseInt(findDistance(window.here.coords.latitude,window.here.coords.longitude,rec.shopList[0].shoplat,rec.shopList[0].shoplng))<=5)
                 Session.set('checkdistance',true);
               else
                 Session.set('checkdistance',false);
@@ -119,19 +139,11 @@ Template.homeBrand.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       var curProduct = _.findWhere(Session.get('homelimitProducts'), {"_id":id[1]});
-      if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(position){
-          var here = position;
-          result = findDistance(here.coords.latitude,here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
-          curProduct.shopList[0].distance = (Math.round(result*100)/100);
-          Session.set('curHomeProduct', curProduct);
-        });
+      result = findDistance(window.here.coords.latitude,window.here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
+      curProduct.shopList[0].distance = (Math.round(result*100)/100);
+      Session.set('curHomeProduct', curProduct);
       }
-      else{
-        alert("Geolocation not supported");
-      }
-    }
-}
+  }
 Template.homeModal.product = function(){
   return Session.get('curHomeProduct');
 }
