@@ -16,7 +16,7 @@ this.HeaderView = Backbone.View.extend({
 			},
 			'submit #searchForm':function(e){
 				e.preventDefault();
-				var query = $("#searchInput").val().trim();
+				var query = encodeURIComponent($("#searchInput").val().trim());
 				if(query!="")
 					App.router.navigate('search/'+query,{trigger:true});
 			},
