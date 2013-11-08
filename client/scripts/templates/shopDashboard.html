@@ -1,7 +1,34 @@
 <template name="shopDashboard">
-	<div class="row">
-		<a href="/shopAdd"><div class="span4 dashboard_item">Add Products</div></a>
-		<a href="/shopEdit"><div class="span4 dashboard_item">Edit Products</div></a>
-		<a href="/shopDetails"><div class="span4 dashboard_item">Edit Shop Details</div></a>
+	<div id="shopDashboard">
+		<div id="dashCover">
+			<a href="/shopAdd">
+				<p id="dashChoice">
+					<i class="fa fa-plus fa-5x"></i><br>
+					<span id="dashChoiceText">
+						Add Products
+					</span>
+				</p>
+			</a>
+		</div>
+		<div id="dashCover">
+			<a href="/shopEdit">
+				<p id="dashChoice">
+					<i class="fa fa-gear fa-5x"></i><br>
+					<span id="dashChoiceText">
+					Edit Products
+					</span>
+				</p>
+			</a>
+		</div>
+		<div id="dashCover">
+			<a href="/shopDetails">
+				<p id="dashChoice">
+					<i class="fa fa-home fa-5x"></i><br>
+					<span id="dashChoiceText">
+						Edit Shop Details
+					</span>
+				</p>
+			</a>
+		</div>
 	</div>
 </template>

@@ -1,0 +1,28 @@
+#shopAddTemplate{
+	height:525px;
+}
+#shopAddChkBoxLabel{
+	display:inline;
+	margin-right:8px;
+}
+#shopAddFilter{
+	height:50px;
+	width:100%;
+}
+#shopAddMainCat{
+	float:left;
+	width:20%;
+}
+#shopAddSubCat{
+	float:left;
+	width: 20%;
+}
+#shopAddBrand{
+	float:left;
+	width:60%;
+}
+#shopAddProductsList{
+	height:475px;
+	overflow-y:scroll;
+	overflow-x:hidden; 
+}

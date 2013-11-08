@@ -1,8 +1,8 @@
 this.CustomerView = Backbone.View.extend({
 	initialize:function(){
 		ShopProducts = [];
+		Session.set('shopuser',window.shopUsername);
 		Meteor.call('readProducts',window.shopUsername,function(error, result){
-			console.log(result);
 			for (var i = result.length - 1; i >= 0; i--){
 		      Meteor.call('findProductById',result[i],function(err,productDoc){
 		      	if(productDoc!=undefined){
@@ -49,6 +49,13 @@ Template.ShopMainCat.MainCatArr = function(){
 	return FrameDetail.find({});
 };
 
+Template.shopInfo.shopDet = function(){
+			
+			Meteor.call('getShopDetail',Session.get('shopuser'),function(error,result){
+				Session.set('shop',result);
+			});
+			return Session.get('shop');
+		};
 Template.ShopSubCat.SubCatArr = function(){
 	return Session.get('ShopUniqueSubCat');
 };

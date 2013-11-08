@@ -16,3 +16,6 @@ Accounts.onCreateUser(function(options, user) {
     	user.profile = options.profile;
   	return user;
 });
+Meteor.publish("allUsers",function(){
+  return Meteor.users.find({});
+});

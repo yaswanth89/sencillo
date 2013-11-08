@@ -1,0 +1,19 @@
+<template name="default">
+	<div class="defaultContainer">
+		{{#each MainCatArr}}
+			<div class="defaultHolder">
+				<div class="column1">
+					<img src="{{image}}" id="mainCatImage">
+					<p class="lead">{{Main}}</p>
+				</div>
+				<div class="column2">
+					<ul id="defaultSubCat">
+						{{#each Sub}}
+						<li><a href="/{{subCatLink this}}">{{this}}</a></li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		{{/each}}
+	</div>
+</template>

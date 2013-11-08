@@ -1,0 +1,24 @@
+.cvCategories{
+	width:20%;
+	float: left;
+	height:550px;
+}
+.cvProductsList {
+width: 60%%;
+height: 550px;
+overflow-y: scroll;
+overflow-x: hidden;
+float: left;
+margin-left: -4%;
+}
+.cvMapDisplay{
+	float:left;
+	width:20%;
+	margin-left:2%;
+}
+#cvBrand{
+	width:200px;
+	height:200px;
+	overflow-x:hidden;
+    overflow-y:scroll; 
+}

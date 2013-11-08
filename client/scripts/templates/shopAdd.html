@@ -1,9 +1,12 @@
 <template name="shopAdd">
-  <div class='products-blanket'></div>
-  {{> MainCat}}
-  {{> SubCat}}
-  {{> Brand}}
-  {{> Products}}
+  <div id="shopAddTemplate">
+    <div id="shopAddFilter">
+      <div id="shopAddMainCat">{{> MainCat}}</div>
+      <div id="shopAddSubCat">{{> SubCat}}</div>
+      <div id="shopAddBrand">{{> Brand}}</div>
+    </div>
+    {{> Products}}
+  </div>
 </template>
 
 <template name="MainCat"> 
@@ -29,25 +32,22 @@
 </template>
 
 <template name="Brand">
-    <div class="products-brand">
     {{#each BrandArr}}
-      <input class="brand" value="{{Name}}" type='checkbox'>{{Name}}</input><br>
+      <input class="brand" value="{{Name}}" type='checkbox' id="brandShopAdd"><span id="shopAddChkBoxLabel">{{Name}}</span>
+
     {{/each}}
-    </div>
 </template>
 
 <template name="Products">
-  <div class="products-list">
+  <div class="products-list" id="shopAddProductsList">
     <div class="products-row">
    {{#each ProductArr}}
       <div class="add-item" id="product_{{_id}}" style="cursor:pointer;">
         <a href="#myModal" role="button" data-toggle="modal">
         <img class="item-image" src="{{Image.[0]}}" />
+        <input type='button' class='addProduct btn btn-small btn-primary' id="{{_id}}" value='Add'/>
         <h4>{{Brand}} {{ProductName}} {{ModelID}}</h4>
-        {{#each showSpec}}
-          <p>{{value}}</p>
-        {{/each}}
-        <input type='button' class='addProduct btn btn-primary' id="{{_id}}" value='Add to Shop'/>
+        
         </a>
       </div>
       {{#if br}}

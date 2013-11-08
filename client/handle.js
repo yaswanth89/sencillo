@@ -26,3 +26,9 @@ Handlebars.registerHelper('subCatLink',function(subCatVal){
 	});
 	return linkReturn;
 });
+Handlebars.registerHelper('shopRouter',function(shopname){
+	var linkReturn;
+	linkReturn = Meteor.users.findOne({'shopname':shopname}).username;
+	
+	return linkReturn;
+});

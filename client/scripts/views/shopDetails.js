@@ -27,8 +27,6 @@ Template.shopDetails.events = {
 
 	
 	Template.mapTemplate.rendered = function(){
-		alert('map rendered');
-	      console.log(document.getElementById('googleMap'));
 			var mapProp = {
 		  center:new google.maps.LatLng(51.508742,-0.120850),
 		  zoom:5,

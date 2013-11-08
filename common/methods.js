@@ -31,6 +31,16 @@ Meteor.methods({
 			var prod = Meteor.users.findOne({'username':username}).products;
 		return prod;
 	},
+	getShopDetail:function(username){
+		var shopReturn = Meteor.users.findOne({'username':username});
+		return shopReturn;
+	},
+	getShopUsername:function(shopname){
+		console.log(shopname);
+		var userReturn = Meteor.users.findOne({'shopname':shopname}).usertype;
+		console.log(userReturn);
+		return userReturn;
+	},
 	getUserType:function(){
 		var type=Meteor.users.findOne({'_id':Meteor.userId()}).usertype;
 		return type;

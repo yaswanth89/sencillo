@@ -1,0 +1,28 @@
+#shopDashboard{
+	width:100%;
+}
+
+#dashChoice {
+text-align: center;
+float: left;
+border: solid 2px;
+width: 20%;
+margin-left: 10%;
+padding-bottom: 20px;
+padding-top: 20px;
+border-radius: 20px;
+}
+
+#dashChoiceText {
+font-size: 1.333em;
+font-weight: bold;
+}
+
+#dashCover > a{
+color: rgba(42, 64, 75, 0.96);
+text-decoration: none;
+
+}
+#dashCover > a:hover{
+	color: rgba(21, 99, 184, 0.96);
+}

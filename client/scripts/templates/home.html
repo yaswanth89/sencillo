@@ -17,9 +17,10 @@
 </template>
 
 <template name="homeBrand">
-  <strong>Brands</strong><br>
+  <strong class="lead">Brands</strong><br>
     {{#each BrandArr}}
-      <input class="brandInputHome" value="{{Name}}" type='checkbox'>{{Name}}</input>
+      <input name="homeBrand" class="brandInputHome" value="{{Name}}" type='checkbox'>
+      <span class="homeBrandCheckLabel">{{Name}}</span><br>
     {{/each}}
 </template>
 
@@ -27,23 +28,21 @@
   <div class="products-list">
    {{#each ProductArr}}
       <div class="productWrapper" id="productWrapper">
-        
         <table class="table imageShow">
-        <tr>
-        
-          <td id="imageHolderList"><a id="product_{{_id}}" href="#homeModal" class="homeProductView" role="button">
-            <img class="item-image" src="{{Image.[0]}}" id="productImageList"></a>
-          </td>
-
-        </tr>
-        <tr>
-          <td>
-            <h4>{{Brand}} {{ProductName}} {{ModelID}}</h4>
-          </td>
-        </tr>
+          <tr>
+            <td id="imageHolderList"><a id="product_{{_id}}" href="#homeModal" class="homeProductView" role="button">
+              <img class="item-image" src="{{Image.[0]}}" id="productImageList"></a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4>
+                {{Brand}} {{ProductName}} {{ModelID}}
+              </h4>
+            </td>
+          </tr>
         </table>
-      </div>
-      
+      </div>  
    {{/each}}
   </div>
 </template>
@@ -92,7 +91,7 @@
             </tr>
             {{#each product.shopList}}
             <tr>
-              <td><a class="shopNav" href="/cv/{{shopname}}/{{product._id}}">{{shopname}}</a></td>
+              <td><a class="shopNav" href="/cv/{{shopRouter shopname}}/{{product._id}}">{{shopname}}</a></td>
               <td>Rs {{price}}</td>
               <td>{{distance}} km</td>
             </tr>

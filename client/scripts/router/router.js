@@ -1,6 +1,6 @@
 this.Router = Backbone.Router.extend({
 	routes:{
-		"":"home",
+		"":"default",
 		"/:page":"home",
 		"shopAdd": "shopAdd",
 		"shopEdit": "shopEdit",
@@ -52,7 +52,16 @@ this.Router = Backbone.Router.extend({
 		});
 	},
 	customerView:function(shop,product){
-		window.shopUsername = shop;
+		var linkReturn = "";
+		_.each(shop,function(val){
+			if(val=="_"){
+				linkReturn+=" ";
+			}
+			else
+				linkReturn+=val;
+		});
+		console.log(linkReturn);
+		window.shopUsername = linkReturn;
 		if(product != undefined){
 			window.shopProductId = product;
 		}
@@ -81,6 +90,9 @@ this.Router = Backbone.Router.extend({
 	},
 	home:function(page){
 		return this.go(Home,page);
+	},
+	default:function(){
+		return this.go(Default);
 	},
 	login:function(){
 		if(Meteor.userId()==null){

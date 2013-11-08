@@ -3,7 +3,7 @@
 <script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script></head>
 
 <template name="customerView">
-  <div class="customerView">
+  
 
     <div class="cvCategories">
       {{> ShopMainCat}}
@@ -13,16 +13,30 @@
       {{> ShopProducts}}
     </div>
     <div class="cvMapDisplay">
+      <div class="shopInfo">
+        {{> shopInfo}}
+      </div>
       {{> mapCanvas}}
+      
     </div>
-  </div>
   {{> ProductModal}}
+</template>
+
+<template name="shopInfo">
+  {{#with shopDet}}
+    <h3>{{shopname}}</h3>
+    <p style="font-size:1.3em;">{{address}}</p>
+    <i class="fa fa-phone-square"> {{contactnum}}</i>
+    <!--
+    <span>{{contactnum}}</span>
+    -->
+  {{/with}}
 </template>
 
 <template name="ShopMainCat"> 
   <div class="ac-container">
     {{#each MainCatArr}}
-    <div>
+    <div id="custViewNavBar">
       <input id="{{Main}}" name="accordion-1" type="checkbox" />
       <label for="{{Main}}" id="mainCat">{{Main}}</label>
       <ul class="nav nav-pills nav-stacked">
@@ -107,11 +121,14 @@
 </template>
 
 <template name="ShopBrand">
-    <div style="text-align:left;display:inline-block;height:100px;">
+  <div id="cvBrand">
+    <p class="lead" style="margin-left:5%">Brands</p>
+    <div style="text-align:left;display:inline-block;height:100px;margin-left:5%;margin-top:-7.5%;">
     {{#each BrandArr}}
       <input class="brand" value="{{Name}}" type="checkbox">{{Name}}</input><br>
     {{/each}}
     </div>
+  </div>
 </template>
 
 <template name="ShopProducts">
@@ -123,9 +140,7 @@
         <img class="item-image" src="{{Image.[0]}}" />
         <h4>{{Brand}} {{ProductName}} {{ModelName}}</h4>
         <ul class="product-specs" style='list-style-type:none;'>
-          {{#each showSpec}}
-            <li>{{name}}: {{value}}</li>
-          {{/each}}
+          
           <li>Rs.{{price}}</li>
         </ul>
       </div>
@@ -137,4 +152,6 @@
     </tbody>
  </table>
 </template>
+
+
 

@@ -1,7 +1,7 @@
 <!--<head>
 <script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script></head>-->
 <template name="shopDetails">
-	{{>mapTemplate}}
+	<div id="editShopInfo">
 	{{#with details}}
 		<form id='shopdetails'>
 			<label>Shop Name</label>
@@ -15,6 +15,10 @@
 			<input type='submit' class='btn btn-primary' value='Save Changes' />
 		</form>
 	{{/with}}
+	</div>
+	<div id="editMapInfo">
+	{{>mapTemplate}}
+	</div>
 </template>
 
 <template name='mapTemplate'>

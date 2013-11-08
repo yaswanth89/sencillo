@@ -1,0 +1,36 @@
+.defaultContainer {
+width: 90%;
+margin-left: 10%;
+height: 100%;
+overflow-y: scroll;
+overflow-x: hidden;
+}
+.defaultHolder {
+height: 30%;
+width: 30%;
+float: left;
+margin-bottom: 10%;
+}
+.column1 {
+width: 50%;
+float: left;
+}
+.column2 {
+width: 49%;
+float: left;
+height: 100%;
+overflow: hidden;
+}
+.column2:hover{
+	overflow-y:scroll;
+}
+#mainCatImage{
+
+}
+#defaultSubCat{
+	list-style: none;
+}
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:none;}
+a:active {text-decoration:none;}
