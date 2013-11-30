@@ -13,3 +13,5 @@ underscore
 accounts-ui
 accounts-password
 jquery
+npm
+mongodb-aggregation

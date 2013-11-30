@@ -1,28 +1,88 @@
 #shopAddTemplate{
-	height:525px;
+	height:100%;
 }
 #shopAddChkBoxLabel{
 	display:inline;
 	margin-right:8px;
 }
 #shopAddFilter{
-	height:50px;
 	width:100%;
 }
-#shopAddMainCat{
-	float:left;
-	width:20%;
-}
-#shopAddSubCat{
-	float:left;
-	width: 20%;
-}
-#shopAddBrand{
-	float:left;
-	width:60%;
-}
-#shopAddProductsList{
-	height:475px;
+
+#shopAddProducts{
+	width:78%%;
 	overflow-y:scroll;
 	overflow-x:hidden; 
+	float:right;
+	height:85%;
+}
+
+#shopAddWrap{
+	width:16.5%%;
+	float:left;
+	margin-left: 1.5%;
+	margin-right: 2.5%;
+}
+#shopAddBrandSelect{
+	width:78%%;
+	float:right;
+	height:15%;
+}
+#shopAddHeading{
+
+}
+#shopAddWrap h4 {
+color: white;
+background-color: cornflowerblue;
+font-size: large;
+margin-bottom: -5px;
+font-weight: 300;
+padding: 10px;
+}
+#shopAddWrap h4:hover{
+	font-weight: 500;
+}
+
+#shopAddWrap h4:hover{
+
+}
+div.collapse ul {
+margin-left: 5px;
+}
+div.collapse li:hover{
+	background-color: crimson;
+	color:white;
+}
+#shopAddWrap .accordion-inner{
+	border-top:none;
+}
+li#shopAddSub {
+font-weight: 500;
+padding-left: 10px;
+}
+div.products-row p {
+font-size: 1.2em;
+}
+.products-row .lead {
+font-size: 1.4em;
+line-height: 1.2em;
+margin-bottom: 5px;
+margin-top: -5px;
+}
+
+.addProduct {
+padding-left: 1em;
+padding-right: 1em;
+padding-top: 0.5em;
+padding-bottom: 0.5em;
+background-color: cornflowerblue;
+border: none;
+text-decoration-color: white;
+color: white;
+font-weight: 500;
+font-size: 1.2em;
+}
+
+.addProduct:hover {
+background-color: crimson;
 }

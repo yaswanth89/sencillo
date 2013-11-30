@@ -1,0 +1,38 @@
+#homeContainer{
+ 	width: 100%;
+ }
+ #homeFilter{
+ 	width:15%;
+ 	float:left;
+ 	margin-left: 1%;
+ 	height:200px;
+ 	overflow-y:scroll;
+ 	overflow-x:hidden; 
+ }
+ .brandInputHome{
+ 	width:100%;
+ }
+
+ #productList{
+ 	width:85%;
+ 	position: absolute;
+ 	height: 90%;
+ 	left:9%;
+ 	overflow-y: scroll;
+ 	overflow-x: hidden;
+ }
+ /*
+ #productDisplay{
+ 	width:30%;
+ 	float:right;
+ }
+ 
+ #homeModal{
+ 	overflow-y:scroll;
+ 	overflow-x:hidden;
+ 	height:500px; 
+ }*/
+ .products-list{
+ 	width:100%;
+ 	overflow:hidden;
+ }

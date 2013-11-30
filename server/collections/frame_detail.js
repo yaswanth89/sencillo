@@ -1,3 +1,2 @@
 FrameDetail = new Meteor.Collection("framedetail");
-Meteor.startup(function(){
-});
+HomeId = new Meteor.Collection('HomeId');

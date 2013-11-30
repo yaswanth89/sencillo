@@ -21,7 +21,7 @@ Meteor.methods({
 	},
 	addProduct: function(id){
 		 var current = [];
-		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'products': {'_id':id,'price':'','inStock':1,'discount':''}} });
+		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'productId':id,'products':{'_id':id,'price':'','inStock':1,'discount':''}} });
 
 	},
 	readProducts: function(username){
@@ -52,11 +52,12 @@ Meteor.methods({
 		Meteor.users.update({'_id': Meteor.userId()}, {$set : details});
 	},
 	categories:function(){
-		var cat = FrameDetail.find({}).fetch();
-		return cat;
+		console.log("calling FrameDetail");
+		return FrameDetail.find({});
+		
 	},
 	subcategories:function(main){
-		var subcat = FrameDetail.find({Main:main});
+		var subcat = FrameDetail.find({Main:main}).fetch();
 		return subcat;
 	},
 	findProductById:function(shop){

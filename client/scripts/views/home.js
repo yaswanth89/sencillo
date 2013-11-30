@@ -5,142 +5,59 @@ if(navigator.geolocation){
   });
 }
 window.extending = false;
-Session.set('homeSearchFilter',{'askfja':'asjkfb'});
 this.Home = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
-    page = page.split(' ');
-    seachQuery = page[1];
-    page = page[0];
-    if(seachQuery==1){
-      window.functionName = "searchProducts";
-      window.queryData = decodeURI(page);
-      $("#searchInput").val(window.queryData);
-      return this.template = Meteor.render(function(){
-        return Template.home();
-      });
-    }
-    else{
-      window.functionName = "getMainAvailableProducts";
-      $("#searchInput").val('');
-      if(page=='undefined'){
-        window.queryData = undefined;
-        Session.set("homeSearchFilter",{});
-        return this.template = Meteor.render(function(){
-        return Template.home();
-      });
-      }
-      else
-      {
-        var subCat="";
+    var subCat="";
         _.each(page,function(val){
           if(val=="_")
             subCat+=" ";
           else
             subCat+=val;
         });
-        window.queryData = subCat;
-        Session.set("homeSearchFilter",{Sub:subCat});
-        return this.template = Meteor.render(function(){
-        return Template.home();
+    Session.set("homeSub",subCat);
+    Session.set("homeBrand",[]);
+    Session.set("homeId",'');
+    var prod_inc = 20;
+    Session.setDefault('homeLimit',prod_inc);
+    return this.template = Meteor.render(function(){
+    return Template.home();
       });
-      }
-    }
 	},
-
 	render:function(){
 		this.$el = this.template;
 		return this;
 	}
 });
+Deps.autorun(function(){
+  Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeBrand'),Session.get('homeLimit'));
+  Meteor.subscribe('homeProductDetail',Session.get('homeId'));
+  Meteor.subscribe('homeIdList');
+});
 Template.homeBrand.BrandArr = function(){
-  return Session.get("homeUniqueBrand");
+  var retBrand = Products.find({"Sub":Session.get('homeSub')},{fields:{'_id':0,"Brand":1}}).fetch();
+  var tempAr=[];
+  _.each(retBrand,function(obj){
+    tempAr.push(obj.Brand);
+  });
+  return _.uniq(tempAr);
 };
-Template.homeBrand.events = {
-  "change .brand" : function(){
-    var newsearch = Session.get('homeSearchFilter');
-    var brand = new Array;
-    $('.brand').each(function(){ if($(this).is(':checked')) brand.push($(this).val()); });
-    newsearch.Brand = {$in: brand};
-    Session.set('homeSearchFilter', newsearch);
-  }
+
+Template.homeProducts.ProductArr = function(){
+  HomeId.find({}).forEach(function(loop){
+    Session.set('homeIdList',loop.idList);
+  });
+  return homeProductList(Session.get('homeIdList'),Session.get('homeSub'),Session.get('homeBrand'),Session.get('homeLimit'));
 };
-  Template.homeProducts.ProductArr = function(){
-    var filter = Session.get("homeSearchFilter");
-    var Brandfilter = filter.Brand;
-    var Subfilter = filter.Sub;
-    if (Brandfilter != undefined && Brandfilter.$in.length == 0)
-      Brandfilter = undefined;
-    if (Subfilter != undefined && Subfilter.length == 0)
-      Subfilter = undefined;
-    if(!window.extending){
-      Meteor.call(window.functionName,window.queryData, function(error, result){
-        if(result!=undefined){
-          var productscopy = result;
-          var disProducts = _.filter(productscopy,function(rec){
-            var sub = false; var brand = false;
-            var near = false;
-            if(Subfilter!=undefined){
-              if(Subfilter == rec.Sub){
-                sub =true;
-              }
-            }
-            else
-              sub=true;
-            if(Brandfilter != undefined){
-              if(Brandfilter.$in.indexOf(rec.Brand)>-1){
-                brand = true;
-              }
-            }
-            else
-              brand = true;
-            /*if(parseInt(findDistance(window.here.coords.latitude,window.here.coords.longitude,rec.shopList[0].shoplat,rec.shopList[0].shoplng))<=5)
-                Session.set('checkdistance',true);
-              else
-                Session.set('checkdistance',false);
-            });*/
-            return sub && brand /*&& Session.get('checkdistance')*/;
-          });
-          var subCat = new Array();
-          var brand = new Array();
-          var finalProducts = new Array();
-          var brandEJSON = [];
-          var subCatEJSON = [];
-          var count = 1;
-          var ids = [];
-          disProducts.forEach(function(rec){
-            if(count%3 == 0) rec.br = true;
-            else rec.br = false;  
-            if(subCat.indexOf(rec.Sub) < 0){
-              subCat.push(rec.Sub);
-              subCatEJSON.push({Name:rec.Sub});
-            }
-            if(brand.indexOf(rec.Brand)<0){
-              brand.push(rec.Brand);
-              brandEJSON.push({Name:rec.Brand});
-            }
-            count++;
-          });
-          Session.set('homeUniqueBrand',brandEJSON);
-          Session.set('homeUniqueSubCat',subCatEJSON);
-          Session.set('homefinalProducts',disProducts);
-          Session.set('homelimitProducts',_.chain(disProducts).first(10).value());
-        }
-      });
-    }
-    window.extending = false;
-    return Session.get("homelimitProducts");
-  }
   Template.homeProducts.events = {
-  "click a.homeProductView" : function(e,t){
-      Session.set("toggle",this._id);
-      console.log(Session.get("toggle"));
+  "click div.show-product" : function(e,t){
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');
-      var curProduct = _.findWhere(Session.get('homelimitProducts'), {"_id":id[1]});
-      result = findDistance(window.here.coords.latitude,window.here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
-      curProduct.shopList[0].distance = (Math.round(result*100)/100);
+      Session.set('homeId',id[1]);
+      var curProduct = homeProductDetail(Session.get('homeId'));
+      /*result = findDistance(window.here.coords.latitude,window.here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
+      curProduct.shopList[0].distance = (Math.round(result*100)/100);*/
       Session.set('curHomeProduct', curProduct);
       }
   }
@@ -153,18 +70,7 @@ Template.homeModal.events = {
     App.router.aReplace(e);
   }
 }
-function autoResizeDiv()
-  {
-      document.getElementById('body').style.height = window.innerHeight +'px';
-      console.log("resized");
 
-  }
-window.onresize = autoResizeDiv;
-
-
-$(document).ready(function(){
-  autoResizeDiv();
-});
 Template.homeProducts.rendered = function(){
   $("#productList").scroll(function() {
     if($("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {

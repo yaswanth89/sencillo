@@ -1,54 +1,44 @@
 <template name="home">
-    {{> homeView}}
+  {{> homeView}}
 </template>
 
 <template name="homeView">
-  <div id="homecontainer">
+  <div id="homeContainer">
     <div id="homeFilter">
       {{> homeBrand}}
     </div>
     <div class="" id="productList">
       {{> homeProducts}}
     </div>
-    <div class="" id="productDisplay">
       {{> homeModal}}
-    </div>
+    
   </div>    
 </template>
 
 <template name="homeBrand">
-  <strong class="lead">Brands</strong><br>
-    {{#each BrandArr}}
-      <input name="homeBrand" class="brandInputHome" value="{{Name}}" type='checkbox'>
-      <span class="homeBrandCheckLabel">{{Name}}</span><br>
+  <p>
+    <span>Brands : </span>
+    {{#each Brand}}
+    <input type="checkbox" value="{{this}}">{{this}}
     {{/each}}
+  </p>
 </template>
 
 <template name="homeProducts">
   <div class="products-list">
    {{#each ProductArr}}
-      <div class="productWrapper" id="productWrapper">
-        <table class="table imageShow">
-          <tr>
-            <td id="imageHolderList"><a id="product_{{_id}}" href="#homeModal" class="homeProductView" role="button">
-              <img class="item-image" src="{{Image.[0]}}" id="productImageList"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h4>
-                {{Brand}} {{ProductName}} {{ModelID}}
-              </h4>
-            </td>
-          </tr>
-        </table>
-      </div>  
+     <div class="show-product" id="product_{{_id}}" data-toggle="modal" data-target="#homeModal" style="cursor:pointer">
+      <img class="item-image" src="{{this.Image.[0]}}"/>
+      <h4>{{this.Brand}}</h4>
+      <p class="lead">{{this.ProductName}} </p>
+      <p>{{this.ModelID}}</p>
+     </div>
    {{/each}}
   </div>
 </template>
 
 <template name='homeModal'>
-<div id="homeModal">
+<div id="homeModal" class="modal hide fade">
     {{toggle}}
     {{#isolate}}
     <h3 id="homeModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
@@ -89,6 +79,7 @@
               <th>Price</th>
               <th>Distance</th>
             </tr>
+            <!--
             {{#each product.shopList}}
             <tr>
               <td><a class="shopNav" href="/cv/{{shopRouter shopname}}/{{product._id}}">{{shopname}}</a></td>
@@ -96,6 +87,7 @@
               <td>{{distance}} km</td>
             </tr>
             {{/each}}
+          -->
           </table>
           
         </div>

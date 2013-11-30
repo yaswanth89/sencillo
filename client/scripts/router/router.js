@@ -89,7 +89,7 @@ this.Router = Backbone.Router.extend({
 		return this.go(ShopAdd);
 	},
 	home:function(page){
-		return this.go(Home,page+" 0");
+		return this.go(Home,page);
 	},
 	default:function(){
 		return this.go(Default);

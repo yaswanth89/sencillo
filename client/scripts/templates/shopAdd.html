@@ -1,58 +1,60 @@
 <template name="shopAdd">
+  
   <div id="shopAddTemplate">
     <div id="shopAddFilter">
-      <div id="shopAddMainCat">{{> MainCat}}</div>
-      <div id="shopAddSubCat">{{> SubCat}}</div>
-      <div id="shopAddBrand">{{> Brand}}</div>
+      {{> shopAddFilter}}
     </div>
-    {{> Products}}
+    <div id="shopAddProducts">
+      {{> Products}}
+    </div>
   </div>
 </template>
-
-<template name="MainCat"> 
-      <div class="products-maincat">
-        <select id='mainCat'>
-          <option value="select">Select</option>
+<template name="shopAddFilter">
+  <div id="shopAddWrap">
+    
       {{#each MainCatArr}}
-          <option class="maincat" value="{{Main}}">{{Main}}</option>
-      {{/each}}
-        </select>
+      <div class="accordion-heading">
+        <h4 style="cursor:pointer" data-toggle="collapse" data-target="#{{_id}}" data-parent="shopAddWrap">{{Main}}</h4>
       </div>
-</template>
-
-<template name="SubCat">
-    <div class="products-subcat">
-    <select id='subCat' disabled>
-      <option value="select">Select</option>
-    {{#each SubCatArr}}
-      <option class="subcat" value="{{Name}}">{{Name}}</option>
+        <div class="collapse" id="{{_id}}">
+          <div class="accordion-inner">
+            <ul >
+              {{#each Sub}}
+              <li style="cursor:pointer;list-style:none" id="shopAddSub">{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </li>
+      
+      {{/each}}
+    </ul>
+  </div>
+  <div id="shopAddBrandSelect">
+    <p>
+      <span>Brands : </span>
+    {{#each Brand}}
+    <input type="checkbox" value="{{this}}">{{this}}
     {{/each}}
-  </select>
-    </div>
-</template>
+    </p>
+  </div>
 
-<template name="Brand">
-    {{#each BrandArr}}
-      <input class="brand" value="{{Name}}" type='checkbox' id="brandShopAdd"><span id="shopAddChkBoxLabel">{{Name}}</span>
-
-    {{/each}}
 </template>
 
 <template name="Products">
-  <div class="products-list" id="shopAddProductsList">
+  
     <div class="products-row">
    {{#each ProductArr}}
-      <div class="add-item" id="product_{{_id}}" style="cursor:pointer;">
-        <a href="#myModal" role="button" data-toggle="modal">
-        <img class="item-image" src="{{Image.[0]}}" />
-        <input type='button' class='addProduct btn btn-small btn-primary' id="{{_id}}" value='Add'/>
-        <h4>{{Brand}} {{ProductName}} {{ModelID}}</h4>
-        
-        </a>
+      <div class="add-item" id="product_{{this._id}}" style="cursor:pointer;">
+        <img class="item-image" src="{{this.Image.[0]}}" />
+        <input type='button' class='addProduct' id="{{_id}}" value='Add'/>
+        <h4>{{this.Brand}}</h4>
+        <p class="lead">{{this.ProductName}} </p>
+        <p>{{this.ModelID}}</p>
       </div>
-      {{#if br}}
-        </div> <div class='products-row'>
-      {{/if}}
    {{/each}}
+  </div>
+  <div  style="margin-left: 25px;">
+      <button id="showMoreResults" class="btn btn-medium">More Results...</button>
   </div>
 </template>
