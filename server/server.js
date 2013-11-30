@@ -32,6 +32,9 @@ Meteor.publish("allUsers",function(){
   return Meteor.users.find({});
 });
 
+Meteor.publish("frameDetail",function(){
+  return FrameDetail.find({});
+});
 Meteor.publish('shopAddProducts',function(sub,brand,idList,limit){
   return shopAddProducts(sub,brand,idList,limit);
 });

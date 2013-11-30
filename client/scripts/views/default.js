@@ -10,6 +10,9 @@ this.Default = Backbone.View.extend({
 		});
 	}
 });
+Deps.autorun(function(){
+	Meteor.subscribe("frameDetail");
+});
 Template.default.MainCatArr=function(){
 	return FrameDetail.find({});
 }
