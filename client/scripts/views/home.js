@@ -18,6 +18,11 @@ this.Home = Backbone.View.extend({
     Session.set("homeSub",subCat);
     Session.set("homeBrand",[]);
     Session.set("homeId",'');
+    /*
+    HomeId.find({}).forEach(function(loop){
+      Session.set('homeIdList',loop.idList);
+    });
+    */
     var prod_inc = 20;
     Session.setDefault('homeLimit',prod_inc);
     return this.template = Meteor.render(function(){
@@ -30,12 +35,13 @@ this.Home = Backbone.View.extend({
 	}
 });
 Deps.autorun(function(){
-  Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeBrand'),Session.get('homeLimit'));
-  Meteor.subscribe('homeProductDetail',Session.get('homeId'));
-  Meteor.subscribe('homeIdList');
+    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'));
+  //Meteor.subscribe('homeProductDetail',Session.get('homeId'));
 });
-Template.homeBrand.BrandArr = function(){
-  var retBrand = Products.find({"Sub":Session.get('homeSub')},{fields:{'_id':0,"Brand":1}}).fetch();
+
+Template.homeBrand.Brand = function(){
+  //return Products.find({},{fields:{_id:0,Brand:1}}).fetch();
+  var retBrand = Products.find({},{fields:{'_id':0,"Brand":1}}).fetch();
   var tempAr=[];
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
@@ -43,11 +49,14 @@ Template.homeBrand.BrandArr = function(){
   return _.uniq(tempAr);
 };
 
+
 Template.homeProducts.ProductArr = function(){
-  HomeId.find({}).forEach(function(loop){
-    Session.set('homeIdList',loop.idList);
-  });
-  return homeProductList(Session.get('homeIdList'),Session.get('homeSub'),Session.get('homeBrand'),Session.get('homeLimit'));
+  //return homeProductList(Session.get('homeIdList'),Session.get('homeSub'),Session.get('homeBrand'),Session.get('homeLimit'));
+  if(_.isEmpty(Session.get('homeBrand')))
+    return Products.find({});
+  else
+    return Products.find({'Brand':{$in:Session.get('homeBrand')}});
+  
 };
   Template.homeProducts.events = {
   "click div.show-product" : function(e,t){
@@ -55,7 +64,7 @@ Template.homeProducts.ProductArr = function(){
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      var curProduct = homeProductDetail(Session.get('homeId'));
+      var curProduct = Products.find()
       /*result = findDistance(window.here.coords.latitude,window.here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
       curProduct.shopList[0].distance = (Math.round(result*100)/100);*/
       Session.set('curHomeProduct', curProduct);
@@ -83,4 +92,12 @@ Template.homeProducts.rendered = function(){
       Session.set('homelimitProducts',_.chain(Session.get('homefinalProducts')).first(newSize).value());
     }
   });
-}
+};
+$(function(){
+  $('#homeFilter input').live('change',function(){
+    var brandSel = $('#homeFilter input:checkbox:checked').map(function(){
+      return $(this).val()
+    }).get();
+    Session.set('homeBrand',brandSel);
+  });
+});

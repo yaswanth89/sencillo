@@ -1,6 +1,11 @@
 this.ShopAdd = Backbone.View.extend({
   template:null,
   initialize:function(page){
+    Session.set('subForBrand','TV');
+    Session.set('shopAddBrand',[]);
+    Session.set('idInShop',[]);
+    var ITEMS_INCREMENT = 20;
+    Session.setDefault('itemsLimit', ITEMS_INCREMENT);
     
     this.template = Meteor.render(function(){
       return Template.shopAdd();
@@ -11,10 +16,6 @@ this.ShopAdd = Backbone.View.extend({
     return this;
   }
 });
-
-Session.set('subForBrand','TV');
-Session.set('shopAddBrand',[]);
-Session.set('idInShop',[]);
 
 Template.shopAddFilter.MainCatArr = function(){
     return FrameDetail.find({});
@@ -29,17 +30,19 @@ Template.shopAddFilter.Brand=function(){
   return _.uniq(tempAr);
 
 };
-var ITEMS_INCREMENT = 20;
-  Session.setDefault('itemsLimit', ITEMS_INCREMENT);
+/*
 Deps.autorun(function(){
   Meteor.subscribe('shopAddProducts',Session.get('subForBrand'),Session.get('shopAddBrand'),Session.get('idInShop'),Session.get('itemsLimit'));
   Meteor.subscribe('getProductInShop',Meteor.userId());
 });
-
+*/
 Template.Products.ProductArr = function(){
   
-  Session.set('idInShop',getProductInShop(Meteor.userId()));
-  return shopAddProducts(Session.get('subForBrand'),Session.get('shopAddBrand'),Session.get('idInShop'),Session.get('itemsLimit'));
+  //Session.set('idInShop',getProductInShop(Meteor.userId()));
+  Meteor.users.find({}).forEach(function(loop){
+    Session.set('idInShop',loop.productId);
+  });
+  return Products.find({});
 };
 
 $(function(){
