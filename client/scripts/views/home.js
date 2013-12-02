@@ -74,10 +74,8 @@ Template.homeProducts.ProductArr = function(){
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      
-      /*result = findDistance(window.here.coords.latitude,window.here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
-      curProduct.shopList[0].distance = (Math.round(result*100)/100);*/
-      
+      $("#homeModal").css("top",$(now).position().top+250+'px');
+      $("#homeModal").fadeIn();    
       }
   }
 Template.homeModal.product = function(){
@@ -90,6 +88,10 @@ Template.homeModalSpec.productSpec = function(){
   return Products.find({_id:Session.get('homeId')},{fields:{spec:1}});
 };
 Template.homeModal.events = {
+  "click a#closeModal":function(e,t){
+    e.preventDefault();
+    $("#homeModal").fadeOut();
+  },
   "click a.shopNav" : function(e,t){
     e.preventDefault();
     App.router.aReplace(e);

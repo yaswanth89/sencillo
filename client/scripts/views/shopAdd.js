@@ -21,7 +21,7 @@ this.ShopAdd = Backbone.View.extend({
 var ITEMS_INCREMENT = 20;
 Session.setDefault('itemsLimit', ITEMS_INCREMENT);
 Deps.autorun(function(){
-  Meteor.subscribe('shopAddProducts',Session.get('subForBrand'),Session.get('itemsLimit'));
+  Meteor.subscribe('shopAddProducts',Session.get('subForBrand'),Session.get('shopAddBrand'),Session.get('itemsLimit'));
 });
 
 Template.shopAddFilter.MainCatArr = function(){
@@ -29,13 +29,16 @@ Template.shopAddFilter.MainCatArr = function(){
 };
 
 Template.shopAddFilter.Brand=function(){
-  var retBrand = Products.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
-  var tempAr=[];
-  _.each(retBrand,function(obj){
-    tempAr.push(obj.Brand);
-  });
-  return _.uniq(tempAr);
-
+  if(_.isEmpty(Session.get('shopAddBrand'))){
+    var retBrand = Products.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
+    var tempAr=[];
+    _.each(retBrand,function(obj){
+      tempAr.push(obj.Brand);
+    });
+    Session.set('brandList',_.uniq(tempAr))
+    return _.uniq(tempAr);
+  }
+  return Session.get('brandList');
 };
 /*
 

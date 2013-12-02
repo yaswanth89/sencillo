@@ -37,10 +37,12 @@
  .products-list{
  	width:100%;
  	overflow:hidden;
+ 	position: relative;
  }
  div.show-product {
 width: 25%;
 float: left;
+height: 250px;
 }
 
 div.show-product p{

@@ -37,14 +37,18 @@ Meteor.publish("frameDetail",function(){
 });
 
 
-Meteor.publish('shopAddProducts',function(sub,limit){
+Meteor.publish('shopAddProducts',function(sub,brand,limit){
   try{
     var idList = Meteor.users.find({_id:this.userId}).fetch()[0].productId;
   }
   catch(e){
     return null;
   }
-  return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
+  if(_.isEmpty(brand))
+    return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
+  else
+    return Products.find({_id:{$nin:idList},'Sub':sub,'Brand':{$in:brand}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
+
 });
 
 Meteor.publish('homeId',function(){

@@ -7,3 +7,27 @@
     top: 0;
 }
 */
+#homeModal{
+	height: 300px;
+	position: absolute;
+	background: gray;
+	width:97%;
+	overflow:hidden;
+	padding: 10px;
+}
+#homeModal .tab-content{
+	overflow-y:scroll;
+	height: 280px;
+}
+.column{
+	height: 100%;
+	float: left;
+}
+#closeModal{
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 10px;
+	font-size: 20px;
+	color: black;
+}
