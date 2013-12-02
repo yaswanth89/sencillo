@@ -18,14 +18,19 @@
 <template name="homeBrand">
   <p>
     <span>Brands : </span>
-    {{#each Brand}}
-    <input type="checkbox" value="{{this}}">{{this}}
-    {{/each}}
+    <ul>
+      {{#isolate}}
+      {{#each Brand}}
+      <li style="list-style:none"><input type="checkbox" value="{{this}}">  {{this}}</li>
+      {{/each}}
+      {{/isolate}}
+    </ul>
   </p>
 </template>
 
 <template name="homeProducts">
   <div class="products-list">
+    {{#isolate}}
    {{#each ProductArr}}
      <div class="show-product" id="product_{{_id}}" data-toggle="modal" data-target="#homeModal" style="cursor:pointer">
       <img class="item-image" src="{{this.Image.[0]}}"/>
@@ -34,64 +39,68 @@
       <p>{{this.ModelID}}</p>
      </div>
    {{/each}}
+   {{/isolate}}
   </div>
 </template>
 
 <template name='homeModal'>
 <div id="homeModal" class="modal hide fade">
-    {{toggle}}
     {{#isolate}}
-    <h3 id="homeModalLabel">{{product.Brand}} {{product.ProductName}} {{product.ModelID}}</h3>
-      <img class="item-image" src="{{product.Image.[0]}}" />
+    {{#each product}}
+    <h3 id="homeModalLabel">{{Brand}} {{ProductName}} {{ModelID}}</h3>
+      <img class="item-image" src="{{Image.[0]}}" />
       <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
         <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
         <li><a href="#availableShop" data-toggle="tab">Available At</a></li>
       </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="overview">
-          {{#each product.showSpec}}
-            <p>{{value}}</p>
-          {{/each}}
-        </div>
-        <div class="tab-pane" id="techSpec">
-          <table class="table">
-          {{#each product.ProductInfo}}
-            {{#labelCheck name}}
-            <th>
-              <u><strong>{{value}}</strong></u>
-            </th>
-            {{else}}
-              {{#each value}}
-              <tr>
-                <td><strong>{{name}}:</strong></td>
-                <td>{{value}}</td>
-              </tr>
-              {{/each}}
-            {{/labelCheck}}
-          {{/each}}
-      </table>
-        </div>
-        <div class="tab-pane" id="availableShop">
-          <table class="table">
-            <tr>
-              <th>Seller</th>
-              <th>Price</th>
-              <th>Distance</th>
-            </tr>
-            <!--
-            {{#each product.shopList}}
-            <tr>
-              <td><a class="shopNav" href="/cv/{{shopRouter shopname}}/{{product._id}}">{{shopname}}</a></td>
-              <td>Rs {{price}}</td>
-              <td>{{distance}} km</td>
-            </tr>
-            {{/each}}
-          -->
-          </table>
-          
-        </div>
-      </div>
+    {{/each}}
     {{/isolate}}
+    <div class="tab-content">
+    {{#isolate}}
+      {{> homeModalOverview}}
+    {{/isolate}}
+    {{#isolate}}
+      {{> homeModalSpec}}
+    {{/isolate}}
+    </div>
 </div>
 </template>
+<template name="homeModalOverview">
+  <div class="tab-pane active" id="overview">
+  {{#each productOverview}} 
+    <p class="lead">{{overviewPara}}</p>
+    <ul>
+      {{#each overViewList}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    {{#each feature}}
+      <h4>{{name}}</h4>
+      <p>{{value}}</p>
+    {{/each}}
+  {{/each}}
+  </div>
+</template>
+<template name="homeModalSpec">
+  <div class="tab-pane" id="techSpec">
+    <table class="table">
+    {{#each productSpec}}
+    {{#each spec}}
+      {{#labelCheck name}}
+      <th>
+        <u><strong>{{value}}</strong></u>
+      </th>
+      {{else}}  
+      <tr>
+        <td><strong>{{name}}:</strong></td>
+        <td>{{value}}</td>
+      </tr> 
+      {{/labelCheck}}
+    {{/each}}
+    {{/each}}
+    </table>
+  </div>
+</template>
+      
+       

@@ -3,9 +3,7 @@ this.ShopAdd = Backbone.View.extend({
   initialize:function(page){
     Session.set('subForBrand','TV');
     Session.set('shopAddBrand',[]);
-    Session.set('idInShop',[]);
-    var ITEMS_INCREMENT = 20;
-    Session.setDefault('itemsLimit', ITEMS_INCREMENT);
+    Session.set('shopAddId',Meteor.userId());
     
     this.template = Meteor.render(function(){
       return Template.shopAdd();
@@ -16,13 +14,18 @@ this.ShopAdd = Backbone.View.extend({
     return this;
   }
 });
+var ITEMS_INCREMENT = 20;
+    Session.setDefault('itemsLimit', ITEMS_INCREMENT);
+Deps.autorun(function(){
+  Meteor.subscribe('shopAddProducts',Session.get('subForBrand'),Session.get('shopAddBrand'),Session.get('shopAddId'),Session.get('itemsLimit'));
+});
 
 Template.shopAddFilter.MainCatArr = function(){
     return FrameDetail.find({});
 };
 
 Template.shopAddFilter.Brand=function(){
-  var retBrand = Products.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
+  var retBrand = ShopAddProducts.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
   var tempAr=[];
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
@@ -31,18 +34,10 @@ Template.shopAddFilter.Brand=function(){
 
 };
 /*
-Deps.autorun(function(){
-  Meteor.subscribe('shopAddProducts',Session.get('subForBrand'),Session.get('shopAddBrand'),Session.get('idInShop'),Session.get('itemsLimit'));
-  Meteor.subscribe('getProductInShop',Meteor.userId());
-});
+
 */
-Template.Products.ProductArr = function(){
-  
-  //Session.set('idInShop',getProductInShop(Meteor.userId()));
-  Meteor.users.find({}).forEach(function(loop){
-    Session.set('idInShop',loop.productId);
-  });
-  return Products.find({});
+Template.shopAddProducts.ProductArr = function(){
+  return ShopAddProducts.find({});
 };
 
 $(function(){
@@ -69,3 +64,9 @@ $(function(){
     Meteor.call('addProduct', id, function(error){ if(error) alert(error); else $('div#product_'+id).fadeOut(); });
   });
 });
+/*
+Template.shopAdd.destroyed = function(){
+  shopAddSub.stop();
+  console.log("shopAdd destroyed");
+}
+*/

@@ -35,32 +35,20 @@ Meteor.publish("allUsers",function(){
 Meteor.publish("frameDetail",function(){
   return FrameDetail.find({});
 });
-/*
-Meteor.publish('shopAddProducts',function(sub,brand,idList,limit){
-  return shopAddProducts(sub,brand,idList,limit);
-});
 
-Meteor.publish('getProductInShop',function(id){
-  return getProductInShop(id);
-});
-
-Meteor.publish('shopAddProducts',function(sub,brand,idList,limit){
+Meteor.publish('shopAddProducts',function(sub,brand,userId,limit){
+  var idList = Meteor.users.find({_id:userId}).fetch()[0].productId;
   if(_.isEmpty(brand))
-    return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit}).fetch();
+    return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
   else
-    return Products.find({_id:{$nin:idList},'Sub':sub,'Brand':{$in:brand}},{fields:{'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit}).fetch();
+    return Products.find({_id:{$nin:idList},'Sub':sub,'Brand':{$in:brand}},{fields:{'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
 });
 
-Meteor.publish('getProductInShop',function(id){
-  return Meteor.users.find({_id:id},{fields:{_id:0,productId:1}});
-});
-*/
 Meteor.publish('homeProductList',function(sub,limit){
 var idList = HomeId.find({}).fetch()[0].idList;
-console.log(idList);
- return Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
+  return Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
 });
-/*
+
 Meteor.publish('homeProductDetail',function(id){
   return Products.find({_id:id});
-}); */
+});

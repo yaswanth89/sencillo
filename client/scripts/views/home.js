@@ -15,6 +15,7 @@ this.Home = Backbone.View.extend({
           else
             subCat+=val;
         });
+    Products._collection.remove({});
     Session.set("homeSub",subCat);
     Session.set("homeBrand",[]);
     Session.set("homeId",'');
@@ -36,8 +37,10 @@ this.Home = Backbone.View.extend({
 });
 Deps.autorun(function(){
     Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'));
-  //Meteor.subscribe('homeProductDetail',Session.get('homeId'));
+    Meteor.subscribe('homeProductDetail',Session.get('homeId'));
 });
+    
+
 
 Template.homeBrand.Brand = function(){
   //return Products.find({},{fields:{_id:0,Brand:1}}).fetch();
@@ -51,7 +54,6 @@ Template.homeBrand.Brand = function(){
 
 
 Template.homeProducts.ProductArr = function(){
-  //return homeProductList(Session.get('homeIdList'),Session.get('homeSub'),Session.get('homeBrand'),Session.get('homeLimit'));
   if(_.isEmpty(Session.get('homeBrand')))
     return Products.find({});
   else
@@ -64,15 +66,21 @@ Template.homeProducts.ProductArr = function(){
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      var curProduct = Products.find()
+      
       /*result = findDistance(window.here.coords.latitude,window.here.coords.longitude,curProduct.shopList[0].shoplat,curProduct.shopList[0].shoplng);
       curProduct.shopList[0].distance = (Math.round(result*100)/100);*/
-      Session.set('curHomeProduct', curProduct);
+      
       }
   }
 Template.homeModal.product = function(){
-  return Session.get('curHomeProduct');
-}
+  return Products.find({_id:Session.get('homeId')});
+};
+Template.homeModalOverview.productOverview = function(){
+  return Products.find({_id:Session.get('homeId')},{fields:{overViewList:1,overviewPara:1,feature:1}});
+};
+Template.homeModalSpec.productSpec = function(){
+  return Products.find({_id:Session.get('homeId')},{fields:{spec:1}});
+};
 Template.homeModal.events = {
   "click a.shopNav" : function(e,t){
     e.preventDefault();
@@ -101,3 +109,10 @@ $(function(){
     Session.set('homeBrand',brandSel);
   });
 });
+/*
+Template.homeView.destroyed = function(){
+  homeProductListSub.stop();
+  homeProductDetailSub.stop();
+  console.log("Home Destroyed");
+}
+*/
