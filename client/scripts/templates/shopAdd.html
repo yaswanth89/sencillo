@@ -2,10 +2,14 @@
   
   <div id="shopAddTemplate">
     <div id="shopAddFilter">
+      {{#isolate}}
       {{> shopAddFilter}}
+      {{/isolate}}
     </div>
     <div id="shopAddProducts">
+      {{#isolate}}
       {{> shopAddProducts}}
+      {{/isolate}}
     </div>
   </div>
 </template>

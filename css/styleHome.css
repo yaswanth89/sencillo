@@ -19,6 +19,7 @@
  	width:85%;
  	height: 100%;
  	float:left;
+ 	position: relative;
  	overflow-y: scroll;
  	overflow-x: hidden;
  }
