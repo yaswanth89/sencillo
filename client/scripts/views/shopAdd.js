@@ -3,8 +3,12 @@ this.ShopAdd = Backbone.View.extend({
   initialize:function(page){
     Session.set('subForBrand','TV');
     Session.set('shopAddBrand',[]);
-    Session.set('shopAddId',Meteor.userId());
-    
+    try{
+      Session.set('shopIdList',Meteor.users.find({"_id":Meteor.userId()}).fetch()[0].idList);
+    }
+    catch(e){
+      Session.set('shopIdList','');
+    }
     this.template = Meteor.render(function(){
       return Template.shopAdd();
     });
@@ -17,7 +21,7 @@ this.ShopAdd = Backbone.View.extend({
 var ITEMS_INCREMENT = 20;
     Session.setDefault('itemsLimit', ITEMS_INCREMENT);
 Deps.autorun(function(){
-  Meteor.subscribe('shopAddProducts',Session.get('subForBrand'),Session.get('shopAddBrand'),Session.get('shopAddId'),Session.get('itemsLimit'));
+  Meteor.subscribe('shopAddProducts',Session.get('subForBrand'),Session.get('shopAddBrand'),Session.get('itemsLimit'));
 });
 
 Template.shopAddFilter.MainCatArr = function(){
@@ -25,7 +29,7 @@ Template.shopAddFilter.MainCatArr = function(){
 };
 
 Template.shopAddFilter.Brand=function(){
-  var retBrand = ShopAddProducts.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
+  var retBrand = Products.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
   var tempAr=[];
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
@@ -37,7 +41,7 @@ Template.shopAddFilter.Brand=function(){
 
 */
 Template.shopAddProducts.ProductArr = function(){
-  return ShopAddProducts.find({});
+  return Products.find({});
 };
 
 $(function(){

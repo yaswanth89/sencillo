@@ -15,15 +15,15 @@ this.Home = Backbone.View.extend({
           else
             subCat+=val;
         });
-    Products._collection.remove({});
+    try{
+      Session.set('homeIdList',HomeId.find({}).fetch()[0].idList);
+    }
+    catch(e){
+      Session.set('homeIdList','');
+    }
     Session.set("homeSub",subCat);
     Session.set("homeBrand",[]);
     Session.set("homeId",'');
-    /*
-    HomeId.find({}).forEach(function(loop){
-      Session.set('homeIdList',loop.idList);
-    });
-    */
     var prod_inc = 20;
     Session.setDefault('homeLimit',prod_inc);
     return this.template = Meteor.render(function(){
@@ -38,13 +38,14 @@ this.Home = Backbone.View.extend({
 Deps.autorun(function(){
     Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'));
     Meteor.subscribe('homeProductDetail',Session.get('homeId'));
+    Meteor.subscribe('homeId');
 });
-    
-
 
 Template.homeBrand.Brand = function(){
-  //return Products.find({},{fields:{_id:0,Brand:1}}).fetch();
-  var retBrand = Products.find({},{fields:{'_id':0,"Brand":1}}).fetch();
+  if(Session.get('homeIdList')=="")
+      retBrand = Products.find({},{fields:{'_id':0,"Brand":1}}).fetch();
+    else
+      retBrand = Products.find({"_id":{$in:Session.get('homeIdList')}},{fields:{'_id':0,"Brand":1}}).fetch();
   var tempAr=[];
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
@@ -54,11 +55,18 @@ Template.homeBrand.Brand = function(){
 
 
 Template.homeProducts.ProductArr = function(){
-  if(_.isEmpty(Session.get('homeBrand')))
-    return Products.find({});
-  else
-    return Products.find({'Brand':{$in:Session.get('homeBrand')}});
-  
+  if(_.isEmpty(Session.get('homeBrand'))){
+    if(Session.get('homeIdList')=="")
+      return Products.find({"Sub":Session.get('homeSub')});
+    else
+      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')});
+  }
+  else{
+    if(Session.get('homeIdList')=="")
+      return Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}});
+    else
+      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}});
+  }
 };
   Template.homeProducts.events = {
   "click div.show-product" : function(e,t){
