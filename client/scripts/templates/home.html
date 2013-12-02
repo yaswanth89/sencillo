@@ -30,7 +30,7 @@
 
 <template name="homeProducts">
   <div class="products-list">
-    {{#isolate}}
+  {{#isolate}}
    {{#each ProductArr}}
      <div class="show-product" id="product_{{_id}}" data-toggle="modal" data-target="#homeModal" style="cursor:pointer">
       <img class="item-image" src="{{this.Image.[0]}}"/>
@@ -39,7 +39,8 @@
       <p>{{this.ModelID}}</p>
      </div>
    {{/each}}
-   {{/isolate}}
+  {{/isolate}}
+   
   </div>
 </template>
 

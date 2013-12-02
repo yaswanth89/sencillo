@@ -25,7 +25,7 @@ Template.shopAddFilter.MainCatArr = function(){
 };
 
 Template.shopAddFilter.Brand=function(){
-  var retBrand = ShopAddProducts.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
+  var retBrand = Products.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
   var tempAr=[];
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
@@ -37,7 +37,7 @@ Template.shopAddFilter.Brand=function(){
 
 */
 Template.shopAddProducts.ProductArr = function(){
-  return ShopAddProducts.find({});
+  return Products.find({});
 };
 
 $(function(){
@@ -64,9 +64,3 @@ $(function(){
     Meteor.call('addProduct', id, function(error){ if(error) alert(error); else $('div#product_'+id).fadeOut(); });
   });
 });
-/*
-Template.shopAdd.destroyed = function(){
-  shopAddSub.stop();
-  console.log("shopAdd destroyed");
-}
-*/
