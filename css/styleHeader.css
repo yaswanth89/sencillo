@@ -1,0 +1,36 @@
+ul.nav ul{
+	display:none;
+}
+ul.nav li:hover>ul{
+	display:block;
+	height:80%;
+}
+#headerCategories {
+position: fixed;
+width: 15%;
+z-index: 1000;
+background-color: white;
+}
+#header .navbar-inner {
+padding-left: 1em;
+margin-left: 15%;
+}
+#headerCategories li{
+	list-style: none;
+}
+#categories_a {
+padding-left: 20%;
+font-size: 1.2em;
+font-weight: 400;
+padding-top: 6%;
+padding-bottom: 6%;
+}
+#categories_a+ul {
+position: relative;
+}
+#categories_a+ul li ul {
+left: 80%;
+top: 0%;
+position: absolute;
+background-color: white;
+}
