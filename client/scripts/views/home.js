@@ -68,15 +68,15 @@ Template.homeProducts.ProductArr = function(){
       return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}});
   }
 };
-  Template.homeProducts.events = {
+Template.homeProducts.events = {
   "click div.show-product" : function(e,t){
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      $("#homeModal").css("top",$(now).position().top+250+'px');
-      $("#homeModal").fadeIn();    
-      }
+      $("#homeModal").css("top",$(now).position().top+250+'px').fadeIn();
+      $("#productList").animate({ scrollTop: $(now).position().top+"px" });
+  }
   }
 Template.homeModal.product = function(){
   return Products.find({_id:Session.get('homeId')});

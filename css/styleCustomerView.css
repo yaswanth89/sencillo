@@ -4,20 +4,18 @@
 	height:550px;
 }
 .cvProductsList {
-width: 60%%;
-height: 550px;
-overflow-y: scroll;
-overflow-x: hidden;
-float: left;
-margin-left: -4%;
+	width: 60%;
+	height: 570px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	float: left;
 }
 .cvMapDisplay{
-	float:left;
-	width:20%;
+	width:18%;
 	margin-left:2%;
 }
 #cvBrand{
-	width:200px;
+	width:90%;
 	height:200px;
 	overflow-x:hidden;
     overflow-y:scroll; 

@@ -29,13 +29,22 @@ Meteor.startup(function(){
 });
 
 Meteor.publish("allUsers",function(){
-  return Meteor.users.find({"usertype": "shop"},{fields:{"products":1,"productId":1}});
+  return Meteor.users.find({"usertype": "shop"},{fields:{"username":1,"productId":1}});
 });
 
 Meteor.publish("frameDetail",function(){
   return FrameDetail.find({});
 });
 
+Meteor.publish("shopProductList",function(username,sub,limit){
+  try{
+    idList = Meteor.users.findOne({username:username}).productId;
+  }
+  catch(e){
+    return null;
+  }
+  return Products.find({_id:{$in:idList},Sub:sub},{limit:limit});
+});
 
 Meteor.publish('shopAddProducts',function(sub,brand,limit){
   try{
@@ -62,4 +71,8 @@ Meteor.publish('homeProductList',function(sub,limit){
 
 Meteor.publish('homeProductDetail',function(id){
   return Products.find({_id:id});
+});
+
+Meteor.publish("shopDetail",function(name){
+  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1,"shopLongitude":1,"shopLatitude":1,"shopname":1,}});
 });
