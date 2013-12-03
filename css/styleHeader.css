@@ -15,8 +15,10 @@ background-color: white;
 padding-left: 1em;
 margin-left: 15%;
 }
-#headerCategories li{
-	list-style: none;
+#headerCategories li {
+list-style: none;
+line-height: 40px;
+font-size: large;
 }
 #categories_a {
 padding-left: 20%;
@@ -26,11 +28,17 @@ padding-top: 6%;
 padding-bottom: 6%;
 }
 #categories_a+ul {
-position: relative;
+position: absolute;
+height: 500px;
+width: 300px;
+background: white;
+margin: 0;
 }
 #categories_a+ul li ul {
 left: 80%;
 top: 0%;
 position: absolute;
 background-color: white;
+width: 300px;
+margin:0;
 }
