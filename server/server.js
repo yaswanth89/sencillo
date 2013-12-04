@@ -54,11 +54,15 @@ Meteor.publish('shopAddProducts',function(sub,brand,limit){
     return null;
   }
   if(_.isEmpty(brand))
-    return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
+    return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
   else
-    return Products.find({_id:{$nin:idList},'Sub':sub,'Brand':{$in:brand}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
-
+    return Products.find({_id:{$nin:idList},'Sub':sub,'Brand':{$in:brand}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
 });
+
+Meteor.publish('searchProducts',function(query,limit){
+  var re = new RegExp("\\b("+query+")\\b",'i');
+  return Products.find({"searchIndex": {$regex: re}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+})
 
 Meteor.publish('homeId',function(){
   return HomeId.find({});
@@ -66,7 +70,7 @@ Meteor.publish('homeId',function(){
 
 Meteor.publish('homeProductList',function(sub,limit){
   var idList = HomeId.find({}).fetch()[0].idList;
-  return Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1},limit:limit});
+  return Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
 });
 
 Meteor.publish('homeProductDetail',function(id){

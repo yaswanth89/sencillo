@@ -113,23 +113,21 @@ Template.homeProducts.rendered = function(){
   if(this.rendered==1){
     $("#loadmask").fadeOut('slow');
     this.rendered=2;
+    $("#productList").scroll(function() {
+      if(!window.loading && $("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
+        Session.set('homeLimit',Session.get('homeLimit')*2);
+        window.loading = true;
+      }
+    });
   }
   if(!this.rendered)
     this.rendered = 1;
-  /*$("#productList").scroll(function() {
-    if($("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
-      var oldSize = _.size(Session.get('homelimitProducts'));
-      var totalSize = _.size(Session.get('homefinalProducts'));
-      if(oldSize==totalSize)
-        return;
-      var newSize = parseInt(oldSize / 10 + 1)*10;
-      window.extending = true;
-      Session.set('homelimitProducts',_.chain(Session.get('homefinalProducts')).first(newSize).value());
-    }
-  });*/
+  if(window.loading)
+    window.loading = false;
   $("img.item-image").lazyload({
-    threshold : 200,
-    effect : "fadeIn"
+    threshold : 100,
+    effect : "fadeIn",
+    container: $("#productList")
   });
 };
 $(function(){
@@ -140,10 +138,3 @@ $(function(){
     Session.set('homeBrand',brandSel);
   });
 });
-/*
-Template.homeView.destroyed = function(){
-  homeProductListSub.stop();
-  homeProductDetailSub.stop();
-  console.log("Home Destroyed");
-}
-*/

@@ -53,7 +53,7 @@ this.Router = Backbone.Router.extend({
 		});
 	},
 	customerView:function(shop,product){
-		$("#loadmask").show();
+		// $("#loadmask").show();
 		var linkReturn = "";
 		_.each(shop,function(val){
 			if(val=="_"){
@@ -91,7 +91,7 @@ this.Router = Backbone.Router.extend({
 		return this.go(ShopAdd);
 	},
 	home:function(page,product){
-		$("#loadmask").show();
+		// $("#loadmask").show();
 		return this.go(Home,page);
 	},
 	default:function(){
