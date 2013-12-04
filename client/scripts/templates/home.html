@@ -69,6 +69,9 @@
       {{#isolate}}
         {{> homeModalSpec}}
       {{/isolate}}
+      {{#isolate}}
+        {{> homeModalAvailble}}
+      {{/isolate}}
       </div>
     </div>
 </div>
@@ -105,6 +108,22 @@
       </tr> 
       {{/labelCheck}}
     {{/each}}
+    {{/each}}
+    </table>
+  </div>
+</template>
+<template name="homeModalAvailble">
+  <div class="tab-pane" id="availableShop">
+    <table class="table">
+      <tr>
+        <th>Shop Name</th>
+        <th>Distance</th>
+      </tr>
+    {{#each shopList}}
+      <tr>
+        <td>{{shopname}}</td>
+        <td>{{distance}}Km</td>
+      </tr>
     {{/each}}
     </table>
   </div>

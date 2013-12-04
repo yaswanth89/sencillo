@@ -87,6 +87,17 @@ Template.homeModalOverview.productOverview = function(){
 Template.homeModalSpec.productSpec = function(){
   return Products.find({_id:Session.get('homeId')},{fields:{spec:1}});
 };
+Template.homeModalAvailble.shopList = function(){
+  returnarr =[];
+  Meteor.users.find({"productId":{$elemMatch:Session.get('homeId')}}).forEach(function(el){
+    returnarr.push({
+      shopname:el.shopname,
+      distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude)
+    });
+  });
+  returnarr.sort(function(a,b) {return (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0);} );
+  return returnarr;
+}
 Template.homeModal.events = {
   "click a#closeModal":function(e,t){
     e.preventDefault();
