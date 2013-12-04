@@ -42,3 +42,6 @@ background-color: white;
 width: 300px;
 margin:0;
 }
+ul#headerCategories li li a{
+	padding-left:20px;
+}
