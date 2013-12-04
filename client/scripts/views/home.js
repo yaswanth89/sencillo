@@ -110,7 +110,13 @@ Template.homeModal.events = {
 }
 
 Template.homeProducts.rendered = function(){
-  $("#productList").scroll(function() {
+  if(this.rendered==1){
+    $("#loadmask").fadeOut('slow');
+    this.rendered=2;
+  }
+  if(!this.rendered)
+    this.rendered = 1;
+  /*$("#productList").scroll(function() {
     if($("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
       var oldSize = _.size(Session.get('homelimitProducts'));
       var totalSize = _.size(Session.get('homefinalProducts'));
@@ -120,6 +126,10 @@ Template.homeProducts.rendered = function(){
       window.extending = true;
       Session.set('homelimitProducts',_.chain(Session.get('homefinalProducts')).first(newSize).value());
     }
+  });*/
+  $("img.item-image").lazyload({
+    threshold : 200,
+    effect : "fadeIn"
   });
 };
 $(function(){
