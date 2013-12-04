@@ -29,7 +29,7 @@ Meteor.startup(function(){
 });
 
 Meteor.publish("allUsers",function(){
-  return Meteor.users.find({"usertype": "shop"},{fields:{"username":1,"productId":1}});
+  return Meteor.users.find({"usertype": "shop"},{fields:{"username":1,"productId":1,"shopname":1,"shopLatitude":1,"shopLongitude":1}});
 });
 
 Meteor.publish("frameDetail",function(){
@@ -74,5 +74,5 @@ Meteor.publish('homeProductDetail',function(id){
 });
 
 Meteor.publish("shopDetail",function(name){
-  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1,"shopLongitude":1,"shopLatitude":1,"shopname":1,}});
+  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1}});
 });
