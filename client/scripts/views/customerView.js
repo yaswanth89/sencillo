@@ -125,6 +125,13 @@ $(function(){
 		Session.set("shopSub",$(this).text());
 	});
 });
-
-// Template.mapCanvas.rendered = function(){
-// };
+Template.ShopProducts.rendered = function(){
+	if(this.rendered == 2){
+		$("#loadmask").fadeOut();
+		this.rendered=3;
+	}
+	if(this.rendered == 1)
+		this.rendered=2;
+	if(this.rendered)
+		this.rendered=1;
+}
