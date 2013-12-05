@@ -1,6 +1,5 @@
 this.CustomerView = Backbone.View.extend({
 	initialize:function(){
-		window.shopUsername;
     	Session.set("shopSub","TV");
 	    Session.set("shopBrand",[]);
 	    Session.set('shopLimit',20);
@@ -124,6 +123,10 @@ Template.ShopProducts.rendered = function(){
 	}
 	if(!this.rendered)
 		this.rendered=1;
+	if(window.shopProductId){
+		$("#shopModal").css("top",'0px').fadeIn();
+		Session.set('shopId',window.shopProductId);
+	}
 }
 
 
@@ -135,4 +138,5 @@ $(function(){
 		prevNav = this;
 		Session.set("shopSub",$(this).text());
 	});
+	console.log(window.shopProductId);
 });

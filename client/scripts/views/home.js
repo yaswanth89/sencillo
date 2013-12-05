@@ -89,10 +89,11 @@ Template.homeModalSpec.productSpec = function(){
 };
 Template.homeModalAvailble.shopList = function(){
   returnarr =[];
-  Meteor.users.find({"productId":{$elemMatch:Session.get('homeId')}}).forEach(function(el){
+  Meteor.users.find({"productId":{$all:[Session.get('homeId')]}}).forEach(function(el){
     returnarr.push({
       shopname:el.shopname,
-      distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude)
+      distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude),
+      link:'/cv/'+el.username+'/'+Session.get('homeId')
     });
   });
   returnarr.sort(function(a,b) {return (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0);} );
@@ -113,6 +114,9 @@ Template.homeProducts.rendered = function(){
   if(this.rendered==1){
     $("#loadmask").fadeOut('slow');
     this.rendered=2;
+  }
+  if(!this.rendered){
+    this.rendered = 1;
     $("#productList").scroll(function() {
       if(!window.loading && $("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
         Session.set('homeLimit',Session.get('homeLimit')*2);
@@ -120,12 +124,9 @@ Template.homeProducts.rendered = function(){
       }
     });
   }
-  if(!this.rendered)
-    this.rendered = 1;
   if(window.loading)
     window.loading = false;
   $("img.item-image").lazyload({
-    threshold : 100,
     effect : "fadeIn",
     container: $("#productList")
   });
