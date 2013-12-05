@@ -1,20 +1,20 @@
 <template name="header">
 	
 	<ul class="nav" id="headerCategories">
-		<li style:"cursor:pointer"><a href="" id="categories_a">Categories  <i class="fa fa-sort-asc"></i></a>
-			<ul>
+		<li style:"cursor:pointer" id="topLi"><span>Categories  <i class="fa fa-sort-asc"></i></span>
+			<ul id="firstLevelUl">
   			{{#each MainCatArr}}
-	  			<li><a href="">{{Main}}</a>
-	  				<ul>
+	  			<li id="firstLevelLi"><span>{{Main}}</span>
+	  				<ul id="secondLevelUl">
 	  				{{#each Sub}}
-	  					<li><a class="subCatNav" href="/{{subCatLink this}}">{{this}}</a></li>
+	  					<li id="secondLevelLi"><a class="subCatNav" href="/{{subCatLink this}}">{{this}}</a></li>
 	  				{{/each}}
 	  			    </ul>
 	  			</li>
   			{{/each}}
   			</ul>
-		</li>
-	</ul>
+  		</li>
+  	</ul>
 		<div class="navbar navbar-inner">
 		<ul class="nav">
 		<li><a href="/" class="brand">Sencillo</a></li>
