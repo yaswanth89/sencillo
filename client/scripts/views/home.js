@@ -4,23 +4,23 @@ if(navigator.geolocation){
     window.here = position;
   });
 }
-window.extending = false;
 this.Home = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
     var subCat="";
-        _.each(page,function(val){
-          if(val=="_")
-            subCat+=" ";
-          else
-            subCat+=val;
-        });
+    _.each(page,function(val){
+      if(val=="_")
+        subCat+=" ";
+      else
+        subCat+=val;
+    });
     try{
       Session.set('homeIdList',HomeId.find({}).fetch()[0].idList);
     }
     catch(e){
       Session.set('homeIdList','');
     }
+    Session.set('newProducts',true);
     Session.set("homeSub",subCat);
     Session.set("homeBrand",[]);
     Session.set("homeId",'');
@@ -57,15 +57,15 @@ Template.homeBrand.Brand = function(){
 Template.homeProducts.ProductArr = function(){
   if(_.isEmpty(Session.get('homeBrand'))){
     if(Session.get('homeIdList')=="")
-      return Products.find({"Sub":Session.get('homeSub')});
+      return Products.find({"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
     else
-      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')});
+      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
   }
   else{
     if(Session.get('homeIdList')=="")
-      return Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}});
+      return Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
     else
-      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}});
+      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
   }
 };
 Template.homeProducts.events = {
@@ -113,12 +113,14 @@ Template.homeModal.events = {
 Template.homeProducts.rendered = function(){
   if(this.rendered==1){
     $("#loadmask").fadeOut('slow');
+    Session.set('newProducts',false);
     this.rendered=2;
   }
   if(!this.rendered){
     this.rendered = 1;
     $("#productList").scroll(function() {
       if(!window.loading && $("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
+        Session.set('newProducts',true);
         Session.set('homeLimit',Session.get('homeLimit')*2);
         window.loading = true;
       }

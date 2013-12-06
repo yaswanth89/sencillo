@@ -32,3 +32,20 @@ Handlebars.registerHelper('shopRouter',function(shopname){
 	
 	return linkReturn;
 });
+Handlebars.registerHelper("stripes", function(array,options) {
+	var fn = options.fn,
+	    elseFn = options.inverse;
+  if (array && array.length > 0) {
+    var buffer = "";
+    for (var i = 0, j = array.length; i < j; i++) {
+      var item = array[i];
+      if(i % 2 != 0)
+      	item.odd = true;
+      buffer += fn(item);
+    }
+    return buffer;
+  }
+  else {
+    return elseFn();
+  }
+});
