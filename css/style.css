@@ -28,6 +28,7 @@ body,#body {
 	height:93%;
 	width:100%;
 	position: relative;
+	overflow-x:hidden;
 }
 #featuresCarousel{
 	height: 200px;

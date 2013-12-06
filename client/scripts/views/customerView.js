@@ -25,11 +25,12 @@ Template.shopInfo.shopDet = function(){
 	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	shop = loop;
   	});
+  	var GMAPS_API_KEY = 'AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc';
   	try{
-    	var latlng = new google.maps.LatLng(shop.shopLatitude, shop.shopLongitude);
+    	/*var latlng = new google.maps.LatLng(shop.shopLatitude, shop.shopLongitude);
 		var mapProp = {
 			center: latlng,
-			zoom:10,
+			zoom:14,
 			mapTypeId:google.maps.MapTypeId.ROADMAP
 		};
 		var map=new google.maps.Map(document.getElementById('googleMap'),mapProp);
@@ -38,13 +39,44 @@ Template.shopInfo.shopDet = function(){
 		    map: map,
 		    title: shop.shopname
 	  	});
-		marker.setMap(map);
+		marker.setMap(map);*/
   		return shop;
   	}
   	catch(e){
   		return null;
   	}
+
 };
+
+Template.mapCanvas.events = {
+	"click #small-map": function(e, t){
+		var small = t.find('#small-map');
+		$(small).fadeOut('slow',function(){
+			$(t.find('#large-map')).fadeIn();
+		});
+	},
+	"click #large-map": function(e, t){
+		var large = t.find('#large-map');
+		$(large).fadeOut('slow',function(){
+			$(t.find('#small-map')).fadeIn();
+		});	
+	}
+}
+
+$('#small-map').click(function(){
+	$(this).fadeOut('slow',function(){
+		$('#large-map').fadeIn();
+	});
+});
+
+Template.mapCanvas.latlng = function(){
+	var shop;
+	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
+    	shop = loop;
+  	});
+	return shop.shopLatitude+','+shop.shopLongitude; 
+}
+
 Template.ShopBrand.BrandArr = function(){
 	var productList = [];
     Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
@@ -82,15 +114,15 @@ Template.ShopProducts.ProductArr = function(){
 Template.ShopProducts.shopname = function(){
 	return window.shopUsername;
 }
-
+/*
 Template.customerView.events = {
 	"mouseenter div#cvmap-ribbon" : function(){
-		$('.cvMapDisplay').animate({left: '-0.5%'});
+		$('.cvMapDisplay').animate({left: '-1.5%'});
 	},
 	"mouseleave div.cvMapDisplay" : function(){
-		$('.cvMapDisplay').animate({left: '25.5%'})
+		$('.cvMapDisplay').animate({left: '29.5%'})
 	}
-}
+}*/
 
 Template.ShopProducts.events = {
 	"click div.show-product" : function(e,t){
@@ -98,6 +130,7 @@ Template.ShopProducts.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('shopId',id[1]);
+      App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
       $("#shopModal").css("top",$(now).position().top+250+'px').fadeIn();
       $("#cvProductList").animate({ scrollTop: $(now).position().top+"px" });
   	}
@@ -148,4 +181,5 @@ $(function(){
 		Session.set("shopSub",$(this).text());
 	});
 	console.log(window.shopProductId);
+	
 });

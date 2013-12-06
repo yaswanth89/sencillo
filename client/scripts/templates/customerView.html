@@ -14,12 +14,13 @@
       {{> shopModal}}
     </div>
     <div class="cvMapDisplay">
-      <div id='cvmap-ribbon'>SHOW MAP</div>
-      <div class="shopInfo">
-        {{> shopInfo}}
+      <!--<div id='cvmap-ribbon'>SHOW MAP</div>-->
+      <div id='shopInfo-wrapper'>
+        <div class="shopInfo">
+          {{> shopInfo}}
+        </div>
+        {{> mapCanvas}}
       </div>
-      {{> mapCanvas}}
-      
     </div>
 </template>
 
@@ -51,7 +52,9 @@
 </template>
 
 <template name='mapCanvas'>
-<div id="googleMap" style="width:300px;height:200px;float:left;margin-top:10px;display:inline;"></div>
+  <img class='gmap-static' id='small-map' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=13&size=250x150&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
+  <img class='gmap-static' id='large-map' width='450' height='300' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=16&size=450x300&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
+<!--<div id="googleMap" style="width:300px;height:200px;float:left;margin-top:10px;display:inline;"></div>-->
 </template>
 
 <template name='shopModal'>

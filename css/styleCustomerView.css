@@ -4,18 +4,35 @@
 	height:550px;
 }
 .cvProductsList {
-	width: 60%;
+	width: 58%;
 	height: 570px;
+	position: absolute;
+	left:20%;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	float: left;
+	z-index:1;
 }
 .cvMapDisplay{
 	float:right;
-	width:28%;
+	width:22%;
 	position: relative;
-	left: 25.5%;
+	left: -0.5%;
 	height: 350px;
+	z-index:4;
+}
+.gmap-static{
+	display: block;
+	margin: 0px auto;
+}
+#large-map{
+	display: none;
+}
+#shopInfo-wrapper{
+	width: 94%;
+	height: 100%;
+	background-color: white;
+	float: right;
 }
 .shopInfo, #googleMap{
 	position: relative;
@@ -26,9 +43,10 @@
 	overflow: hidden;
 	word-wrap:break-word;
 	float: left;
-	margin-right: 9px;
 	cursor: pointer;
-	border-radius: 2px;
+	background-color: #bbb;
+	padding: 14px 5px;
+	border-radius: 9px;
 }
 
 #cvBrand{

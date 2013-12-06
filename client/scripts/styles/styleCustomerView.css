@@ -1,4 +1,4 @@
-.customerView{
+/*.customerView{
 	width:100%;
 	overflow-x: hidden;
 }
@@ -24,13 +24,4 @@
 .shopInfo, #googleMap{
 	position: relative;
 	left: 23px;
-}
-#cvmap-ribbon{
-	width:14px;
-	overflow: hidden;
-	word-wrap:break-word;
-	float: left;
-	margin-right: 9px;
-	cursor: pointer;
-	border-radius: 2px;
-}
+}*/
