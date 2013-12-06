@@ -1,20 +1,28 @@
-ul.nav ul{
+ul#headerCategories ul{
 	display:none;
 }
-ul.nav li:hover>ul{
+ul#headerCategories li:hover>ul{
 	display:block;
 	height:80%;
 }
+
 #headerCategories {
 position: fixed;
 width: 15%;
 z-index: 1000;
 background-color: white;
+margin:0;
+padding:0;
 }
+#headerCategories li{
+	list-style:none;
+}
+
 #header .navbar-inner {
 padding-left: 1em;
 margin-left: 15%;
 }
+/*
 #headerCategories li {
 list-style: none;
 line-height: 40px;
@@ -44,4 +52,36 @@ margin:0;
 }
 ul#headerCategories li li a{
 	padding-left:20px;
+}
+*/
+li#topLi>span:first-child{
+	
+}
+ul#firstLevelUl {
+position: relative;
+margin: 0;
+width: 200px;
+top: 0%;
+}
+li#firstLevelLi {
+list-style: none;
+background-color: bisque;
+border-bottom: 1px solid white;
+}
+li#firstLevelLi>span:first-child{
+
+}
+ul#secondLevelUl {
+position: absolute;
+margin: 0;
+left: 100%;
+top: 0%;
+width: 200px;
+}
+li#secondLevelLi {
+list-style: none;
+background-color: aquamarine;
+}
+li#secondLevelLi>a:first-child{
+
 }
