@@ -23,7 +23,10 @@ this.Home = Backbone.View.extend({
     Session.set('newProducts',true);
     Session.set("homeSub",subCat);
     Session.set("homeBrand",[]);
-    Session.set("homeId",'');
+    if(window.homeProductId != undefined)
+      Session.set("homeId",window.homeProductId);
+    else
+      Session.set('homeId','');
     var prod_inc = 20;
     Session.setDefault('homeLimit',prod_inc);
     return this.template = Meteor.render(function(){
@@ -118,6 +121,10 @@ Template.homeProducts.rendered = function(){
   }
   if(!this.rendered){
     this.rendered = 1;
+    if(window.homeProductId != undefined){
+      Session.set("homeId",window.homeProductId);
+      $("#homeModal").css("top",'0px').fadeIn();
+    }
     $("#productList").scroll(function() {
       if(!window.loading && $("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
         Session.set('newProducts',true);

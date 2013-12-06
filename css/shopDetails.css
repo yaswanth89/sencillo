@@ -8,3 +8,17 @@
 	width:50%;
 	float: left;
 }
+
+#map-suggestions{
+	list-style-type: none;
+}
+
+#map-suggestions li{
+	cursor: pointer;
+}
+#map-suggestions li:hover{
+	background-color: rgba(0,0,0,0.4);
+}
+#map-suggestions li.active{
+	background-color: gray; 
+}
