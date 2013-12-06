@@ -2,8 +2,7 @@ ul#headerCategories ul{
 	display:none;
 }
 ul#headerCategories li:hover>ul{
-	display:block;
-	
+	display:block;	
 }
 
 #headerCategories {
@@ -75,7 +74,7 @@ box-shadow: 0 0 19px rgba(0,0,0,0.5);
 }
 li#firstLevelLi {
 list-style: none;
-width:96%;
+width:87%;
 display: block;
 padding:17px;
 color:black;

@@ -43,7 +43,7 @@ Meteor.publish("shopProductList",function(username,sub,limit){
   catch(e){
     return null;
   }
-  return Products.find({_id:{$in:idList},Sub:sub},{limit:limit});
+  return Products.find({_id:{$in:idList},Sub:sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
 });
 
 Meteor.publish('shopAddProducts',function(sub,brand,limit){
@@ -74,7 +74,7 @@ Meteor.publish('homeProductList',function(sub,limit){
 });
 
 Meteor.publish('homeProductDetail',function(id){
-  return Products.find({_id:id});
+  return Products.find({_id:id}, {fields:{'Sub':0,'Brand':0,'ProductName':0,'ModelID':0,"Image":0,'searchIndex':0}});
 });
 
 Meteor.publish("shopDetail",function(name){

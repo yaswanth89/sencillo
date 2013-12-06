@@ -71,12 +71,14 @@ Template.homeProducts.ProductArr = function(){
       return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
   }
 };
+Template.homeProducts.preserve(['.show-product']);
 Template.homeProducts.events = {
   "click div.show-product" : function(e,t){
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
+      App.router.navigate(Session.get('homeSub')+'/'+id[1], {trigger:false});
       $("#homeModal").css("top",$(now).position().top+250+'px').fadeIn();
       $("#productList").animate({ scrollTop: $(now).position().top+"px" });
   }

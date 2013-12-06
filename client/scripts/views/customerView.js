@@ -71,10 +71,14 @@ $('#small-map').click(function(){
 
 Template.mapCanvas.latlng = function(){
 	var shop;
-	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
-    	shop = loop;
-  	});
-	return shop.shopLatitude+','+shop.shopLongitude; 
+	if(window.shopUsername != undefined){
+		Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
+	    	console.log(loop);
+	    	shop = loop;
+	  	});
+	  	if(shop != undefined)
+			return shop.shopLatitude+','+shop.shopLongitude; 
+	}
 }
 
 Template.ShopBrand.BrandArr = function(){
@@ -169,6 +173,10 @@ Template.ShopProducts.rendered = function(){
 		$("#shopModal").css("top",'0px').fadeIn();
 		Session.set('shopId',window.shopProductId);
 	}
+	$("img.item-image").lazyload({
+	    effect : "fadeIn",
+	    container: $("#cvProductList")
+  });
 }
 
 
