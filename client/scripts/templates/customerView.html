@@ -66,7 +66,14 @@
           <h2>{{Brand}}</h3>
           <h4>{{ProductName}}</h5>
           <h5>{{ModelID}}</h6>
-          <img class="item-image" src="{{Image.[0]}}" />
+            <!--
+          <div id="imageModal" style="margin-bottom:2%">
+          <img src="{{Image.[0]}}">
+        </div>
+        {{#each Image}}
+        <img src="{{this}}" style="cursor:pointer;width:15%;height:15%;float:left;margin-right:1%" >
+        {{/each}}
+      -->
         </div>
       {{/each}}
       {{/isolate}}

@@ -180,6 +180,11 @@ $(function(){
 		prevNav = this;
 		Session.set("shopSub",$(this).text());
 	});
-	console.log(window.shopProductId);
+	/*
+	$('#shopModal .column img').live('click',function(){
+    var src = $(this).attr('src');
+    var html = "<img src='"+src+"'/>";
+    $('div#imageModal').html(html);
+  });*/
 	
 });
