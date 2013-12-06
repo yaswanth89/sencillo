@@ -1,8 +1,8 @@
 this.Router = Backbone.Router.extend({
 	routes:{
 		"":"default",
-		":page":"home",
-		":page/:product":"home",
+		"cv/:shop/:product": 'customerView',
+		"cv/:shop":'customerView',
 		"shopAdd": "shopAdd",
 		"shopEdit": "shopEdit",
 		"shopDetails": "shopDetails",
@@ -13,13 +13,13 @@ this.Router = Backbone.Router.extend({
 		"login":"login",
 		"admin":"admin",
 		"register": "register",
-		"cv/:shop":'customerView',
-		"cv/:shop/:product": 'customerView',
 		"shop":"shop",
 		"search/:query":"search",
 		"shop/p:page":"shopForm",
 		//"*path":"home",
-		"loggedin": "loggedin"
+		"loggedin": "loggedin",
+		":page":"home",
+		":page/:product":"home"
 	},
 	view:null,
 	page_header_sel:"#header",
@@ -54,6 +54,7 @@ this.Router = Backbone.Router.extend({
 	},
 	customerView:function(shop,product){
 		// $("#loadmask").show();
+		console.log('yay')
 		var linkReturn = "";
 		_.each(shop,function(val){
 			if(val=="_"){
@@ -96,6 +97,7 @@ this.Router = Backbone.Router.extend({
 		return this.go(Home,page);
 	},
 	default:function(){
+		console.log('its default');
 		return this.go(Default);
 	},
 	login:function(){

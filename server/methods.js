@@ -21,8 +21,7 @@ Meteor.methods({
 	},
 	addProduct: function(id){
 		 var current = [];
-		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'productId':id,'products':{'_id':id,'price':'','inStock':1,'discount':''}} });
-
+		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'productId':id,'products':{'_id':id,'price':'','inStock':1,'discount':''}}});
 	},
 	readProducts: function(username){
 		if(!username)
