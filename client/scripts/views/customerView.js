@@ -30,7 +30,7 @@ Template.shopInfo.shopDet = function(){
     	var latlng = new google.maps.LatLng(shop.shopLatitude, shop.shopLongitude);
 		var mapProp = {
 			center: latlng,
-			zoom:5,
+			zoom:10,
 			mapTypeId:google.maps.MapTypeId.ROADMAP
 		};
 		var map=new google.maps.Map(document.getElementById('googleMap'),mapProp);
@@ -82,6 +82,15 @@ Template.ShopProducts.ProductArr = function(){
 };
 Template.ShopProducts.shopname = function(){
 	return window.shopUsername;
+}
+
+Template.customerView.events = {
+	"mouseenter div#cvmap-ribbon" : function(){
+		$('.cvMapDisplay').animate({left: '-0.5%'});
+	},
+	"mouseleave div.cvMapDisplay" : function(){
+		$('.cvMapDisplay').animate({left: '25.5%'})
+	}
 }
 
 Template.ShopProducts.events = {

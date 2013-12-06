@@ -1,6 +1,6 @@
 {
   "packages": {
-    "mongodb-aggregation": {},
-    "npm": {}
+    "npm": {},
+    "mongodb-aggregation": {}
   }
 }

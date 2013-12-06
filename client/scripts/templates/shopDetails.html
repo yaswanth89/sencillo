@@ -8,6 +8,12 @@
 			<input type="text" id='shopname' value='{{shopname}}' />
 			<label>Shop Address</label>
 			<textarea id='address'>{{address}}</textarea>
+			<label>Landmark</label>
+			<input type='text' id='landmark' value='{{landmark}}'/>&nbsp;&nbsp;&nbsp;<button id='locate-landmark'>Locate the Landmark!</button>
+			<label>City</label>
+			<select id='city'><option value='Kolkata' selected>Kolkata</option></select>
+			<label>Postal Code</label>
+			<input type='text' id='pincode' value='{{pincode}}'/>
 			<label>Contact Name</label>
 			<input type="text" id='contactname' value='{{contactname}}' />
 			<label>Contact Number</label>
@@ -17,7 +23,9 @@
 	{{/with}}
 	</div>
 	<div id="editMapInfo">
-	{{>mapTemplate}}
+	<div id='suggestions-wrapper' style='display:none;'><h4>Matched Locations</h4><ul id='map-suggestions'></ul></div>
+	{{>mapTemplate}}<br>
+	<button id='getGeolocation'>Get Geolocation!</button>
 	</div>
 </template>
 

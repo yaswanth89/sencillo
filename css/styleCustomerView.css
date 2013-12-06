@@ -11,9 +11,26 @@
 	float: left;
 }
 .cvMapDisplay{
-	width:18%;
-	margin-left:2%;
+	float:right;
+	width:28%;
+	position: relative;
+	left: 25.5%;
+	height: 350px;
 }
+.shopInfo, #googleMap{
+	position: relative;
+	left: 23px;
+}
+#cvmap-ribbon{
+	width:14px;
+	overflow: hidden;
+	word-wrap:break-word;
+	float: left;
+	margin-right: 9px;
+	cursor: pointer;
+	border-radius: 2px;
+}
+
 #cvBrand{
 	width:90%;
 	height:200px;
