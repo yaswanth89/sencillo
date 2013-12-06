@@ -73,9 +73,10 @@ body,#body {
 }
 
 .item-image{
-  max-width:170px;
-  max-height:170px;
-  margin: 5px;
+  	height:130px;
+  	position: relative;
+	margin: 0px auto;
+	display: block !important;
 }
 
 .add-item{

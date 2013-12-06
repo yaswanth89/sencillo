@@ -1,8 +1,6 @@
 this.Router = Backbone.Router.extend({
 	routes:{
 		"":"default",
-		":page":"home",
-		":page/:product":"home",
 		"shopAdd": "shopAdd",
 		"shopEdit": "shopEdit",
 		"shopDetails": "shopDetails",
@@ -18,7 +16,8 @@ this.Router = Backbone.Router.extend({
 		"shop":"shop",
 		"search/:query":"search",
 		"shop/p:page":"shopForm",
-		//"*path":"home",
+		":page":"home",
+		":page/:product":"home",
 		"loggedin": "loggedin"
 	},
 	view:null,
