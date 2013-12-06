@@ -63,7 +63,6 @@ this.Router = Backbone.Router.extend({
 				linkReturn+=val;
 		});
 		window.shopUsername = linkReturn;
-		console.log(product);
 		if(product != undefined){
 			window.shopProductId = product;
 		}
