@@ -153,6 +153,7 @@ Template.shopModal.events = {
   "click a#shopCloseModal":function(e,t){
     e.preventDefault();
     $("#shopModal").fadeOut();
+    App.router.navigate('cv/'+window.shopUsername, {trigger: false});
   },
   "click a.shopNav" : function(e,t){
     e.preventDefault();
@@ -169,9 +170,10 @@ Template.ShopProducts.rendered = function(){
 	}
 	if(!this.rendered)
 		this.rendered=1;
-	if(window.shopProductId){
+	if(window.shopProductId != undefined){
 		$("#shopModal").css("top",'0px').fadeIn();
 		Session.set('shopId',window.shopProductId);
+		window.shopProductId = undefined;
 	}
 	$("img.item-image").lazyload({
 	    effect : "fadeIn",

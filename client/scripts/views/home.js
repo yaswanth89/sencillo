@@ -71,7 +71,7 @@ Template.homeProducts.ProductArr = function(){
       return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
   }
 };
-Template.homeProducts.preserve(['.show-product']);
+
 Template.homeProducts.events = {
   "click div.show-product" : function(e,t){
       e.preventDefault();
@@ -108,6 +108,7 @@ Template.homeModal.events = {
   "click a#closeModal":function(e,t){
     e.preventDefault();
     $("#homeModal").fadeOut();
+    App.router.navigate(Session.get('homeSub'),{trigger:false});
   },
   "click a.shopNav" : function(e,t){
     e.preventDefault();
@@ -126,6 +127,7 @@ Template.homeProducts.rendered = function(){
     if(window.homeProductId != undefined){
       Session.set("homeId",window.homeProductId);
       $("#homeModal").css("top",'0px').fadeIn();
+      window.homeProductId = undefined;
     }
     $("#productList").scroll(function() {
       if(!window.loading && $("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
