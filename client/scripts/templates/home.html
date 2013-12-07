@@ -47,14 +47,14 @@
 <div id="homeModal" class="hide">
     <a id="closeModal" href="#">X</a>
     {{#isolate}}
-    {{#each product}}
-      <div class="column" style="width:30%">
-        <h2>{{Brand}}</h3>
-        <h4>{{ProductName}}</h5>
-        <h5>{{ModelID}}</h6>
-        <img class="item-image" data-src="{{Image.[0]}}" />
-      </div>
-    {{/each}}
+      {{#each product}}
+        <div class="column" style="width:30%">
+          <h2>{{Brand}}</h3>
+          <h4>{{ProductName}}</h5>
+          <h5>{{ModelID}}</h6>
+          <img class="item-image" data-src="{{Image.[0]}}" />
+        </div>
+      {{/each}}
     {{/isolate}}
     <div class="column" style="width:70%">
       <ul class="nav nav-tabs" id="myTab">

@@ -68,14 +68,16 @@ $('#small-map').click(function(){
 		$('#large-map').fadeIn();
 	});
 });
-
+/*
 Template.mapCanvas.latlng = function(){
 	var shop;
-	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
-    	shop = loop;
-  	});
-	return shop.shopLatitude+','+shop.shopLongitude; 
-}
+	if(window.shopUsername != undefined){
+		Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
+	    	shop = loop;
+	  	});
+		return shop.shopLatitude+','+shop.shopLongitude; 
+	}
+}*/
 
 Template.ShopBrand.BrandArr = function(){
 	var productList = [];
@@ -169,6 +171,10 @@ Template.ShopProducts.rendered = function(){
 		$("#shopModal").css("top",'0px').fadeIn();
 		Session.set('shopId',window.shopProductId);
 	}
+	$("img.item-image").lazyload({
+	    effect : "fadeIn",
+	    container: $("#cvProductList")
+  });
 }
 
 
