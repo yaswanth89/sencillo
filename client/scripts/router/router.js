@@ -19,7 +19,7 @@ this.Router = Backbone.Router.extend({
 		//"*path":"home",
 		"loggedin": "loggedin",
 		":page":"home",
-		":page/:product":"home",
+		":page/:product":"home"
 	},
 	view:null,
 	page_header_sel:"#header",
@@ -30,7 +30,7 @@ this.Router = Backbone.Router.extend({
 		return $(this.page_header_sel).replaceWith(this.headerView.render().$el);
 	},
 	search:function(query){
-		return this.go(Home,query+" 1");
+		return this.go(Search,query);
 	},
 	dashboard:function(){
 		if(Meteor.userId()==null){

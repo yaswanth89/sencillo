@@ -3,6 +3,7 @@ this.CustomerView = Backbone.View.extend({
     	Session.set("shopSub","TV");
 	    Session.set("shopBrand",[]);
 	    Session.set('shopLimit',20);
+		Session.set('newProducts',true);
 		return this.template = Meteor.render(function(){
 			return Template.customerView();
 		});
@@ -27,20 +28,7 @@ Template.shopInfo.shopDet = function(){
   	});
   	var GMAPS_API_KEY = 'AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc';
   	try{
-    	/*var latlng = new google.maps.LatLng(shop.shopLatitude, shop.shopLongitude);
-		var mapProp = {
-			center: latlng,
-			zoom:14,
-			mapTypeId:google.maps.MapTypeId.ROADMAP
-		};
-		var map=new google.maps.Map(document.getElementById('googleMap'),mapProp);
-		var marker = new google.maps.Marker({
-		    position: latlng,
-		    map: map,
-		    title: shop.shopname
-	  	});
-		marker.setMap(map);*/
-  		return shop;
+		return shop;
   	}
   	catch(e){
   		return null;
@@ -111,22 +99,13 @@ Template.ShopProducts.ProductArr = function(){
   	if(_.isEmpty(productList))
   		return null;
   	if(_.isEmpty(Session.get("shopBrand")))
-  		return Products.find({_id:{$in:productList},'Sub':Session.get('shopSub')});
+  		return Products.find({_id:{$in:productList},'Sub':Session.get('shopSub')},{reactive:Session.get('newProducts')});
   	else	
-		return Products.find({_id:{$in:productList},'Sub':Session.get('shopSub'),'Brand':{$in:Session.get("shopBrand")}});
+		return Products.find({_id:{$in:productList},'Sub':Session.get('shopSub'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')});
 };
 Template.ShopProducts.shopname = function(){
 	return window.shopUsername;
 }
-/*
-Template.customerView.events = {
-	"mouseenter div#cvmap-ribbon" : function(){
-		$('.cvMapDisplay').animate({left: '-1.5%'});
-	},
-	"mouseleave div.cvMapDisplay" : function(){
-		$('.cvMapDisplay').animate({left: '29.5%'})
-	}
-}*/
 
 Template.ShopProducts.events = {
 	"click div.show-product" : function(e,t){
@@ -134,6 +113,7 @@ Template.ShopProducts.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('shopId',id[1]);
+      Session.set('newProducts',false);
       App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
       $("#shopModal").css("top",$(now).position().top+250+'px').fadeIn();
       $("#cvProductList").animate({ scrollTop: $(now).position().top+"px" });
@@ -180,8 +160,6 @@ Template.ShopProducts.rendered = function(){
 	    container: $("#cvProductList")
   });
 }
-
-
 $(function(){
 	prevNav = {};
 	$('#subCat').live('click',function(e){
@@ -190,6 +168,4 @@ $(function(){
 		prevNav = this;
 		Session.set("shopSub",$(this).text());
 	});
-	console.log(window.shopProductId);
-	
 });

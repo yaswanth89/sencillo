@@ -1,21 +1,20 @@
-<template name="home">
-  {{> homeView}}
+<template name="search">
+  {{> searchView}}
 </template>
 
-<template name="homeView">
-  <div id="homeContainer">
-    <div id="homeFilter">
-      {{> homeBrand}}
-      {{> homeDistanceFilter}}
+<template name="searchView">
+  <div id="searchContainer">
+    <div id="searchFilter">
+      {{> searchBrand}}
     </div>
-    <div class="" id="productList">
-      {{> homeProducts}}
-      {{> homeModal}}
+    <div class="" id="searchProductList">
+      {{> searchProducts}}
+      {{> searchModal}}
     </div>    
   </div>    
 </template>
 
-<template name="homeBrand">
+<template name="searchBrand">
   <p>
     <span>Brands : </span>
     <ul>
@@ -28,18 +27,7 @@
   </p>
 </template>
 
-<template name='homeDistanceFilter'>
-  <div>
-    <h5>Distance within:</h5>
-    <ul style='list-style-type:none;'>
-      <li><input type='radio' name='distanceFilter' value='5' />5 km</li>
-      <li><input type='radio' name='distanceFilter' value='10' />10 km</li>
-      <li><input type='radio' name='distanceFilter' value='15' />15 km</li>
-    </ul>
-  </div>
-</template>
-
-<template name="homeProducts">
+<template name="searchProducts">
   <div class="products-list">
   {{#isolate}}
    {{#each ProductArr}}
@@ -55,8 +43,8 @@
   </div>
 </template>
 
-<template name='homeModal'>
-<div id="homeModal" class="hide">
+<template name='searchModal'>
+<div id="searchModal" class="hide">
     <a id="closeModal" href="#">X</a>
     {{#isolate}}
     {{#each product}}
@@ -76,19 +64,19 @@
       </ul>
       <div class="tab-content">
       {{#isolate}}
-        {{> homeModalOverview}}
+        {{> searchModalOverview}}
       {{/isolate}}
       {{#isolate}}
-        {{> homeModalSpec}}
+        {{> searchModalSpec}}
       {{/isolate}}
       {{#isolate}}
-        {{> homeModalAvailble}}
+        {{> searchModalAvailble}}
       {{/isolate}}
       </div>
     </div>
 </div>
 </template>
-<template name="homeModalOverview">
+<template name="searchModalOverview">
   <div class="tab-pane active" id="overview">
   {{#each productOverview}} 
     <p class="lead">{{overviewPara}}</p>
@@ -104,7 +92,7 @@
   {{/each}}
   </div>
 </template>
-<template name="homeModalSpec">
+<template name="searchModalSpec">
   <div class="tab-pane" id="techSpec">
     <table class="table">
     {{#each productSpec}}
@@ -124,7 +112,7 @@
     </table>
   </div>
 </template>
-<template name="homeModalAvailble">
+<template name="searchModalAvailble">
   <div class="tab-pane" id="availableShop">
     <table class="table">
       <tr>

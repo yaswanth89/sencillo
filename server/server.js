@@ -80,3 +80,9 @@ Meteor.publish('homeProductDetail',function(id){
 Meteor.publish("shopDetail",function(name){
   return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1}});
 });
+
+Meteor.publish("searchQuery",function(query,limit){
+  var idList = HomeId.find({}).fetch()[0].idList;
+  return Products.find({_id:{$in:idList},"searchIndex": {$regex: query}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+})
+

@@ -45,15 +45,19 @@ Deps.autorun(function(){
 });
 
 Template.homeBrand.Brand = function(){
-  if(Session.get('homeIdList')=="")
+  /*if(Session.get('homeIdList')=="")
       retBrand = Products.find({},{fields:{'_id':0,"Brand":1}}).fetch();
     else
       retBrand = Products.find({"_id":{$in:Session.get('homeIdList')}},{fields:{'_id':0,"Brand":1}}).fetch();
   var tempAr=[];
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
+  });*/
+  Meteor.call("getBrands",{Sub:Session.get("homeSub")},true,function(e,r){
+    console.log(r);
+    Session.set('homeBrandArray',r);
   });
-  return _.uniq(tempAr);
+  return Session.get('homeBrandArray');
 };
 
 
@@ -97,7 +101,6 @@ Template.homeProducts.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      App.router.navigate(Session.get('homeSub')+'/'+id[1], {trigger:false});
       $("#homeModal").css("top",$(now).position().top+250+'px').fadeIn();
       $("#productList").animate({ scrollTop: $(now).position().top+"px" });
   }

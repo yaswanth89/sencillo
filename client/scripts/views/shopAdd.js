@@ -29,15 +29,9 @@ Template.shopAddFilter.MainCatArr = function(){
 };
 
 Template.shopAddFilter.Brand=function(){
-  if(_.isEmpty(Session.get('shopAddBrand'))){
-    var retBrand = Products.find({"Sub":Session.get('subForBrand')},{fields:{'_id':0,"Brand":1}}).fetch();
-    var tempAr=[];
-    _.each(retBrand,function(obj){
-      tempAr.push(obj.Brand);
-    });
-    Session.set('brandList',_.uniq(tempAr))
-    return _.uniq(tempAr);
-  }
+  Meteor.call("getBrands",{Sub:Session.get("subForBrand")},false,function(e,r){
+    Session.set('brandList',r);
+  });
   return Session.get('brandList');
 };
 /*
