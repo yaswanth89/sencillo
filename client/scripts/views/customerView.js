@@ -68,16 +68,18 @@ $('#small-map').click(function(){
 		$('#large-map').fadeIn();
 	});
 });
-/*
+
 Template.mapCanvas.latlng = function(){
 	var shop;
 	if(window.shopUsername != undefined){
 		Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
+	    	console.log(loop);
 	    	shop = loop;
 	  	});
-		return shop.shopLatitude+','+shop.shopLongitude; 
+	  	if(shop != undefined)
+			return shop.shopLatitude+','+shop.shopLongitude; 
 	}
-}*/
+}
 
 Template.ShopBrand.BrandArr = function(){
 	var productList = [];
