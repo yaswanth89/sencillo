@@ -143,6 +143,7 @@ Template.homeProducts.rendered = function(){
   });
 };
 $(function(){
+  var scrolled=0;
   $('#homeFilter input').live('change',function(){
     var brandSel = $('#homeFilter input:checkbox:checked').map(function(){
       return $(this).val()
@@ -154,4 +155,19 @@ $(function(){
     var html = "<img src='"+src+"'/>";
     $('div#imageModal').html(html);
   });
+  $('#thumbLeft').live('click',function(){
+    scrolled=scrolled-200;
+    if(scrolled<0)
+      scrolled=0;
+    $('#thumbSlider').scrollLeft(scrolled);
+  });
+  $('#thumbRight').live('click',function(){
+    scrolled=scrolled+200;
+    max = $("#thumbSlider")[0].scrollWidth - $("#thumbSlider").width();
+    if(scrolled > max)
+      scrolled=max;
+    $('#thumbSlider').scrollLeft(scrolled);
+    
+  });
+
 });
