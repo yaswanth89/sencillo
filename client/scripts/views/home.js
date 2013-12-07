@@ -45,44 +45,74 @@ Deps.autorun(function(){
 });
 
 Template.homeBrand.Brand = function(){
-  if(Session.get('homeIdList')=="")
+  /*if(Session.get('homeIdList')=="")
       retBrand = Products.find({},{fields:{'_id':0,"Brand":1}}).fetch();
     else
       retBrand = Products.find({"_id":{$in:Session.get('homeIdList')}},{fields:{'_id':0,"Brand":1}}).fetch();
   var tempAr=[];
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
+  });*/
+  Meteor.call("getBrands",{Sub:Session.get("homeSub")},true,function(e,r){
+    console.log(r);
+    Session.set('homeBrandArray',r);
   });
-  return _.uniq(tempAr);
+  return Session.get('homeBrandArray');
 };
 
 
 Template.homeProducts.ProductArr = function(){
   if(_.isEmpty(Session.get('homeBrand'))){
+    if(Session.get('distanceFilter') != undefined && Session.get('distanceFilter') != ""){
+      var withinProducts = [];
+      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
+        console.log(obj);
+        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
+          withinProducts = _.union(withinProducts,obj.productId);
+        }
+      });
+      return Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub')},{reactive: Session.get('newProducts')});
+    }
     if(Session.get('homeIdList')=="")
       return Products.find({"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
     else
       return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
-  }
-  else{
+  }else{
+    if(Session.get('distanceFilter') != undefined && Session.get('distanceFilter') != ""){
+      var withinProducts = [];
+      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
+        console.log(obj);
+        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
+          withinProducts = _.union(withinProducts,obj.productId);
+        }
+      });
+      return Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub'), "Brand":{$in:Session.get('homeBrand')}},{reactive: Session.get('newProducts')});
+    }
     if(Session.get('homeIdList')=="")
       return Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
     else
       return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
   }
 };
-Template.homeProducts.preserve(['.show-product']);
+
 Template.homeProducts.events = {
   "click div.show-product" : function(e,t){
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      App.router.navigate(Session.get('homeSub')+'/'+id[1], {trigger:false});
       $("#homeModal").css("top",$(now).position().top+250+'px').fadeIn();
       $("#productList").animate({ scrollTop: $(now).position().top+"px" });
   }
+}
+Template.homeDistanceFilter.events = {
+  "change input[name='distanceFilter']" : function(e, t){
+    var now = e.currentTarget.value;
+    console.log('distance filter is '+now);
+    Session.set('distanceFilter',now);
   }
+}
+
 Template.homeModal.product = function(){
   return Products.find({_id:Session.get('homeId')});
 };
@@ -108,6 +138,7 @@ Template.homeModal.events = {
   "click a#closeModal":function(e,t){
     e.preventDefault();
     $("#homeModal").fadeOut();
+    App.router.navigate(Session.get('homeSub'),{trigger:false});
   },
   "click a.shopNav" : function(e,t){
     e.preventDefault();
@@ -126,6 +157,7 @@ Template.homeProducts.rendered = function(){
     if(window.homeProductId != undefined){
       Session.set("homeId",window.homeProductId);
       $("#homeModal").css("top",'0px').fadeIn();
+      window.homeProductId = undefined;
     }
     $("#productList").scroll(function() {
       if(!window.loading && $("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
