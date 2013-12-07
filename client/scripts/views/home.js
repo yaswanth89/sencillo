@@ -59,12 +59,31 @@ Template.homeBrand.Brand = function(){
 
 Template.homeProducts.ProductArr = function(){
   if(_.isEmpty(Session.get('homeBrand'))){
+    if(Session.get('distanceFilter') != undefined && Session.get('distanceFilter') != ""){
+      var withinProducts = [];
+      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
+        console.log(obj);
+        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
+          withinProducts = _.union(withinProducts,obj.productId);
+        }
+      });
+      return Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub')},{reactive: Session.get('newProducts')});
+    }
     if(Session.get('homeIdList')=="")
       return Products.find({"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
     else
       return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
-  }
-  else{
+  }else{
+    if(Session.get('distanceFilter') != undefined && Session.get('distanceFilter') != ""){
+      var withinProducts = [];
+      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
+        console.log(obj);
+        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
+          withinProducts = _.union(withinProducts,obj.productId);
+        }
+      });
+      return Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub'), "Brand":{$in:Session.get('homeBrand')}},{reactive: Session.get('newProducts')});
+    }
     if(Session.get('homeIdList')=="")
       return Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
     else
@@ -82,7 +101,15 @@ Template.homeProducts.events = {
       $("#homeModal").css("top",$(now).position().top+250+'px').fadeIn();
       $("#productList").animate({ scrollTop: $(now).position().top+"px" });
   }
+}
+Template.homeDistanceFilter.events = {
+  "change input[name='distanceFilter']" : function(e, t){
+    var now = e.currentTarget.value;
+    console.log('distance filter is '+now);
+    Session.set('distanceFilter',now);
   }
+}
+
 Template.homeModal.product = function(){
   return Products.find({_id:Session.get('homeId')});
 };

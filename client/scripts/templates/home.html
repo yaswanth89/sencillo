@@ -6,6 +6,7 @@
   <div id="homeContainer">
     <div id="homeFilter">
       {{> homeBrand}}
+      {{> homeDistanceFilter}}
     </div>
     <div class="" id="productList">
       {{> homeProducts}}
@@ -25,6 +26,17 @@
       {{/isolate}}
     </ul>
   </p>
+</template>
+
+<template name='homeDistanceFilter'>
+  <div>
+    <h5>Distance within:</h5>
+    <ul style='list-style-type:none;'>
+      <li><input type='radio' name='distanceFilter' value='5' />5 km</li>
+      <li><input type='radio' name='distanceFilter' value='10' />10 km</li>
+      <li><input type='radio' name='distanceFilter' value='15' />15 km</li>
+    </ul>
+  </div>
 </template>
 
 <template name="homeProducts">
