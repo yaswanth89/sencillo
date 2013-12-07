@@ -1,8 +1,7 @@
 this.Search = Backbone.View.extend({
 	template:null,
 	initialize:function(query){
-    console.log(query);
-    queryString = query.replace(/ /g,"|");
+    queryString = decodeURIComponent(query).replace(/ /g,"|");
     window.queryString = new RegExp("\\b("+queryString+")\\b",'i');
     Session.setDefault('searchLimit',20);
     try{
