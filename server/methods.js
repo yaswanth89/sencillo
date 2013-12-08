@@ -15,22 +15,6 @@ Meteor.methods({
 		var matched = Products.find({"searchIndex": {$regex: re}},{sort: {Model: 1}}).fetch();
 		return matched;
 	},
-	getBrands:function(query,av){
-		if(av){
-			var idList = HomeId.find({}).fetch()[0].idList;
-			query._id={$in:idList};
-		}
-		else{
-			idList = Meteor.user().productId;
-			query._id={$nin:idList};
-		}
-		brands=[];
-		Products.find(query,{fields:{"Brand":1}}).forEach(function(e){
-			if (brands.indexOf(e.Brand) == -1)
-				brands.push(e.Brand);
-		});
-		return brands;
-	},
 	getUser: function(){
 		var details = Meteor.users.findOne({'_id': Meteor.userId()});
 		return details;

@@ -3,7 +3,7 @@
 FrameData = new Meteor.Collection("framedata");
 //ProductData = new Meteor.Collection("productdata");
 Products = new Meteor.Collection('Products');
-
+Brands = new Meteor.Collection('Brands');
 /*Meteor.publish("framedata",function(){
 	return FrameData.find();
 });
