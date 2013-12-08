@@ -42,6 +42,7 @@ Deps.autorun(function(){
     Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'));
     Meteor.subscribe('homeProductDetail',Session.get('homeId'));
     Meteor.subscribe('homeId');
+    Meteor.subscribe('homeBrand', Session.get('homeSub'));
 });
 
 Template.homeBrand.Brand = function(){
@@ -53,11 +54,12 @@ Template.homeBrand.Brand = function(){
   _.each(retBrand,function(obj){
     tempAr.push(obj.Brand);
   });*/
-  Meteor.call("getBrands",{Sub:Session.get("homeSub")},true,function(e,r){
-    console.log(r);
-    Session.set('homeBrandArray',r);
-  });
-  return Session.get('homeBrandArray');
+  try{
+    return Brands.findOne({"view":"home","Sub":Session.get('homeSub')}).list;
+  }
+  catch(e){
+    return null;
+  }
 };
 
 

@@ -23,5 +23,41 @@ Template.login.events={
 				}
 			}
 		);	
+	},
+	'click #loginWithFB': function(){
+		Meteor.loginWithFacebook({ requestPermissions: ['email','user_likes']},
+		function (error) {
+		    if (error) {
+		        return console.log(error);
+		    }else{
+		    	Meteor.call('getAccessToken',function(err, result){
+		    		console.log(result);
+		    	});
+		    	App.router.navigate('', {trigger:true});
+		    }
+		});
+	},
+	"click #loginWithGoogle": function(){
+		Meteor.loginWithGoogle({ requestPermissions: ['https://maps.google.com/maps/feeds/','https://www.google.com/m8/feeds/'] }, function(error){
+			if(error){
+				return console.log(error);
+			}else{
+				Meteor.call('getAccessToken',function(err,result){
+					console.log(result);
+					/*var url = "https://maps.google.com/maps/feeds/maps/default/full";
+				    var params = {
+				      access_token: result
+				    };
+				    var p;
+				    Meteor.http.get(url, {params: params}, function (err, result) {
+				        //console.log(result.statusCode, result.data);
+				        //var retdata =  result.data;
+				        if(err) Session.set('res',err);
+				        else Session.set('res',result);
+				    });*/
+				});
+				App.router.navigate('', {trigger:true});
+			}
+		});
 	}
 };

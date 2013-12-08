@@ -17,6 +17,7 @@ Deps.autorun(function(){
     Meteor.subscribe('shopProductList',window.shopUsername,Session.get('shopSub'),Session.get('shopLimit'));
     Meteor.subscribe('homeProductDetail',Session.get('shopId'));
     Meteor.subscribe('shopDetail',window.shopUsername);
+    Meteor.subscribe("shopBrand",window.shopUsername,Session.get('shopSub'))
 });
 Template.ShopMainCat.MainCatArr = function(){
 	return FrameDetail.find({});
@@ -70,18 +71,12 @@ Template.mapCanvas.latlng = function(){
 }
 
 Template.ShopBrand.BrandArr = function(){
-	var productList = [];
-    Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
-    	productList = loop.productId;
-  	});
-  	if(_.isEmpty(productList))
-  		return null;
-    retBrand = Products.find({"_id":{$in:productList}, "Sub":Session.get('shopSub')},{fields:{'_id':0,"Brand":1}}).fetch();
-	var tempAr=[];
-	_.each(retBrand,function(obj){
-	tempAr.push(obj.Brand);
-	});
-	return _.uniq(tempAr);
+	try{
+    return Brands.findOne({"shopid":window.shopUsername,"Sub":Session.get('shopSub')}).list;
+  }
+  catch(e){
+    return null;
+  }
 };
 
 Template.ShopBrand.events = {

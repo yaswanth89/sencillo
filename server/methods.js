@@ -21,8 +21,12 @@ Meteor.methods({
 			query._id={$in:idList};
 		}
 		else{
-			idList = Meteor.user().productId;
-			query._id={$nin:idList};
+			try{
+				idList = Meteor.user().productId;
+				query._id={$nin:idList};
+			}catch(e){
+				return null;
+			}
 		}
 		brands=[];
 		Products.find(query,{fields:{"Brand":1}}).forEach(function(e){
@@ -31,6 +35,14 @@ Meteor.methods({
 		});
 		return brands;
 	},
+	getAccessToken : function() {
+	    try {
+	    	
+	      	return Meteor.user().services.google.accessToken;
+	    } catch(e) { 
+	      return null;
+	    }
+  	},
 	getUser: function(){
 		var details = Meteor.users.findOne({'_id': Meteor.userId()});
 		return details;
