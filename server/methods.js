@@ -15,6 +15,34 @@ Meteor.methods({
 		var matched = Products.find({"searchIndex": {$regex: re}},{sort: {Model: 1}}).fetch();
 		return matched;
 	},
+	getBrands:function(query,av){
+		if(av){
+			var idList = HomeId.find({}).fetch()[0].idList;
+			query._id={$in:idList};
+		}
+		else{
+			try{
+				idList = Meteor.user().productId;
+				query._id={$nin:idList};
+			}catch(e){
+				return null;
+			}
+		}
+		brands=[];
+		Products.find(query,{fields:{"Brand":1}}).forEach(function(e){
+			if (brands.indexOf(e.Brand) == -1)
+				brands.push(e.Brand);
+		});
+		return brands;
+	},
+	getAccessToken : function() {
+	    try {
+	    	
+	      	return Meteor.user().services.google.accessToken;
+	    } catch(e) { 
+	      return null;
+	    }
+  	},
 	getUser: function(){
 		var details = Meteor.users.findOne({'_id': Meteor.userId()});
 		return details;
