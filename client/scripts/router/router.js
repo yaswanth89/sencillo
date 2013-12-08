@@ -3,6 +3,7 @@ this.Router = Backbone.Router.extend({
 		"":"default",
 		"cv/:shop/:product": 'customerView',
 		"cv/:shop":'customerView',
+		"mapView": "mapView",
 		"shopAdd": "shopAdd",
 		"shopEdit": "shopEdit",
 		"shopDetails": "shopDetails",
@@ -31,6 +32,9 @@ this.Router = Backbone.Router.extend({
 	},
 	search:function(query){
 		return this.go(Search,query);
+	},
+	mapView:function(){
+		return this.go(mapView);
 	},
 	dashboard:function(){
 		if(Meteor.userId()==null){

@@ -10,6 +10,8 @@ this.HeaderView = Backbone.View.extend({
 					Meteor.logout(function(err){
 						if(!err)
 							return App.router.navigate('login',{trigger:true});
+						else
+							alert('error')
 					});
 				else
 					App.router.aReplace(e);
