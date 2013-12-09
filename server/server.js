@@ -27,59 +27,59 @@ Accounts.onCreateUser(function(options, user) {
 
 Meteor.startup(function(){
   //console.log("hello");
-  // var tempId=[];
-  // var showId = Meteor.users.find({"usertype":"shop"},{fields:{productId:1,"username":1}}).forEach(function(loop){
-  //   brands={};
-  //   idList = loop.productId;
-  //   Products.find({"_id":{$in:loop.productId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(f){
-  //     if(brands[f.Sub] == undefined)
-  //       brands[f.Sub] = [];
-  //     if(brands[f.Sub].indexOf(f.Brand) == -1)
-  //       brands[f.Sub].push(f.Brand);
-  //   });
-  //   _.each(brands,function(key, val){
-  //     Brands.upsert({'shopid':loop.username,'Sub':val},{$set:{"list":key}});
-  //   });
-  //   tempId = _.union(tempId,loop.productId); 
-  // });
-  // z = _.filter(tempId,function(e){
-  //   y = Prices.find({productId:e,price:{$gt:0}},{fields:{"price":1}});
-  //   // console.log(y.count());
-  //   if(y.count()>0)
-  //     return true;
-  //   else
-  //     return false;
-  // });
-  // HomeId.update({},{'idList':z});
-  // brands={};
-  // Products.find({"_id":{$in:tempId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(e){
-  //   if(brands[e.Sub] == undefined)
-  //     brands[e.Sub] = [];
-  //   if(brands[e.Sub].indexOf(e.Brand) == -1)
-  //     brands[e.Sub].push(e.Brand);
-  // });
-  // _.each(brands,function(key, val){
-  //   Brands.upsert({'view':'home','Sub':val},{$set:{"list":key}});
-  // });
-  // console.log('updated!');
-  // //console.log(HomeId.find({}).fetch());
-  // Accounts.loginServiceConfiguration.remove({
-  //   service: "facebook"
-  // });
-  // Accounts.loginServiceConfiguration.insert({
-  //     service: "facebook",
-  //     appId: "235209203307648",
-  //     secret: "f63f6828077adcbc8d2bc6dea5df89e7"
-  // });
+  var tempId=[];
+  var showId = Meteor.users.find({"usertype":"shop"},{fields:{productId:1,"username":1}}).forEach(function(loop){
+    brands={};
+    idList = loop.productId;
+    Products.find({"_id":{$in:loop.productId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(f){
+      if(brands[f.Sub] == undefined)
+        brands[f.Sub] = [];
+      if(brands[f.Sub].indexOf(f.Brand) == -1)
+        brands[f.Sub].push(f.Brand);
+    });
+    _.each(brands,function(key, val){
+      Brands.upsert({'shopid':loop.username,'Sub':val},{$set:{"list":key}});
+    });
+    tempId = _.union(tempId,loop.productId); 
+  });
+  z = _.filter(tempId,function(e){
+    y = Prices.find({productId:e,price:{$gt:0}},{fields:{"price":1}});
+    // console.log(y.count());
+    if(y.count()>0)
+      return true;
+    else
+      return false;
+  });
+  HomeId.update({},{'idList':z});
+  brands={};
+  Products.find({"_id":{$in:tempId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(e){
+    if(brands[e.Sub] == undefined)
+      brands[e.Sub] = [];
+    if(brands[e.Sub].indexOf(e.Brand) == -1)
+      brands[e.Sub].push(e.Brand);
+  });
+  _.each(brands,function(key, val){
+    Brands.upsert({'view':'home','Sub':val},{$set:{"list":key}});
+  });
+  console.log('updated!');
+  //console.log(HomeId.find({}).fetch());
+  Accounts.loginServiceConfiguration.remove({
+    service: "facebook"
+  });
+  Accounts.loginServiceConfiguration.insert({
+      service: "facebook",
+      appId: "235209203307648",
+      secret: "f63f6828077adcbc8d2bc6dea5df89e7"
+  });
 
-  // Accounts.loginServiceConfiguration.remove({
-  //   service: "google"
-  // });
-  // Accounts.loginServiceConfiguration.insert({
-  //     service: "google",
-  //     clientId: "621240889350-a0a86bjqp5fbn9f2l6ea4tj280m01kib.apps.googleusercontent.com",
-  //     secret: "azehiKgpz3hkOqG4zd6gd3lj"
-  // }); 
+  Accounts.loginServiceConfiguration.remove({
+    service: "google"
+  });
+  Accounts.loginServiceConfiguration.insert({
+      service: "google",
+      clientId: "621240889350-a0a86bjqp5fbn9f2l6ea4tj280m01kib.apps.googleusercontent.com",
+      secret: "azehiKgpz3hkOqG4zd6gd3lj"
+  }); 
 });
 
 
@@ -139,7 +139,7 @@ Meteor.publish('homeProductList',function(sub,limit){
   var blah = [];
   x = Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
   _.each(x.fetch(),function(e){
-    y = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"_id":1,"price":1},sort:{price:1}});
+    y = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"_id":1,"price":1},sort:{price:1},limit:1});
     blah.push(y.fetch()[0]._id);
   });
   return [x,Prices.find({_id:{$in:blah}},{fields:{"productId":1,"price":1}})];

@@ -212,7 +212,7 @@ $(function(){
 function addLeastPrice(x){
   _.each(x,function(e) {
     console.log(e._id);
-    z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1}});
+    z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
     if(z.count()>0)
       e.leastPrice =  z.fetch()[0].price;
   });
