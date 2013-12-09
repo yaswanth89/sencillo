@@ -28,10 +28,32 @@ Accounts.onCreateUser(function(options, user) {
 Meteor.startup(function(){
   //console.log("hello");
   var tempId=[];
-  var showId = Meteor.users.find({"usertype":"shop"},{fields:{productId:1}}).forEach(function(loop){
+  var showId = Meteor.users.find({"usertype":"shop"},{fields:{productId:1,"username":1}}).forEach(function(loop){
+    brands={};
+    idList = loop.productId;
+    Products.find({"_id":{$in:loop.productId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(f){
+      if(brands[f.Sub] == undefined)
+        brands[f.Sub] = [];
+      if(brands[f.Sub].indexOf(f.Brand) == -1)
+        brands[f.Sub].push(f.Brand);
+    });
+    _.each(brands,function(key, val){
+      Brands.upsert({'shopid':loop.username,'Sub':val},{$set:{"list":key}});
+    });
     tempId = _.union(tempId,loop.productId); 
   });
   HomeId.update({},{'idList':tempId});
+  brands={};
+  Products.find({"_id":{$in:tempId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(e){
+    if(brands[e.Sub] == undefined)
+      brands[e.Sub] = [];
+    if(brands[e.Sub].indexOf(e.Brand) == -1)
+      brands[e.Sub].push(e.Brand);
+  });
+  _.each(brands,function(key, val){
+    Brands.upsert({'view':'home','Sub':val},{$set:{"list":key}});
+  });
+  console.log('updated!');
   //console.log(HomeId.find({}).fetch());
   Accounts.loginServiceConfiguration.remove({
     service: "facebook"
@@ -119,4 +141,9 @@ Meteor.publish("searchQuery",function(query,limit){
     return null;
   }
 })
-
+Meteor.publish("homeBrand",function(sub){
+  return Brands.find({"view":"home","Sub":sub},{fields:{"list":1,"view":1,"Sub":1}});
+});
+Meteor.publish("shopBrand",function(shopname,sub){
+  return Brands.find({"shopid":shopname, "Sub":sub},{fields:{"list":1, "shopid":1, "Sub":1}});
+});
