@@ -26,20 +26,16 @@ Template.mapView.rendered = function(){
 	var info;
 	
 
-	findShopsWithin(new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude), 5);
+	findShopsWithin(new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude), 5000);
 
 	function findShopsWithin(center, radius){
 		var shopsWithin = [];
 		console.log(Meteor.users.find({'usertype':'shop'}).count());
-		var clean=true;
 		Meteor.users.find({'usertype':'shop'}).forEach(function(obj){
 			if(findDistance(center.lat(),center.lng(),obj.shopLatitude,obj.shopLongitude) < radius/1000){
 				shopsWithin.push(obj);
 				console.log(obj);
-				if(clean)
-					console.log('cleaning...');
-				placeMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.shopname ,map, 13, clean);
-				clean = false;
+				placeMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.shopname ,map, 13, false);
 			}
 		});
 	}
@@ -48,8 +44,7 @@ Template.mapView.rendered = function(){
 	  strokeColor: '#FF0000',
 	  strokeOpacity: 0.8,
 	  strokeWeight: 2,
-	  fillColor: '#FF0000',
-	  fillOpacity: 0.3,
+	  fillOpacity: 0,
 	  map: map,
 	  center: myLatLng,
 	  radius: 5000,
@@ -61,8 +56,14 @@ Template.mapView.rendered = function(){
 	
 	
   	google.maps.event.addListener(ProximityCircle, 'radius_changed', function(event) {
-  		console.log(ProximityCircle.getCenter());
+  		deleteMarkers();
+  		//console.log(ProximityCircle.getCenter());
 		findShopsWithin(ProximityCircle.getCenter(), ProximityCircle.getRadius());
+	});
+	google.maps.event.addListener(ProximityCircle, 'dragend', function(event) {
+  		deleteMarkers();
+  		//console.log(ProximityCircle.getCenter());
+		setTimeout(findShopsWithin(ProximityCircle.getCenter(), ProximityCircle.getRadius()), 1000);
 	});
 	
 	/*google.maps.event.addListener(map, 'zoom_changed', function() {
