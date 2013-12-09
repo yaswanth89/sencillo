@@ -3,21 +3,71 @@
 <template name="shopDetails">
 	<div id="editShopInfo">
 	{{#with details}}
-		<form id='shopdetails'>
-			<label>Shop Name</label>
-			<input type="text" id='shopname' value='{{shopname}}' />
-			<label>Shop Address</label>
-			<textarea id='address'>{{address}}</textarea>
-			<label>Landmark</label>
-			<input type='text' id='landmark' value='{{landmark}}'/>&nbsp;&nbsp;&nbsp;<button id='locate-landmark'>Locate the Landmark!</button>
-			<label>City</label>
-			<select id='city'><option value='Kolkata' selected>Kolkata</option></select>
-			<label>Postal Code</label>
-			<input type='text' id='pincode' value='{{pincode}}'/>
-			<label>Contact Name</label>
-			<input type="text" id='contactname' value='{{contactname}}' />
-			<label>Contact Number</label>
-			<input type="text" id='contactnum' value='{{contactnum}}' /><br>
+		<form id='shopdetails' class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label">Shop Name</label>
+				<div class="controls">
+					<input type="text" id='shopname' value='{{shopname}}' />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Shop Address</label>
+				<div class="controls">
+					<textarea id='address'>{{address}}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Landmark</label>
+				<div class="controls">
+					<input type='text' id='landmark' value='{{landmark}}'/>&nbsp;&nbsp;&nbsp;<button id='locate-landmark'>Locate the Landmark!</button>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">City</label>
+				<div class="controls">
+					<select id='city'><option value='Kolkata' selected>Kolkata</option></select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Postal Code</label>
+				<div class="controls">
+					<input type='text' id='pincode' value='{{pincode}}'/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Contact Name</label>
+				<div class="controls">
+					<input type="text" id='contactname' value='{{contactname}}' />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Mode of Payments available</label>
+				<div class="controls">
+					<input type="checkbox" name="payments" value="debit" /> Debit Card
+					<input type="checkbox" name="payments" value="credit" /> Credit Card
+					<input type="checkbox" name="payments" value="cheque" /> Cheque
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Emi Option</label>
+				<div class="controls">
+					<input type="radio" name="emi" value="yes" /> Yes
+					<input type="radio" name="emi" value="no" /> No
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Shop Timmings</label>
+				<div class="controls">
+					<input type="time" name="openHour" value="{{openHour}}" /> <br /> to <br/> 
+					<input type="time" name="closeHour" value="{{closeHour}}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Contact Number</label>
+				<div class="controls">
+					<input type="text" id='contactnum' value='{{contactnum}}' /><br>
+				</div>
+			</div>
 			<input type='submit' class='btn btn-primary' value='Save Changes' />
 		</form>
 	{{/with}}

@@ -25,7 +25,41 @@ Template.shopDetails.details = function(){
 Template.shopDetails.events = {
 	'submit #shopdetails': function(e, t){
 		e.preventDefault();
-		var details = {'shopname': t.find('#shopname').value, 'address': t.find('#address').value, 'landmark': t.find('#landmark').value, 'city': t.find('#city').value , 'pincode': t.find('#pincode').value,'contactname': t.find('#contactname').value, 'contactnum': t.find('#contactnum').value, 'shopLatitude': Session.get('selected').selectLatitude, 'shopLongitude': Session.get('selected').selectLongitude};
+		var c = $("#shopdetails").serializeArray();
+		payments=[];
+		emi="no";
+		openHour="";
+		closeHour="";
+		console.log(c);
+		_.each(c,function(el, index) {
+			if(el.name=="payments")
+				payments.push(el.value);
+			if(el.name=="emi"){
+				if(el.value = "yes")
+					emi=true;
+				else
+					emi=false;
+			}
+			if(el.name=="openHour")
+				openHour = el.value;
+			if(el.name=="closeHour")
+				closeHour = el.value;
+		});
+		var details = {
+			'shopname': t.find('#shopname').value,
+			'address': t.find('#address').value,
+			'landmark': t.find('#landmark').value, 
+			'city': t.find('#city').value ,
+			'pincode': t.find('#pincode').value,
+			'contactname': t.find('#contactname').value,
+			'contactnum': t.find('#contactnum').value,
+			'shopLatitude': Session.get('selected').selectLatitude,
+			'shopLongitude': Session.get('selected').selectLongitude,
+			"emi":emi,
+			"payments":payments,
+			"openHour":openHour,
+			"closeHour":closeHour
+		};
 		Meteor.call('editDetails', details);
 	}
 };

@@ -93,6 +93,16 @@ Meteor.publish("shopProductList",function(username,sub,limit){
   return Products.find({_id:{$in:idList},Sub:sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
 });
 
+Meteor.publish("shopProducts",function(){
+  try{
+    idList = Meteor.users.findOne({_id:this.userId}).productId;
+  }
+  catch(e){
+    return null; 
+  }
+  return Products.find({_id:{$in:idList}},{fields:{'Brand':1,'ProductName':1,'ModelID':1}});
+});
+
 Meteor.publish('shopAddProducts',function(sub,brand,limit){
   try{
     var idList = Meteor.users.find({_id:this.userId, 'usertype':'shop'}).fetch()[0].productId;
@@ -119,7 +129,8 @@ Meteor.publish('homeId',function(){
 Meteor.publish('homeProductList',function(sub,limit){
   try{
     var idList = HomeId.find({}).fetch()[0].idList;
-    return Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+    x = Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+    x.forEach(function(e){});
   }catch(e){
     return null;
   }
@@ -140,10 +151,20 @@ Meteor.publish("searchQuery",function(query,limit){
   }catch(e){
     return null;
   }
-})
+});
+
 Meteor.publish("homeBrand",function(sub){
   return Brands.find({"view":"home","Sub":sub},{fields:{"list":1,"view":1,"Sub":1}});
 });
+
 Meteor.publish("shopBrand",function(shopname,sub){
   return Brands.find({"shopid":shopname, "Sub":sub},{fields:{"list":1, "shopid":1, "Sub":1}});
+});
+
+Meteor.publish("productPrices",function(){
+  return Prices.find({"shopId":this.userId});
+});
+
+Meteor.publish("homePrices",function(id){
+  return Prices.find({"productId":id});
 });
