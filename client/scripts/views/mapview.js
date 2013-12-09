@@ -10,7 +10,9 @@ this.mapView = Backbone.View.extend({
 		return this;
 	}
 });
-
+Deps.autorun(function(){
+	Meteor.subscribe('allUsers');
+});
 
 Template.mapView.rendered = function(){
 	var markers = [];
@@ -21,33 +23,47 @@ Template.mapView.rendered = function(){
 	  mapTypeId:google.maps.MapTypeId.ROADMAP
 	};
 	var map=new google.maps.Map(document.getElementById('googleMapView'), mapProp);
-	placeMarker(myLatLng, 'Your Position' , map, 5, false);
 	var info;
-	findShopsWithin([window.here.coords.latitude,window.here.coords.longitude], 5);
-	function showShopsWithin(center, radius){
-		var shops = findShopsWithin(center, radius);
-	}
+	
+
+	findShopsWithin(new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude), 5);
 
 	function findShopsWithin(center, radius){
 		var shopsWithin = [];
+		console.log(Meteor.users.find({'usertype':'shop'}).count());
+		var clean=true;
 		Meteor.users.find({'usertype':'shop'}).forEach(function(obj){
-			if(findDistance(center[0],center[1],obj.shopLatitude,obj.shopLongitude) < radius){
+			if(findDistance(center.lat(),center.lng(),obj.shopLatitude,obj.shopLongitude) < radius/1000){
 				shopsWithin.push(obj);
 				console.log(obj);
-				placeMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.shopname ,map, 13, false);
+				if(clean)
+					console.log('cleaning...');
+				placeMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.shopname ,map, 13, clean);
+				clean = false;
 			}
 		});
-		return shopsWithin;
 	}
+
+	var shopProximity = {
+	  strokeColor: '#FF0000',
+	  strokeOpacity: 0.8,
+	  strokeWeight: 2,
+	  fillColor: '#FF0000',
+	  fillOpacity: 0.3,
+	  map: map,
+	  center: myLatLng,
+	  radius: 5000,
+	  draggable:true,
+	  editable:true
+	};
+
+	ProximityCircle = new google.maps.Circle(shopProximity);
 	
-	/*
-  	google.maps.event.addListener(map, 'click', function(event) {
-		placeMarker(event.latLng, map, map.getZoom());
-		selectLatitude = event.latLng.lat();
-		selectLongitude = event.latLng.lng();
-		Session.set('selected',{'selectLatitude': selectLatitude, 'selectLongitude': selectLongitude});
-		//alert(lat+' '+lng);
-	});*/
+	
+  	google.maps.event.addListener(ProximityCircle, 'radius_changed', function(event) {
+  		console.log(ProximityCircle.getCenter());
+		findShopsWithin(ProximityCircle.getCenter(), ProximityCircle.getRadius());
+	});
 	
 	/*google.maps.event.addListener(map, 'zoom_changed', function() {
 	    if(Session.get('selected') != undefined)
