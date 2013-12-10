@@ -206,6 +206,9 @@ $(function(){
     }).get();
     Session.set('homeBrand',brandSel);
   });
+  $(window).load(function() {
+    $("#distanceSlider").slider()
+  });
 });
 
 
