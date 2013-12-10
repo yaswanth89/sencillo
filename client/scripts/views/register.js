@@ -37,58 +37,108 @@ Template.register.events({
 
         });
       return false;
-    },
-    'submit #register-form-brand' : function(e, t) {
-      e.preventDefault();
-      var username = t.find('#brand-username').value;
-      var brandname = t.find('#brand-brandname').value;
-      var password = t.find('#brand-password').value;
-      var contactname = t.find('#brand-contactname').value;
-      var contactnum = t.find('#brand-contactnum').value;
-
-        // Trim and validate the input
-
-      Accounts.createUser({username: username,brandname: brandname, password : password, contactname: contactname, contactnum: contactnum, usertype: 'brand'}, function(err){
-          if (err) {
-            alert(err);
-            // Inform the user that account creation failed
-          } else {
-            App.router.navigate('dashboard',{trigger:true});
-          }
-
-        });
-
-      return false;
-    },
-    'click #shopRegisterBtn':function(e,t){
-      e.preventDefault();
-      Session.set("regSelect",true);
-    },
-    'click #brandRegisterBtn':function(e,t){
-      e.preventDefault();
-      Session.set("regSelect",false);
-    },
-    'click #getLocation':function(e,t){
-      e.preventDefault();
-      Meteor.call('getLocation');
     }
  });
 
 Template.shopRegister.rendered = function(){
+  var mapOptions = {
+    panControl: false,
+    zoomControl: false
+  }
   var map = new google.maps.Map(document.getElementById('registerMap'));
+  //map.panBy(-300,0);
+  var localityBox = new google.maps.places.Autocomplete(document.getElementById('shop-locality'));
+  var landmarkBox = new google.maps.places.Autocomplete(document.getElementById('shop-landmark'));
+  localityBox.setComponentRestrictions({country: 'IN'});
+  landmarkBox.setComponentRestrictions({country: 'IN'});
+  localityBox.setTypes(['geocode']);
+
+  var shopForm = document.getElementById('register-form-shop');
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
+  shopForm.style.backgroundColor = 'rgba(255,255,255,0.7)';
+  shopForm.style.fontWeight = 'bold';
+  //landmarkBox.setTypes(['establishment']);
   var myLatLng;
   if(window.here != undefined)
     myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
   else{
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(function(position){
-        console.log(position);
         window.here = position;
-        console.log(map);
         myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
         map.setCenter(myLatLng);
         map.setZoom(13);
       });
     }
   }
+
+  $('#shop-pincode').blur(function(){
+    $.get('http://maps.googleapis.com/maps/api/geocode/json', {'address':$(this).val()+'+india', 'sensor':'true'},function(data){
+      var bounds = data.results[0].geometry.bounds;
+      var ne = new google.maps.LatLng(bounds.northeast.lat, bounds.northeast.lng);
+      var sw = new google.maps.LatLng(bounds.southwest.lat, bounds.southwest.lng);
+      var b = new google.maps.LatLngBounds(sw, ne);
+      map.fitBounds(b);
+      console.log('midway!');
+      localityBox.setBounds(b);
+      landmarkBox.setBounds(b);
+      console.log('bounded!');
+    });
+  });
+  var marker;
+
+  google.maps.event.addListener(localityBox, 'place_changed', function(){
+    var place = localityBox.getPlace();
+    if(!place.geometry)
+      return;
+    if(!map.getBounds().contains(place.geometry.location)){
+      alert('Your Selected Locality is not in specified Pincode region!');
+      return;
+    }
+    if(place.geometry.viewport){
+      map.fitBounds(place.geometry.viewport);
+    }else{
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);
+      map.panBy(-300,0);
+    }
+
+    if(marker != undefined)
+      marker.setMap(null);
+
+    marker = new google.maps.Marker({
+      map: map,
+      visible: true,
+      draggable: true,
+      position: place.geometry.location
+    });
+
+  });
+
+  google.maps.event.addListener(landmarkBox, 'place_changed', function(){
+    var place = landmarkBox.getPlace();
+    if(!place.geometry)
+      return;
+    if(!map.getBounds().contains(place.geometry.location)){
+      alert('Your Selected Landmark is not in specified Pincode region!');
+      return;
+    }
+    if(place.geometry.viewport){
+      map.fitBounds(place.geometry.viewport);
+    }else{
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);
+      map.panBy(-300,0);
+    }
+
+    if(marker != undefined)
+      marker.setMap(null);
+
+    marker = new google.maps.Marker({
+      map: map,
+      visible: true,
+      draggable: true,
+      position: place.geometry.location
+    });
+  });
 };

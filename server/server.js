@@ -24,7 +24,7 @@ Accounts.onCreateUser(function(options, user) {
     return user;
   }
 });
-
+/*
 Meteor.startup(function(){
   //console.log("hello");
   var tempId=[];
@@ -73,7 +73,7 @@ Meteor.startup(function(){
       secret: "azehiKgpz3hkOqG4zd6gd3lj"
   }); 
 });
-
+*/
 
 Meteor.publish("allUsers",function(){
   return Meteor.users.find({"usertype": "shop"},{fields:{"username":1,"productId":1,"shopname":1,"shopLatitude":1,"shopLongitude":1,"usertype":1}});

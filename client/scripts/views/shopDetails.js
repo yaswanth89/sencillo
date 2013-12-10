@@ -1,8 +1,9 @@
 var user;
 if(navigator.geolocation){
-  navigator.geolocation.getCurrentPosition(function(position){
-    window.here = position;
-  });
+	if(window.here == undefined)
+	  navigator.geolocation.getCurrentPosition(function(position){
+	    window.here = position;
+	  });
 }
 this.ShopDetails = Backbone.View.extend({
 	template:null,
@@ -45,6 +46,8 @@ Template.shopDetails.events = {
 			if(el.name=="closeHour")
 				closeHour = el.value;
 		});
+		if(Session.get('selected') == undefined)
+			Session.set('selected', {'selectLatitude': Session.get('user').shopLatitude, 'selectLongitude': Session.get('user').shopLongitude });
 		var details = {
 			'shopname': t.find('#shopname').value,
 			'address': t.find('#address').value,
