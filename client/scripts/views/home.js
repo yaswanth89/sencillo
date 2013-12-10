@@ -2,6 +2,7 @@ var global = {};
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(function(position){
     window.here = position;
+    Session.set('distanceCenter',window.here.coords);
   });
 }
 this.Home = Backbone.View.extend({
@@ -39,7 +40,7 @@ this.Home = Backbone.View.extend({
 	}
 });
 Deps.autorun(function(){
-    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'));
+    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'),Session.get('distanceFilter'),Session.get('distanceCenter'));
     Meteor.subscribe('homeProductDetail',Session.get('homeId'));
     Meteor.subscribe('homePrices',Session.get('homeId'));
     Meteor.subscribe('homeId');
@@ -70,7 +71,7 @@ Template.homeProducts.ProductArr = function(){
       var withinProducts = [];
       Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
         console.log(obj);
-        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
+        if(findDistance(obj.shopLatitude,obj.shopLongitude,Session.get('distanceCenter').latitude,Session.get('distanceCenter').longitude) < Session.get('distanceFilter')){
           withinProducts = _.union(withinProducts,obj.productId);
         }
       });
@@ -145,7 +146,7 @@ Template.homeModalAvailble.shopList = function(){
     if(price){
       returnarr.push({
         shopname:el.shopname,
-        distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude),
+        distance:findDistance(el.shopLatitude,el.shopLongitude,Session.get('distanceCenter').latitude, Session.get('distanceCenter').longitude),
         link:'/cv/'+el.username+'/'+Session.get('homeId'),
         price:price
       });
@@ -168,6 +169,19 @@ Template.homeModal.events = {
   }
 }
 
+Template.homeDistanceFilter.rendered = function(){
+  var center = new google.maps.places.Autocomplete(document.getElementById('distanceCenter'));
+  center.setComponentRestrictions({country: 'IN'});
+  center.setTypes(['geocode']);
+
+  google.maps.event.addListener(center, 'place_changed', function(){
+    var place = center.getPlace();
+    console.log(place);
+    if(!place.geometry)
+      return;
+    Session.set('distanceCenter', {'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
+  });
+};
 
 Template.homeProducts.rendered = function(){
   if(this.rendered==1){

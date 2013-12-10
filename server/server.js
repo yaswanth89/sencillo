@@ -83,6 +83,18 @@ Meteor.startup(function(){
 });
 */
 
+function findDistance(lat1,lng1,lat2,lng2){
+  var R = 6371; //Approximate Radius of Earth in km!!
+  lat1 = lat1*Math.PI/180;
+  lng1 = lng1*Math.PI/180;
+  lat2 = lat2*Math.PI/180;
+  lng2 = lng2*Math.PI/180;
+  var x = (lng2-lng1) * Math.cos((lat1+lat2)/2);
+  var y = (lat2-lat1);
+  var d = Math.sqrt(x*x + y*y) * R;
+  return Math.round(d*100) / 100;
+}
+
 Meteor.publish("allUsers",function(){
   return Meteor.users.find({"usertype": "shop"},{fields:{"username":1,"productId":1,"shopname":1,"shopLatitude":1,"shopLongitude":1,"usertype":1}});
 });
@@ -134,10 +146,17 @@ Meteor.publish('homeId',function(){
   return HomeId.find({});
 });
 
-Meteor.publish('homeProductList',function(sub,limit){
+Meteor.publish('homeProductList',function(sub,limit,distance,loc){
   var idList = HomeId.find({}).fetch()[0].idList;
   var blah = [];
-  x = Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+  var shops = Meteor.users.find({'usertype':'shop'},{fields:{'shopLatitude':1, 'shopLongitude':1}});
+  var withinIdList = [];
+  shops.forEach(function(obj){
+    if(findDistance(obj.shopLatitude, obj.shopLongitude, loc.latitude, loc.longitude) < distance)
+      _.union(withinIdList,obj.productId);
+  });
+  idList = 
+  x = Products.find({_id:{$in:withinIdList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
   _.each(x.fetch(),function(e){
     y = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"_id":1,"price":1},sort:{price:1},limit:1});
     blah.push(y.fetch()[0]._id);
