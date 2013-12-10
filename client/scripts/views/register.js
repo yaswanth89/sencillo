@@ -73,3 +73,22 @@ Template.register.events({
       Meteor.call('getLocation');
     }
  });
+
+Template.shopRegister.rendered = function(){
+  var map = new google.maps.Map(document.getElementById('registerMap'));
+  var myLatLng;
+  if(window.here != undefined)
+    myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
+  else{
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(function(position){
+        console.log(position);
+        window.here = position;
+        console.log(map);
+        myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
+        map.setCenter(myLatLng);
+        map.setZoom(13);
+      });
+    }
+  }
+};
