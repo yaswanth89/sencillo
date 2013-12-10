@@ -129,11 +129,13 @@
     <table class="table">
       <tr>
         <th>Shop Name</th>
+        <th>Price</th>
         <th>Distance</th>
       </tr>
     {{#each shopList}}
       <tr>
         <td><a class="shopNav" href="{{link}}">{{shopname}}<a/></td>
+        <td>{{#if price}}Rs. {{price}} {{else}} NA {{/if}}</td>
         <td>{{distance}}Km</td>
       </tr>
     {{/each}}

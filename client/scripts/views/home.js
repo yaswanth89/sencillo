@@ -41,6 +41,7 @@ this.Home = Backbone.View.extend({
 Deps.autorun(function(){
     Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'));
     Meteor.subscribe('homeProductDetail',Session.get('homeId'));
+    Meteor.subscribe('homePrices',Session.get('homeId'));
     Meteor.subscribe('homeId');
     Meteor.subscribe('homeBrand', Session.get('homeSub'));
 });
@@ -127,10 +128,15 @@ Template.homeModalSpec.productSpec = function(){
 Template.homeModalAvailble.shopList = function(){
   returnarr =[];
   Meteor.users.find({"productId":{$all:[Session.get('homeId')]}}).forEach(function(el){
+    price='';
+    Prices.find({"productId":Session.get('homeId'),"shopId":el._id}).forEach(function(e){
+      price = e.price;
+    });
     returnarr.push({
       shopname:el.shopname,
       distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude),
-      link:'/cv/'+el.username+'/'+Session.get('homeId')
+      link:'/cv/'+el.username+'/'+Session.get('homeId'),
+      price:price
     });
   });
   returnarr.sort(function(a,b) {return (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0);} );
