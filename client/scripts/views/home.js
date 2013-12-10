@@ -74,12 +74,14 @@ Template.homeProducts.ProductArr = function(){
           withinProducts = _.union(withinProducts,obj.productId);
         }
       });
-      return Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub')},{reactive: Session.get('newProducts')});
+      return addLeastPrice(Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub')},{reactive: Session.get('newProducts')}).fetch());
     }
-    if(Session.get('homeIdList')=="")
-      return Products.find({"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
-    else
-      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')});
+    if(Session.get('homeIdList')==""){
+      return addLeastPrice(Products.find({"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')}).fetch());
+    }
+    else{
+      return addLeastPrice(Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')}).fetch());
+    }
   }else{
     if(Session.get('distanceFilter') != undefined && Session.get('distanceFilter') != ""){
       var withinProducts = [];
@@ -89,12 +91,12 @@ Template.homeProducts.ProductArr = function(){
           withinProducts = _.union(withinProducts,obj.productId);
         }
       });
-      return Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub'), "Brand":{$in:Session.get('homeBrand')}},{reactive: Session.get('newProducts')});
+      return addLeastPrice(Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub'), "Brand":{$in:Session.get('homeBrand')}},{reactive: Session.get('newProducts')}).fetch());
     }
     if(Session.get('homeIdList')=="")
-      return Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
+      return addLeastPrice(Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')}).fetch());
     else
-      return Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')});
+      return addLeastPrice(Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')}));
   }
 };
 
@@ -108,6 +110,8 @@ Template.homeProducts.events = {
       $("#productList").animate({ scrollTop: $(now).position().top+"px" });
   }
 }
+
+
 Template.homeDistanceFilter.events = {
   "change input[name='distanceFilter']" : function(e, t){
     var now = e.currentTarget.value;
@@ -119,29 +123,39 @@ Template.homeDistanceFilter.events = {
 Template.homeModal.product = function(){
   return Products.find({_id:Session.get('homeId')});
 };
+
+
 Template.homeModalOverview.productOverview = function(){
   return Products.find({_id:Session.get('homeId')},{fields:{overViewList:1,overviewPara:1,feature:1}});
 };
+
+
 Template.homeModalSpec.productSpec = function(){
   return Products.find({_id:Session.get('homeId')},{fields:{spec:1}});
 };
+
+
 Template.homeModalAvailble.shopList = function(){
   returnarr =[];
   Meteor.users.find({"productId":{$all:[Session.get('homeId')]}}).forEach(function(el){
-    price='';
-    Prices.find({"productId":Session.get('homeId'),"shopId":el._id}).forEach(function(e){
+    price=undefined;
+    Prices.find({"productId":Session.get('homeId'),"shopId":el._id,"price":{$gt:0}}).forEach(function(e){
       price = e.price;
     });
-    returnarr.push({
-      shopname:el.shopname,
-      distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude),
-      link:'/cv/'+el.username+'/'+Session.get('homeId'),
-      price:price
-    });
+    if(price){
+      returnarr.push({
+        shopname:el.shopname,
+        distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude),
+        link:'/cv/'+el.username+'/'+Session.get('homeId'),
+        price:price
+      });
+    }
   });
   returnarr.sort(function(a,b) {return (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0);} );
   return returnarr;
 }
+
+
 Template.homeModal.events = {
   "click a#closeModal":function(e,t){
     e.preventDefault();
@@ -153,6 +167,7 @@ Template.homeModal.events = {
     App.router.aReplace(e);
   }
 }
+
 
 Template.homeProducts.rendered = function(){
   if(this.rendered==1){
@@ -182,6 +197,8 @@ Template.homeProducts.rendered = function(){
     container: $("#productList")
   });
 };
+
+
 $(function(){
   $('#homeFilter input').live('change',function(){
     var brandSel = $('#homeFilter input:checkbox:checked').map(function(){
@@ -190,3 +207,14 @@ $(function(){
     Session.set('homeBrand',brandSel);
   });
 });
+
+
+function addLeastPrice(x){
+  _.each(x,function(e) {
+    console.log(e._id);
+    z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
+    if(z.count()>0)
+      e.leastPrice =  z.fetch()[0].price;
+  });
+  return x;
+}

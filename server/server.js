@@ -42,7 +42,15 @@ Meteor.startup(function(){
     });
     tempId = _.union(tempId,loop.productId); 
   });
-  HomeId.update({},{'idList':tempId});
+  z = _.filter(tempId,function(e){
+    y = Prices.find({productId:e,price:{$gt:0}},{fields:{"price":1}});
+    // console.log(y.count());
+    if(y.count()>0)
+      return true;
+    else
+      return false;
+  });
+  HomeId.update({},{'idList':z});
   brands={};
   Products.find({"_id":{$in:tempId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(e){
     if(brands[e.Sub] == undefined)
@@ -127,13 +135,14 @@ Meteor.publish('homeId',function(){
 });
 
 Meteor.publish('homeProductList',function(sub,limit){
-  try{
-    var idList = HomeId.find({}).fetch()[0].idList;
-    x = Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
-    x.forEach(function(e){});
-  }catch(e){
-    return null;
-  }
+  var idList = HomeId.find({}).fetch()[0].idList;
+  var blah = [];
+  x = Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+  _.each(x.fetch(),function(e){
+    y = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"_id":1,"price":1},sort:{price:1},limit:1});
+    blah.push(y.fetch()[0]._id);
+  });
+  return [x,Prices.find({_id:{$in:blah}},{fields:{"productId":1,"price":1}})];
 });
 
 Meteor.publish('homeProductDetail',function(id){
@@ -166,5 +175,5 @@ Meteor.publish("productPrices",function(){
 });
 
 Meteor.publish("homePrices",function(id){
-  return Prices.find({"productId":id});
+  return Prices.find({"productId":id,"price":{$gt:0}});
 });

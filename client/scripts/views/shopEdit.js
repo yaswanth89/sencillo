@@ -61,7 +61,7 @@ Template.shopEdit.allProducts = function(){
       productList = loop.productId;
       if(productList){
         Products.find({_id:{$in:productList}},{fields:{'Brand':1,'ProductName':1,'ModelID':1}}).forEach(function(e){
-          pricetag = Prices.findOne({productId:e._id});
+          pricetag = Prices.findOne({productId:e._id,shopId:loop._id});
           if(pricetag)
             allproducts.push({
               "_id":e._id,
