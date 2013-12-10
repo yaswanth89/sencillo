@@ -106,8 +106,10 @@ Template.homeProducts.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      $("#homeModal").css("top",$(now).position().top+250+'px').fadeIn();
-      $("#productList").animate({ scrollTop: $(now).position().top+"px" });
+      $("#homeModal").css("top",$(now).position().top+260+'px').show().animate({
+        height: 300,
+        opacity: 1});
+      $("#productList").animate({ scrollTop: ($(now).position().top+250)+"px" });
   }
 }
 
@@ -159,7 +161,11 @@ Template.homeModalAvailble.shopList = function(){
 Template.homeModal.events = {
   "click a#closeModal":function(e,t){
     e.preventDefault();
-    $("#homeModal").fadeOut();
+    $("#homeModal").animate({
+        height: 0,
+        opacity: 0},function(){
+          $(this).hide()
+        });
     App.router.navigate(Session.get('homeSub'),{trigger:false});
   },
   "click a.shopNav" : function(e,t){

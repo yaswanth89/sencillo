@@ -22,7 +22,6 @@
     </div>    
   </div>    
 </template>
-
 <template name="homeBrand">
   <div class="brandFilter">
     <strong>Brands</strong>
@@ -56,7 +55,7 @@
 <template name="homeProducts">
   <div class="products-list">
   {{#isolate}}
-   {{#each ProductArr}}
+   {{#stripes ProductArr}}
      <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
       <img class="item-image" src="image/482.GIF" data-original="{{this.Image.[0]}}"/>
       <div class="item-desc">
@@ -67,7 +66,11 @@
         </div>
       </div>
      </div>
-   {{/each}}
+     {{#if this.odd}}
+     <div class="divider">
+     </div>
+     {{/if}}
+   {{/stripes}}
   {{/isolate}}
    
   </div>
@@ -78,14 +81,17 @@
     <a id="closeModal" href="#">X</a>
     {{#isolate}}
     {{#each product}}
-      <div class="column" style="width:30%">
-        <h4>{{ProductName}}</h5>
-        <h5>{{ModelID}}</h6>
-        <img class="item-image" src="{{Image.[0]}}" />
+      <div class="column" style="width:25%">
+        <p class="item-modal-brand">{{Brand}}</p>
+        <div class="item-modal-rest">
+          <p class="item-modal-name">{{ProductName}}</p>
+          <p class="item-modal-model">{{ModelID}}</p>
+          <img class="item-image" src="{{Image.[0]}}" />
+        </div>
       </div>
     {{/each}}
     {{/isolate}}
-    <div class="column" style="width:70%">
+    <div class="column" style="width:75%">
       <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
         <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
@@ -109,8 +115,8 @@
 <template name="homeModalOverview">
   <div class="tab-pane active" id="overview">
   {{#each productOverview}} 
-    <p class="lead">{{overviewPara}}</p>
-    <ul>
+    <p>{{overviewPara}}</p>
+    <ul style="list-style:circle">
       {{#each overViewList}}
       <li>{{this}}</li>
       {{/each}}
@@ -153,7 +159,7 @@
     {{#each shopList}}
       <tr>
         <td><a class="shopNav" href="{{link}}">{{shopname}}<a/></td>
-        <td>{{#if price}}Rs. {{price}} {{else}} NA {{/if}}</td>
+        <td>{{#if price}}<i class="fa fa-rupee"></i>{{price}} {{else}} NA {{/if}}</td>
         <td>{{distance}}Km</td>
       </tr>
     {{/each}}
