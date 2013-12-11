@@ -171,6 +171,21 @@ Template.homeDistanceFilter.rendered = function(){
   });
 };
 
+Template.homePriceFilter.rendered = function(){
+  $('#priceSlider').slider({
+    min: 0,
+    max: 10000,
+    step: 100,
+    orientation: 'horizontal',
+    value: [1000,5000],
+    tooltip:'show'
+  });
+
+  $('#priceSlider').on('slideStop', function(e){
+    Session.set('priceRange',$(this).val());
+  });
+};
+
 Template.homeProducts.rendered = function(){
   if(this.rendered==1){
     $("#loadmask").fadeOut('slow');
@@ -208,6 +223,9 @@ $(function(){
     }).get();
     Session.set('homeBrand',brandSel);
   });
+  $(window).load(function() {
+    $("#distanceSlider").slider()
+  });
 });
 
 
@@ -217,6 +235,12 @@ function addLeastPrice(x){
     z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
     if(z.count()>0)
       e.leastPrice =  z.fetch()[0].price;
+    if(Session.get('priceRange') != []){
+      if(e.leastPrice < Session.get('priceRange')[0] || e.leastPrice > Session.get('priceRange')[1]){
+        var i = x.indexOf(e);
+        x.splice(i,1);
+      }
+    }
   });
   return x;
 }

@@ -15,6 +15,7 @@ this.CustomerView = Backbone.View.extend({
 });
 Deps.autorun(function(){
     Meteor.subscribe('shopProductList',window.shopUsername,Session.get('shopSub'),Session.get('shopLimit'));
+    //Meteor.subscribe('shopProductPrices',Meteor.users.findOne({'username':window.shopUsername})._id);
     Meteor.subscribe('homeProductDetail',Session.get('shopId'));
     Meteor.subscribe('shopDetail',window.shopUsername);
     Meteor.subscribe("shopBrand",window.shopUsername,Session.get('shopSub'))
@@ -23,7 +24,7 @@ Template.ShopMainCat.MainCatArr = function(){
 	return FrameDetail.find({});
 };
 
-Template.shopInfo.shopDet = function(){
+Template.ShopInfo.shopDet = function(){
 	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	shop = loop;
   	});
@@ -36,21 +37,6 @@ Template.shopInfo.shopDet = function(){
   	}
 
 };
-
-Template.mapCanvas.events = {
-	"click #small-map": function(e, t){
-		var small = t.find('#small-map');
-		$(small).fadeOut('slow',function(){
-			$(t.find('#large-map')).fadeIn();
-		});
-	},
-	"click #large-map": function(e, t){
-		var large = t.find('#large-map');
-		$(large).fadeOut('slow',function(){
-			$(t.find('#small-map')).fadeIn();
-		});	
-	}
-}
 
 $('#small-map').click(function(){
 	$(this).fadeOut('slow',function(){
@@ -80,13 +66,14 @@ Template.ShopBrand.BrandArr = function(){
 };
 
 Template.ShopBrand.events = {
-	"change .brand" : function(){
+	"change .shopBrandCheck" : function(){
 		var brand = new Array;
-		$('.brand').each(function(){ if($(this).is(':checked')) brand.push($(this).val()); });
+		$('.shopBrandCheck').each(function(){ if($(this).is(':checked')) brand.push($(this).val());});
 		Session.set('shopBrand', brand);
 	}
 };
-Template.ShopProducts.ProductArr = function(){
+
+Template.FeaturedProducts.featuredProductArr = function(){
 	var productList = [];
   	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	productList = loop.productId;
@@ -98,6 +85,41 @@ Template.ShopProducts.ProductArr = function(){
   	else	
 		return Products.find({_id:{$in:productList},'Sub':Session.get('shopSub'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')});
 };
+
+Template.ShopProducts.ProductArr = function(){
+	var productList = [];
+	var shopid;
+  	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
+    	shopid = loop._id;
+    	productList = loop.productId;
+  	});
+  	if(_.isEmpty(productList))
+  		return null;
+  	
+  	if(_.isEmpty(Session.get("shopBrand"))){
+  		var prods = [];
+  		Products.find({_id:{$in:productList},'Sub':Session.get('shopSub')},{reactive:Session.get('newProducts')}).forEach(function(obj){
+  			/*var price = Prices.findOne({'shopId':shopid,'productId':obj._id}).price;
+  			console.log(Prices.findOne({'shopId':shopid,'productId':obj._id}));
+  			console.log(price);
+  			if(price > Session.get('shopPriceRange')[0] && price < Session.get('shopPriceRange')[1])*/
+  				prods.push(obj);
+  		});
+  		return prods;
+  	}
+  	else{
+  		var prods = [];
+  		Products.find({_id:{$in:productList},'Sub':Session.get('shopSub'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')}).forEach(function(obj){
+  			/*var price = Prices.findOne({'shopId':shopid,'productId':obj._id}).price;
+  			console.log(Prices.findOne({'shopId':shopid,'productId':obj._id}));
+  			console.log(price);
+  			if(price > Session.get('shopPriceRange')[0] && price < Session.get('shopPriceRange')[1])*/
+  				prods.push(obj);
+  		});
+  		return prods;
+  	}
+};
+
 Template.ShopProducts.shopname = function(){
 	return window.shopUsername;
 }
@@ -135,6 +157,22 @@ Template.shopModal.events = {
     App.router.aReplace(e);
   }
 };
+
+Template.ShopPriceFilter.rendered = function(){
+  $('#shopPriceSlider').slider({
+    min: 0,
+    max: 10000,
+    step: 100,
+    orientation: 'horizontal',
+    value: [1000,5000],
+    tooltip:'show'
+  });
+
+  $('#shopPriceSlider').on('slideStop', function(e){
+    Session.set('shopPriceRange',$(this).val());
+  });
+};
+
 Template.ShopProducts.rendered = function(){
 	if(this.rendered == 2){
 		$("#loadmask").fadeOut();

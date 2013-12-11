@@ -1,7 +1,7 @@
 #searchModal, #shopModal , #homeModal{
 	height: 300px;
 	position: absolute;
-	background: gray;
+	background: white;
 	width:97%;
 	overflow:hidden;
 	padding: 10px;
@@ -9,6 +9,17 @@
 #searchModal .tab-content , #shopModal .tab-content , #homeModal .tab-content{
 	overflow-y:scroll;
 	height: 80%;
+}
+#myTab > li > a{
+	border-radius: 0;
+	background: #d6d6d6;
+	width:170px;
+	text-align: center;
+	font-size: 13px;
+	color:black;
+}
+#myTab > li.active > a{
+	background: white;
 }
 .column{
 	height: 100%;

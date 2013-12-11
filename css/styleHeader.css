@@ -6,12 +6,18 @@
 	border-radius: 0px;
 }
 #headerTop .brand{
+	position: relative;
 	margin-left: 0px;
 	background: #3598db;
 	color: white;
 	font-family: 'audiowide';
 	text-transform: uppercase;
 	text-shadow:none;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+#headerTop .nav{
+	padding: 10px 0px;
 }
 #headerTop2{
 	position: relative;
@@ -22,6 +28,7 @@
 	border: 0;
 	border-top-left-radius: 0px;
 	padding: 1px 0px;
+	margin-bottom: 5px;
 }
 #headerTop2 .nav{
 	position: absolute;
@@ -64,4 +71,13 @@
 }
 .nav.pull-right a{
 	font-size: 25px;
+}
+.backExtend{
+	position: absolute;
+	display: block;
+	top:-10px;
+	left:0px;
+	height: 60px;
+	width:100%;
+	background: #3598db;
 }

@@ -173,7 +173,7 @@ Meteor.publish('homeProductDetail',function(id){
 });
 
 Meteor.publish("shopDetail",function(name){
-  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1}});
+  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1,'shopLatitude':1,'shopLongitude':1,'emi':1,'payments':1,'openHour':1,'closeHour':1}});
 });
 
 Meteor.publish("searchQuery",function(query,limit){
@@ -199,4 +199,8 @@ Meteor.publish("productPrices",function(){
 
 Meteor.publish("homePrices",function(id){
   return Prices.find({"productId":id,"price":{$gt:0}});
+});
+
+Meteor.publish("shopProductPrices",function(id){
+  return Prices.find({"shopId":id});
 });
