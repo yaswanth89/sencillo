@@ -20,8 +20,17 @@ this.HeaderView = Backbone.View.extend({
 				else
 					App.router.aReplace(e);
 			},
-			'mouseover .dropdown-toggle':function (e) {
-				e.currentTarget.click();
+			'mouseover .dropdown':function (e) {
+				if(!window.opened){
+					e.currentTarget.firstElementChild.click();
+					window.opened = true;
+				}
+			},
+			'mouseleave .dropdown':function (e) {
+				if(window.opened){
+					e.currentTarget.firstElementChild.click();
+					window.opened = false;
+				}
 			},
 			'submit #searchForm':function(e){
 				e.preventDefault();

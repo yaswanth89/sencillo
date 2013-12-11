@@ -121,3 +121,6 @@
 .nav-links > li{
 	line-height: 24px;
 }
+.navbar-dropdown{
+	margin-top: -2px;
+}

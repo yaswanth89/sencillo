@@ -54,14 +54,6 @@ Deps.autorun(function(){
 });
 
 Template.homeBrand.Brand = function(){
-  /*if(Session.get('homeIdList')=="")
-      retBrand = Products.find({},{fields:{'_id':0,"Brand":1}}).fetch();
-    else
-      retBrand = Products.find({"_id":{$in:Session.get('homeIdList')}},{fields:{'_id':0,"Brand":1}}).fetch();
-  var tempAr=[];
-  _.each(retBrand,function(obj){
-    tempAr.push(obj.Brand);
-  });*/
   try{
     return Brands.findOne({"view":"home","Sub":Session.get('homeSub')}).list;
   }
