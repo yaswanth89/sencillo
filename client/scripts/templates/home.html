@@ -3,53 +3,86 @@
 </template>
 
 <template name="homeView">
-  <div id="homeContainer">
-    <div id="homeFilter">
-      {{> homeBrand}}
-      {{> homeDistanceFilter}}
+  <div id="homeFilter">
+    <div class="btn-group">
+      <a class="btn btn-inverse dropdown-toggle" id="filterButton" data-toggle="dropdown" href="#">
+        Filters
+        <span class="caret"></span>
+      </a>
+      <ul id="theFilters" class="dropdown-menu">
+        {{> homeBrand}}
+        {{> homePriceFilter}}
+        {{> homeDistanceFilter}}
+      </ul>
     </div>
-    <div class="" id="productList">
+  </div>
+  <div id="homeContainer">
+    <div id="productList">
       {{> homeProducts}}
       {{> homeModal}}
     </div>    
   </div>    
 </template>
-
 <template name="homeBrand">
-  <p>
-    <span>Brands : </span>
-    <ul>
+  <div class="brandFilter">
+    <strong>Brands</strong>
       {{#isolate}}
       {{#each Brand}}
-      <li style="list-style:none"><input type="checkbox" value="{{this}}">  {{this}}</li>
+        <div class="control-group">
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" value="{{this}}"> {{this}}
+            </label>
+          </div>
+        </div>
       {{/each}}
       {{/isolate}}
     </ul>
-  </p>
+  </div>
 </template>
 
 <template name='homeDistanceFilter'>
-  <div>
-    <h5>Distance within:</h5>
-    <ul style='list-style-type:none;'>
-      <li><input type='radio' name='distanceFilter' value='5' />5 km</li>
-      <li><input type='radio' name='distanceFilter' value='10' />10 km</li>
-      <li><input type='radio' name='distanceFilter' value='15' />15 km</li>
-    </ul>
+  <div class="distanceFilter">
+    <strong>DISTANCE</strong>
+    <br />
+    <input type="text" id="distanceSlider" class="span2" /><!-- data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show"-->
+    <div class="slider-controls span2">
+      <span class="pull-left">1 Km</span>
+      <span class="pull-right">10 Km</span>
+    </div>
+  </div>
+</template>
+
+<template name='homePriceFilter'>
+  <div class='priceFilter'>
+    <strong>PRICE RANGE</strong><br>
+    <div id='priceSlider' class='span2'></div>
+    <div class="slider-controls span2">
+      <span class="pull-left">Rs. 0</span>
+      <span class="pull-right">Rs. 10000</span>
+    </div>
   </div>
 </template>
 
 <template name="homeProducts">
   <div class="products-list">
   {{#isolate}}
-   {{#each ProductArr}}
+   {{#stripes ProductArr}}
      <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
       <img class="item-image" src="image/482.GIF" data-original="{{this.Image.[0]}}"/>
-      <h4>{{this.Brand}}</h4>
-      <p class="lead">{{this.ProductName}} </p>
-      <p>{{this.ModelID}}</p>
+      <div class="item-desc">
+        <p class="item-name">{{this.ProductName}} {{this.ModelID}}</p>
+        <div class="item-price-brand">
+          <span class="pull-left"><i class="fa fa-rupee"></i>{{this.leastPrice}}/-</span>
+          <span class="pull-right">{{this.Brand}}</span>
+        </div>
+      </div>
      </div>
-   {{/each}}
+     {{#if this.odd}}
+     <div class="divider">
+     </div>
+     {{/if}}
+   {{/stripes}}
   {{/isolate}}
    
   </div>
@@ -60,6 +93,7 @@
     <a id="closeModal" href="#">X</a>
     {{#isolate}}
     {{#each product}}
+<<<<<<< HEAD
       <div class="column" style="width:30%;height:100%">
         
         <p class="lead">{{Brand}} <abbr title="{{ProductName}}" style="text-decoration:underline">{{ModelID}}</abbr></p>
@@ -75,15 +109,25 @@
           </div>
         </div>
         <i id="thumbRight" class="fa fa-caret-square-o-right" style="cursor:pointer;float:left;width:10%"></i>
+=======
+      <div class="column" style="width:25%">
+        <p class="item-modal-brand">{{Brand}}</p>
+        <div class="item-modal-rest">
+          <p class="item-modal-name">{{ProductName}}</p>
+          <p class="item-modal-model">{{ModelID}}</p>
+          <img class="item-image" src="{{Image.[0]}}" />
+        </div>
+>>>>>>> c62c68ab12af4ed97510231156badcf42f820fd7
       </div>
 
     {{/each}}
     {{/isolate}}
-    <div class="column" style="width:70%">
+    <div class="column" style="width:75%">
       <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
         <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
         <li><a href="#availableShop" data-toggle="tab">Available At</a></li>
+        <li><a href="#availableShop" data-toggle="tab">Map View</a></li>
       </ul>
       <div class="tab-content">
       {{#isolate}}
@@ -102,8 +146,8 @@
 <template name="homeModalOverview">
   <div class="tab-pane active" id="overview">
   {{#each productOverview}} 
-    <p class="lead">{{overviewPara}}</p>
-    <ul>
+    <p>{{overviewPara}}</p>
+    <ul style="list-style:circle">
       {{#each overViewList}}
       <li>{{this}}</li>
       {{/each}}
@@ -140,11 +184,13 @@
     <table class="table">
       <tr>
         <th>Shop Name</th>
+        <th>Price</th>
         <th>Distance</th>
       </tr>
     {{#each shopList}}
       <tr>
         <td><a class="shopNav" href="{{link}}">{{shopname}}<a/></td>
+        <td>{{#if price}}<i class="fa fa-rupee"></i>{{price}} {{else}} NA {{/if}}</td>
         <td>{{distance}}Km</td>
       </tr>
     {{/each}}

@@ -1,7 +1,8 @@
 #searchModal, #shopModal , #homeModal{
-	height: 300px;
+	height: 0px;
+	opacity: 0;
 	position: absolute;
-	background: gray;
+	background: white;
 	width:97%;
 	overflow:hidden;
 	padding: 10px;
@@ -9,6 +10,19 @@
 #searchModal .tab-content , #shopModal .tab-content , #homeModal .tab-content{
 	overflow-y:scroll;
 	height: 80%;
+}
+#myTab > li > a{
+	border-radius: 0;
+	background: #d6d6d6;
+	width:170px;
+	text-align: center;
+	font-size: 13px;
+	color:black;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+#myTab > li.active > a{
+	background: white;
 }
 .column{
 	height: 100%;
@@ -22,4 +36,23 @@
 	font-size: 20px;
 	color: black;
 	z-index: 10;
+}
+.item-modal-brand{
+	padding: 4px;
+	background: #d6d6d6;
+	margin-right: 1px;
+	font-size: 13px;
+	font-weight: bold;
+	height: 22px;
+}
+.tab-content{
+	margin-left: 10px;
+}
+.item-modal-rest{
+	width: 99%;
+	padding: 0.2%;
+	border-right: 1px solid gray;
+}
+.item-modal-name{
+	color: #2a80b9;
 }

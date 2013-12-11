@@ -10,6 +10,10 @@ this.ShopEdit = Backbone.View.extend({
     return this;
   }
 });
+Deps.autorun(function(){
+  Meteor.subscribe('shopProducts');
+  Meteor.subscribe('productPrices');
+});
 Template.shopEdit.events={
   "click .toggle" : function(e){
     if(e.currentTarget.className.indexOf('on')>-1)
@@ -25,30 +29,61 @@ Template.shopEdit.events={
       console.log(id);
       if($('#stock_'+id).attr('class') == 'toggle on') var instock = 1;
       else var instock = 0;
-      productSet.push({'_id': id,'brand': $('#brand_'+id).val() ,'price': $('#price_'+id).val(), 'inStock': instock, 'discount': ''});
+      if(instock){
+        if(!$('#price_'+id).val()){
+          $("#price_"+id).addClass('error');
+          return;
+        }
+        var price = Number($("#price_"+id).val())
+        if(price==NaN){
+          $("#price_"+id).addClass('error');
+          return;
+        }
+      }
+      else
+        price='';
+      if($('#display_'+id).attr('class') == 'toggle on') var onDisplay = 1;
+      else var onDisplay = 0;
+      productSet.push({
+        'productId': id,
+        'price': price,
+        'inStock': instock,
+        'onDisplay':onDisplay
+      });
     });
-    console.log(productSet);
     Meteor.call('editProducts', productSet);
   }
 }
 Template.shopEdit.allProducts = function(){
   var allproducts = [];
   var loaded=false;
-  Meteor.call('readProducts',Meteor.user().username,function(error, result){
-    for (var i = result.length - 1; i >= 0; i--){
-        Meteor.call('findProductById',result[i],function(err,productDoc){
-          if(productDoc!=undefined){
-              productDoc.inStock = productDoc.shop.inStock;
-              productDoc.price = productDoc.shop.price;
-              productDoc.discount = productDoc.shop.discount;
-              productDoc.shop = null;
-              allproducts.push(productDoc);
-              if(allproducts.length == result.length){
-                Session.set('allproducts',allproducts);
-              }
-          }
+  Meteor.users.find({username:Meteor.user().username}).forEach(function(loop){
+      productList = loop.productId;
+      if(productList){
+        Products.find({_id:{$in:productList}},{fields:{'Brand':1,'ProductName':1,'ModelID':1}}).forEach(function(e){
+          pricetag = Prices.findOne({productId:e._id,shopId:loop._id});
+          if(pricetag)
+            allproducts.push({
+              "_id":e._id,
+              'price': pricetag.price,
+              'inStock': pricetag.inStock,
+              'onDisplay': pricetag.onDisplay,
+              'Brand': e.Brand,
+              "ProductName":e.ProductName,
+              "ModelID":e.ModelID
+            });
+          else
+            allproducts.push({
+              "_id":e._id,
+              'price': '',
+              'inStock': 0,
+              'onDisplay': 0,
+              'Brand': e.Brand,
+              "ProductName":e.ProductName,
+              "ModelID":e.ModelID
+            });
         });
       }
-    });
-  return Session.get('allproducts');
+  });
+  return allproducts;
 };

@@ -1,27 +1,102 @@
 #homeContainer{
- 	width: 100%;
- 	height:100%;
- }
+	height: 94%;
+}
  #homeFilter{
- 	width:13%%;
- 	float:left;
- 	margin-left:1%;
- 	margin-right:1%;
- 	height:50%;
- 	overflow-y:scroll;
- 	overflow-x:hidden; 
+ 
  }
  .brandInputHome{
  	width:100%;
  }
  #productList{
- 	width:85%;
+ 	width: 98%;
  	height: 100%;
- 	float:left;
+ 	left: 1%;
  	position: relative;
  	overflow-y: scroll;
  	overflow-x: hidden;
- }
+}
+#homeFilter{
+	padding-left: 35px;
+	margin-bottom: 5px;
+}
+#filterButton{
+	background: #2c3e50 !important;
+	padding: 2px 67px !important;
+	border-radius: 0px !important;
+	box-shadow: 0 !important;
+	color: white !important;
+	text-shadow: none !important;
+	border-radius: 0 !important;
+}
+.caret{
+	color: white !important;
+}
+#theFilters{
+	box-shadow: none;
+	border-radius: 0;
+	padding: 10px;
+	border: 1px #2d3e50 solid;
+	margin-top: -1px;
+	color: #2d3e50;
+	width: 170px;
+	font-family: 'armata';
+}
+.brandFilter{
+	border-top: 1px solid #2d3e50;
+	padding: 15px 0px;
+	text-transform: uppercase;
+	font-size: 0.8em;
+}
+.brandFilter .control-group{
+	margin-bottom: -10px;
+	margin-left: 15px;
+}
+.brandFilter .control-group .checkbox{
+	font-size: 0.9em;
+}
+.brandFilter .control-group .checkbox input{
+	-webkit-appearance: none;
+	background-color: white;
+	border: 1px solid #2d3e50;
+	padding: 4px;
+	display: inline-block;
+	position: relative;
+	margin-left: -15px;
+}
+.brandFilter .control-group .checkbox input:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.brandFilter .control-group .checkbox input:checked {
+	color: #2d3e50;
+}
+.brandFilter .control-group .checkbox input:checked:after {
+	content: '\2714';
+	font-size: 10px;
+	position: absolute;
+	top: -2px;
+	left: 0px;
+	color: #2d3e50;
+}
+.priceFilter{
+	border-top: 1px solid #2d3e50;
+	padding: 21px 0px 33px 0px;
+	text-transform: uppercase;
+	font-size: 0.8em;
+}
+.distanceFilter{
+	border-top: 1px solid #2d3e50;
+	padding: 15px 0px;
+	text-transform: uppercase;
+	position: relative;
+	font-size: 0.8em;	
+}
+.slider-controls{
+	margin-left: 0px;
+}
+.distanceFilter .tooltip-inner:after{
+	content: ' Km';
+}
  /*
  #productDisplay{
  	width:30%;
@@ -39,15 +114,18 @@
  	position: relative;
  }
  div.show-product {
-width: 25%;
-float: left;
-height: 250px;
+	width: 19%;
+	margin-right: 1%;
+	float: left;
+	background: white;
+	height: 250px;
 }
 
 div.show-product p{
 	font-size:1.2em;
 }
 div.show-product .lead {
+<<<<<<< HEAD
 font-size: 1em;
 font-weight: 400;
 line-height: 1.2em;
@@ -69,3 +147,35 @@ width: 75%;
 #homeModal abbr{
 	border-bottom:none;
 }
+=======
+	font-size: 1em;
+	font-weight: 400;
+	line-height: 1.2em;
+	margin-bottom: 5px;
+	margin-top: -5px;
+}
+.item-image{
+	display: block !important;
+	height: 146px;
+	margin: 0px auto;
+	position: relative;
+}
+.item-desc{
+	padding: 0px 5px;
+	display: block;
+	position: relative;
+	font-size: 10px;
+	height: 94px;
+	font-family: Tahoma, Geneva, Verdana;
+}
+.item-price-brand{
+	position: absolute;
+	bottom: 0;
+	width: 95%;
+	overflow: hidden;
+	font-size: 13px;
+}
+body{
+	font-family: Tahoma, Geneva, Verdana;
+}
+>>>>>>> c62c68ab12af4ed97510231156badcf42f820fd7

@@ -24,7 +24,7 @@ Accounts.onCreateUser(function(options, user) {
     return user;
   }
 });
-
+/*
 Meteor.startup(function(){
   //console.log("hello");
   var tempId=[];
@@ -42,7 +42,15 @@ Meteor.startup(function(){
     });
     tempId = _.union(tempId,loop.productId); 
   });
-  HomeId.update({},{'idList':tempId});
+  z = _.filter(tempId,function(e){
+    y = Prices.find({productId:e,price:{$gt:0}},{fields:{"price":1}});
+    // console.log(y.count());
+    if(y.count()>0)
+      return true;
+    else
+      return false;
+  });
+  HomeId.update({},{'idList':z});
   brands={};
   Products.find({"_id":{$in:tempId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(e){
     if(brands[e.Sub] == undefined)
@@ -73,7 +81,19 @@ Meteor.startup(function(){
       secret: "azehiKgpz3hkOqG4zd6gd3lj"
   }); 
 });
+*/
 
+function findDistance(lat1,lng1,lat2,lng2){
+  var R = 6371; //Approximate Radius of Earth in km!!
+  lat1 = lat1*Math.PI/180;
+  lng1 = lng1*Math.PI/180;
+  lat2 = lat2*Math.PI/180;
+  lng2 = lng2*Math.PI/180;
+  var x = (lng2-lng1) * Math.cos((lat1+lat2)/2);
+  var y = (lat2-lat1);
+  var d = Math.sqrt(x*x + y*y) * R;
+  return Math.round(d*100) / 100;
+}
 
 Meteor.publish("allUsers",function(){
   return Meteor.users.find({"usertype": "shop"},{fields:{"username":1,"productId":1,"shopname":1,"shopLatitude":1,"shopLongitude":1,"usertype":1}});
@@ -91,6 +111,16 @@ Meteor.publish("shopProductList",function(username,sub,limit){
     return null; 
   }
   return Products.find({_id:{$in:idList},Sub:sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+});
+
+Meteor.publish("shopProducts",function(){
+  try{
+    idList = Meteor.users.findOne({_id:this.userId}).productId;
+  }
+  catch(e){
+    return null; 
+  }
+  return Products.find({_id:{$in:idList}},{fields:{'Brand':1,'ProductName':1,'ModelID':1}});
 });
 
 Meteor.publish('shopAddProducts',function(sub,brand,limit){
@@ -116,13 +146,43 @@ Meteor.publish('homeId',function(){
   return HomeId.find({});
 });
 
-Meteor.publish('homeProductList',function(sub,limit){
-  try{
-    var idList = HomeId.find({}).fetch()[0].idList;
-    return Products.find({_id:{$in:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
-  }catch(e){
-    return null;
-  }
+Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
+  console.log(sub);
+  console.log(limit);
+  console.log(distance);
+  console.log(loc);
+  if(priceRange.length != 0)
+  console.log('yessssssssssssssss');
+  if(!sub)
+    return;
+  var idList = HomeId.find({}).fetch()[0].idList;
+  var blah = [];
+  var blah2=[];
+  var withinIdList = [];
+  Meteor.users.find({'usertype':'shop'},{fields:{'shopLatitude':1, 'shopLongitude':1,'productId':1}}).forEach(function(obj){
+    if(loc){
+      if(findDistance(obj.shopLatitude, obj.shopLongitude, loc.latitude, loc.longitude) < distance)
+        withinIdList=obj.productId;
+    }
+    else
+      _.union(withinIdList,obj.productId);
+  });
+  console.log(withinIdList);
+  Products.find({_id:{$in:withinIdList},'Sub':sub},{fields:{'_id':1}}).forEach(function(e){
+    if(blah.length < limit){
+      if(priceRange.length != 0)
+        y = Prices.find({productId:e._id,price:{$gt:priceRange[0],$lt:priceRange[1]}},{fields:{"_id":1,"price":1},sort:{price:1},limit:1});
+      else
+        y = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"_id":1,"price":1},sort:{price:1},limit:1});
+      if(y.count()>0){
+        console.log('bl');
+        blah.push(y.fetch()[0]._id);
+        blah2.push(e._id);
+      }
+    }
+  });
+  console.log(blah);
+  return [Products.find({_id:{$in:blah2}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1}}),Prices.find({_id:{$in:blah}},{fields:{"productId":1,"price":1}})];
 });
 
 Meteor.publish('homeProductDetail',function(id){
@@ -130,7 +190,7 @@ Meteor.publish('homeProductDetail',function(id){
 });
 
 Meteor.publish("shopDetail",function(name){
-  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1}});
+  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1,'shopLatitude':1,'shopLongitude':1,'emi':1,'payments':1,'openHour':1,'closeHour':1}});
 });
 
 Meteor.publish("searchQuery",function(query,limit){
@@ -140,10 +200,29 @@ Meteor.publish("searchQuery",function(query,limit){
   }catch(e){
     return null;
   }
-})
+});
+
 Meteor.publish("homeBrand",function(sub){
   return Brands.find({"view":"home","Sub":sub},{fields:{"list":1,"view":1,"Sub":1}});
 });
+
 Meteor.publish("shopBrand",function(shopname,sub){
   return Brands.find({"shopid":shopname, "Sub":sub},{fields:{"list":1, "shopid":1, "Sub":1}});
+});
+
+Meteor.publish("productPrices",function(){
+  return Prices.find({"shopId":this.userId});
+});
+
+Meteor.publish("homePrices",function(id){
+  return Prices.find({"productId":id,"price":{$gt:0}});
+});
+
+Meteor.publish("shopProductPrices",function(username){
+  if(username){
+    var id = Meteor.users.findOne({'username':username,'usertype':'shop'})._id;
+    return Prices.find({"shopId": id, 'price': {$gt: 0}});
+  }
+  else
+    return null
 });

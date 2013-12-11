@@ -48,8 +48,8 @@ Meteor.methods({
 		return details;
 	},
 	addProduct: function(id){
-		 var current = [];
-		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'productId':id,'products':{'_id':id,'price':'','inStock':1,'discount':''}}});
+		var current = [];
+		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'productId':id}});
 	},
 	readProducts: function(username){
 		if(!username)
@@ -73,7 +73,11 @@ Meteor.methods({
 		return type;
 	},
 	editProducts: function(set){
-		Meteor.users.update({'_id': Meteor.userId()}, {$set : { 'products': set}});
+		_.each(set,function(e){
+			// console.log(e.productId);
+			// console.log(Meteor.userId());
+			Prices.upsert({"productId":e.productId,"shopId":Meteor.userId()},{$set:{'price': e.price,'inStock': e.inStock,'onDisplay': e.onDisplay}});
+		});
 	},
 	editDetails: function(details){
 		Meteor.users.update({'_id': Meteor.userId()}, {$set : details});

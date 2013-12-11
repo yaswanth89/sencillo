@@ -1,39 +1,153 @@
 <template name="header">
-	
-	<ul class="nav" id="headerCategories">
-		<li style:"cursor:pointer" id="topLi"><span>Categories  <i class="fa fa-sort-asc"></i></span>
-			<ul id="firstLevelUl">
-  			{{#each MainCatArr}}
-	  			<li id="firstLevelLi"><span>{{Main}}</span>
-	  				<ul id="secondLevelUl">
-	  				{{#each Sub}}
-	  					<li id="secondLevelLi"><a class="subCatNav" href="/{{subCatLink this}}">{{this}}</a></li>
-	  				{{/each}}
-	  			    </ul>
-	  			</li>
-  			{{/each}}
-  			</ul>
-  		</li>
-  	</ul>
-		<div class="navbar navbar-inner">
+	<div class="navbar navbar-inner" id='headerTop'>
 		<ul class="nav">
-		<li><a href="/" class="brand">Sencillo</a></li>
 
-		<li>
-    		<form id="searchForm" class="form-search" style="margin:6px">
-				<div class="input-append">
-				<input type="text" id="searchInput" class="span2 search-query" placeholder="Search" />
-				<button type="submit" class="btn"><i class="icon-search"></i></button>
-				</div>
-			</form>
-		</li>
-    	{{#if currentUser}}
-    	<li><a href="/dashboard">Dashboard</a></li>
-    	<li><a href="#" class="logout" id="logout">Logout</a></li>
-    	{{else}}
-	    <li><a href="/login">Login</a></li>
-	    <li><a href="/register">Register</a></li>
-    	{{/if}}
-	</ul>
+			<li style="position:relative"><div class="backExtend"></div><span class="caption">Shopping Simplified</span><a href="/" class="brand">Sencillo</a></li>
+			<li>
+	    		<form id="searchForm">
+					<div class="input-append">
+						<input type="text" id="searchInput" class="span5" placeholder="Search" />
+						<button type="submit" class="btn"><i class="icon-search"></i></button>
+					</div>
+				</form>
+			</li>
+	    	{{#if currentUser}}
+		    	<li><a href="/dashboard">Dashboard</a></li>
+		    	<li><a href="#" class="logout" id="logout">Logout</a></li>
+	    	{{else}}
+			    <li><a href="/login">Login</a></li>
+			    <li><a href="/register">Register</a></li>
+	    	{{/if}}
+		</ul>
+		<ul class="nav pull-right">
+			<li><a href="#aa"><i class="fa fa-shopping-cart"></i></a></li>
+		</ul>
+	</div>
+	<div class="navbar navbar-inner" id='headerTop2'>
+		<ul class="nav">
+			<li class="dropdown">
+			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Computer</a>
+			    <ul class="navbar-dropdown dropdown-menu" style="width: 360px;">
+			    	<div class="categories">
+			    		<span class="main-cat">Computers</span>
+			    		<ul class="nav-links">
+			    			<li><a href="/Laptops">Laptops</a></li>
+			    			<li><a href="/Desktops">Desktops</a></li>
+			    			<li><a href="/Ultrabooks">Ultrabooks</a></li>
+			    		</ul>
+			    	</div>
+			    	<div class="categories">
+			    		<span class="main-cat">Computers Peripherals</span>
+			    		<ul class="nav-links">
+			    			<li><a href="/Monitors">Monitors</a></li>
+			    			<li><a href="/Keyboards">Keyboards</a></li>
+			    			<li><a href="/Mouse">Mouse</a></li>
+			    			<li><a href="/Printers">Printers</a></li>
+			    			<li><a href="/Webcams">Webcams</a></li>
+			    			<li><a href="/Headsets">Headsets</a></li>
+			    			<li><a href="/Pendrives">Pendrives</a></li>
+			    			<li><a href="/External_Hard_Drives">External Hard Drives</a></li>
+			    			<li><a href="/Routers/Modems">Routers/Modems</a></li>
+			    			<li><a href="/Data_Cards">Data Cards</a></li>
+			    			<li><a href="/Storage_Devices">Storage Devices</a></li>
+			    		</ul>
+			    	</div>
+			    </ul>
+			</li>
+			<li class="dropdown">
+			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mobiles/Tablets</a>
+			    <ul class="navbar-dropdown dropdown-menu">
+		    		<ul class="nav-links">
+		    			<li><a href="/Smartphones">Smartphones</a></li>
+		    			<li><a href="/Feature_Phones">Feature Phones</a></li>
+		    			<li><a href="/Tablets">Tablets</a></li>
+		    		</ul>
+			    </ul>
+			</li>
+			<li class="dropdown" >
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Audio/Video</a>
+			    <ul class="navbar-dropdown dropdown-menu" style="width: 319px;">
+			    	<div class="categories">
+			    		<span class="main-cat">Audio</span>
+			    		<ul class="nav-links">
+			    			<li><a href="/Earphones">Earphones</a></li>
+			    			<li><a href="/Headphones">Headphones</a></li>
+			    			<li><a href="/Speakers">Speakers</a></li>
+			    			<li><a href="/Home_Theater_Systems">Home Theater<br/>Systems</a></li>
+			    		</ul>
+			    	</div>
+			    	<div class="categories">
+			    		<span class="main-cat">Video</span>
+			    		<ul class="nav-links">
+							<li><a href="/TV">TV</a></li>
+							<li><a href="/Projectors">Projectors</a></li>
+							<li><a href="/DVD/Blu-ray_Players">DVD/Blu-ray<br/>Players</a></li>
+			    		</ul>
+			    	</div>
+			    </ul>
+			</li>
+			<li class="dropdown" >
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Home Appliance</a>
+			    <ul class="navbar-dropdown dropdown-menu" style="width: 442px;">
+			    	<div class="categories">
+			    		<span class="main-cat">Large Home Appliances</span>
+			    		<ul class="nav-links">
+			    			<li><a href="/Air_Conditioners">Air Conditioners</a></li>
+							<li><a href="/Air_Coolers">Air Coolers</a></li>
+							<li><a href="/Fans">Fans</a></li>
+							<li><a href="/Washing_Machines">Washing Machines</a></li>
+							<li><a href="/Refrigerators">Refrigerators</a></li>
+							<li><a href="/Vacuum_Cleaners">Vacuum Cleaners</a></li>
+			    		</ul>
+			    	</div>
+			    	<div class="categories">
+			    		<span class="main-cat">Small Home Appliances</span>
+			    		<ul class="nav-links">
+			    			<li><a href="/Geysers">Geysers</a></li>
+			    			<li><a href="/Water_Purifiers">Water Purifiers</a></li>
+			    			<li><a href="/Air_Purifiers">Air Purifiers</a></li>
+			    			<li><a href="/Irons">Irons</a></li>
+			    			<li><a href="/Room_Heaters">Room Heaters</a></li>
+			    			<li><a href="/Inverters/Stabilizers">Inverters/Stabilizers</a></li>
+			    			<li><a href="/Emergency_Lights">Emergency Lights</a></li>
+			    		</ul>
+			    	</div>
+			    </ul>
+			</li>
+			<li class="dropdown" >
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Kitchen Appliance</a>
+			    <ul class="navbar-dropdown dropdown-menu" style="width: 185px;">
+		    		<ul class="nav-links">
+						<li><a href="/Microwave_Ovens">Microwave Ovens</a></li>
+		    			<li><a href="/OTGs">OTGs</a></li>
+		    			<li><a href="/Induction_Cooktops">Induction Cooktops</a></li>
+		    			<li><a href="/Electric_Kettles">Electric Kettles</a></li>
+		    			<li><a href="/Toasters">Toasters</a></li>
+		    			<li><a href="/Sandwich_Makers">Sandwich Makers</a></li>
+		    			<li><a href="/Grills">Grills</a></li>
+		    			<li><a href="/Food_Processors">Food Processors</a></li>
+		    			<li><a href="/Juicers/Mixers/Grinders">Juicers/Mixers/Grinders</a></li>
+		    			<li><a href="/Choppers/Blenders">Choppers/Blenders</a></li>
+		    			<li><a href="/Dishwashers">Dishwashers</a></li>
+		    			<li><a href="/Coffee_Makers">Coffee Makers</a></li>
+		    			<li><a href="/Electric_Cookers">Electric Cookers</a></li>
+		    			<li><a href="/Hoods/Chimneys">Hoods/Chimneys</a></li>
+		    		</ul>
+			    </ul>
+			<li class="dropdown" >
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Pesrsonal Care</a>
+			    <ul class="navbar-dropdown dropdown-menu" style="width: 145px;">
+		    		<ul class="nav-links">
+						<li><a href="/Shavers">Shavers</a></li>
+						<li><a href="/Trimmers">Trimmers</a></li>
+						<li><a href="/Hair_Dryers">Hair Dryers</a></li>
+						<li><a href="/Epilators">Epilators</a></li>
+						<li><a href="/Hair_Straighthers">Hair Straighthers</a></li>
+						<li><a href="/Hair_Curlers">Hair Curlers</a></li>
+						<li><a href="/Hair_Stylers">Hair Stylers</a></li>
+		    		</ul>
+			    </ul>
+			</li>
+		</ul>
 	</div>
 </template>
