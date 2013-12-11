@@ -186,11 +186,15 @@
   <div class="products-list tab-pane active" id='cvFeaturedProducts'>
     {{#isolate}}
      {{#each featuredProductArr}}
-       <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
-        <img class="item-image" data-original="{{this.Image.[0]}}"/>
-        <h4>{{this.Brand}}</h4>
-        <p class="lead">{{this.ProductName}}</p>
-        <p>{{this.ModelID}}</p>
+       <div class="show-product" id="featuredProduct_{{_id}}" style="cursor:pointer">
+        <img class="item-image" src="image/482.GIF" data-original="{{this.Image.[0]}}"/>
+        <div class="item-desc">
+          <p class="item-name">{{this.ProductName}} {{this.ModelID}}</p>
+          <div class="item-price-brand">
+            <span class="pull-left"><i class="fa fa-rupee"></i>{{this.price}}/-</span>
+            <span class="pull-right">{{this.Brand}}</span>
+          </div>
+        </div>
        </div>
      {{/each}}
     {{/isolate}}
@@ -202,11 +206,15 @@
     {{#isolate}}
      {{#each ProductArr}}
        <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
-        <img class="item-image" data-original="{{this.Image.[0]}}"/>
-        <h4>{{this.Brand}}</h4>
-        <p class="lead">{{this.ProductName}}</p>
-        <p>{{this.ModelID}}</p>
-       </div>
+        <img class="item-image" src="image/482.GIF" data-original="{{this.Image.[0]}}"/>
+        <div class="item-desc">
+          <p class="item-name">{{this.ProductName}} {{this.ModelID}}</p>
+          <div class="item-price-brand">
+            <span class="pull-left"><i class="fa fa-rupee"></i>{{this.price}}/-</span>
+            <span class="pull-right">{{this.Brand}}</span>
+          </div>
+        </div>
+     </div>
      {{/each}}
     {{/isolate}}
     </div>

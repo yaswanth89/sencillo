@@ -101,10 +101,13 @@ Template.ShopProducts.ProductArr = function(){
   		Products.find({_id:{$in:productList},'Sub':Session.get('shopSub')},{reactive:Session.get('newProducts')}).forEach(function(obj){
   			var p = Prices.findOne({'shopId':shopid,'productId':obj._id});
         if(p != undefined){
-          if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined)
+          if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined){
+            obj.price = p.price;
             prods.push(obj);
+          }
           else{
             if(p.price > Session.get('shopPriceRange')[0] && p.price < Session.get('shopPriceRange')[1]){
+              obj.price = p.price;
               prods.push(obj);
             }
           }
@@ -117,11 +120,14 @@ Template.ShopProducts.ProductArr = function(){
   		Products.find({_id:{$in:productList},'Sub':Session.get('shopSub'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')}).forEach(function(obj){
   			var p = Prices.findOne({'shopId':shopid,'productId':obj._id});
     		if(p != undefined){
-    			if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined)
+    			if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined){
+            obj.price = p.price;
             prods.push(obj);
-          else{
-            if(p.price > Session.get('shopPriceRange')[0] && p.price < Session.get('shopPriceRange')[1])
+          }else{
+            if(p.price > Session.get('shopPriceRange')[0] && p.price < Session.get('shopPriceRange')[1]){
+              obj.price = p.price;
               prods.push(obj);
+            }
           }
         }
   		});
