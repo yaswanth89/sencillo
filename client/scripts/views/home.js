@@ -102,15 +102,6 @@ Template.homeProducts.events = {
   }
 }
 
-
-Template.homeDistanceFilter.events = {
-  "change input[name='distanceFilter']" : function(e, t){
-    var now = e.currentTarget.value;
-    console.log('distance filter is '+now);
-    Session.set('distanceFilter',now);
-  }
-}
-
 Template.homeModal.product = function(){
   return Products.find({_id:Session.get('homeId')});
 };
@@ -164,6 +155,23 @@ Template.homeModal.events = {
 }
 
 Template.homeDistanceFilter.rendered = function(){
+
+  console.log('rendered distance');
+  $('#distanceSlider').slider({
+    min: 1,
+    max: 10,
+    step: 1,
+    value: 5,
+    selection: 'before',
+    orientation: 'horizontal',
+    tooltip: 'show'
+  });
+
+   $('#distanceSlider').on('slideStop', function(e){
+    console.log('slide stop!!');
+    Session.set('distanceFilter',$(this).val());
+  });
+
   var center = new google.maps.places.Autocomplete(document.getElementById('distanceCenter'));
   center.setComponentRestrictions({country: 'IN'});
   center.setTypes(['geocode']);
@@ -228,9 +236,6 @@ $(function(){
       return $(this).val()
     }).get();
     Session.set('homeBrand',brandSel);
-  });
-  $(window).load(function() {
-    $("#distanceSlider").slider()
   });
 });
 

@@ -201,6 +201,7 @@ Meteor.publish("homePrices",function(id){
   return Prices.find({"productId":id,"price":{$gt:0}});
 });
 
-Meteor.publish("shopProductPrices",function(id){
-  return Prices.find({"shopId":id});
+Meteor.publish("shopProductPrices",function(username){
+  var id = Meteor.users.findOne({'username':username,'usertype':'shop'})._id;
+  return Prices.find({"shopId": id, 'price': {$gt: 0}});
 });

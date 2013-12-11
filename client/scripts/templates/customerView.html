@@ -16,14 +16,15 @@
     </div>
     <div class='cvShopProducts'>
       {{> ShopContentTabs}}
+      {{> shopModal}}
     </div>
 </template>
 
 <template name="ShopInfo">
   {{#with shopDet}}
     <div class='shopHeading'><h3>{{shopname}}</h3></div>
-    <p style="font-size:1.1em;"><i class="fa fa-map-marker">&nbsp;&nbsp;{{address}}</i></p>
-    <i class="fa fa-phone-square"></i>&nbsp;&nbsp;{{contactnum}}
+    <p style="font-size:1.1em;"><i class="fa fa-map-marker" style='color:#e71e24;'></i>&nbsp;&nbsp;{{address}}</p>
+    <i class="fa fa-phone-square" style='color:green;'></i>&nbsp;&nbsp;{{contactnum}}
     <div class='shopFacilities'>
       <ul>
         <li>Payment Modes: {{#each payments}}{{this}}{{else}}Cash{{/each}}</li>
@@ -59,7 +60,7 @@
 </template>
 
 <template name='shopModal'>
-  <div id="shopModal" style="display:none">
+  <div id="shopModal">
       <a id="shopCloseModal" href="#">X</a>
       {{#isolate}}
       {{#each product}}
@@ -164,9 +165,9 @@
 
 <template name='ShopContentTabs'>
   <ul class="nav nav-tabs" id="myTab">
-    <li class="active"><a href="#featuredProducts" data-toggle="tab">Featured Products</a></li>
-    <li><a href="#productsList" data-toggle="tab">Products Available</a></li>
-    <li><a href="#shopReviews" data-toggle="tab">Reviews & Ratings</a></li>
+    <li class="active"><a href="#cvFeaturedProducts" data-toggle="tab">Featured Products</a></li>
+    <li><a href="#cvProductsList" data-toggle="tab">Products Available</a></li>
+    <li><a href="#cvShopReviews" data-toggle="tab">Reviews & Ratings</a></li>
   </ul>
   <div class="tab-content">
       {{#isolate}}
@@ -182,7 +183,7 @@
 </template>
 
 <template name='FeaturedProducts'>
-  <div class="products-list tab-pane active" id='featuredProducts'>
+  <div class="products-list tab-pane active" id='cvFeaturedProducts'>
     {{#isolate}}
      {{#each featuredProductArr}}
        <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
@@ -197,7 +198,7 @@
 </template>
 
 <template name="ShopProducts">
-   <div class="products-list tab-pane" id='productsList'>
+   <div class="products-list tab-pane" id='cvProductsList'>
     {{#isolate}}
      {{#each ProductArr}}
        <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
@@ -212,5 +213,5 @@
 </template>
 
 <template name='ShopReviews'>
-  <div id='shopReviews' class='tab-pane'><i>No Reviews Yet!!</i></div>
+  <div id='cvShopReviews' class='tab-pane'><i>No Reviews Yet!!</i></div>
 </template>

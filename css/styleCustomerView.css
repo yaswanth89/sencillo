@@ -59,6 +59,7 @@
 	width: 78%;
 	padding: 25px;
 	float: right;
+	position: relative;
 }
 .cvShopProducts .show-product{
 	width: 23%;
