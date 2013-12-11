@@ -11,6 +11,7 @@
       </a>
       <ul id="theFilters" class="dropdown-menu">
         {{> homeBrand}}
+        {{> homePriceFilter}}
         {{> homeDistanceFilter}}
       </ul>
     </div>
@@ -48,6 +49,17 @@
     <div class="slider-controls span2">
       <span class="pull-left">1 Km</span>
       <span class="pull-right">10 Km</span>
+    </div>
+  </div>
+</template>
+
+<template name='homePriceFilter'>
+  <div class='priceFilter'>
+    <strong>PRICE RANGE</strong><br>
+    <div id='priceSlider' class='span2'></div>
+    <div class="slider-controls span2">
+      <span class="pull-left">Rs. 0</span>
+      <span class="pull-right">Rs. 10000</span>
     </div>
   </div>
 </template>

@@ -1,9 +1,5 @@
 var global = {};
-if(navigator.geolocation){
-  navigator.geolocation.getCurrentPosition(function(position){
-    window.here = position;
-  });
-}
+
 this.Home = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
@@ -39,7 +35,17 @@ this.Home = Backbone.View.extend({
 	}
 });
 Deps.autorun(function(){
-    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'));
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(function(position){
+        window.here = position;
+        Session.set('distanceCenter',window.here.coords);
+      });
+    }
+    if(Session.get('distanceFilter') == undefined || Session.get('distanceFilter') == '')
+      Session.set('distanceFilter',5);
+    if(Session.get('priceRange') == undefined)
+      Session.set('priceRange', []);
+    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'),Session.get('distanceFilter'),Session.get('distanceCenter'),Session.get('priceRange'));
     Meteor.subscribe('homeProductDetail',Session.get('homeId'));
     Meteor.subscribe('homePrices',Session.get('homeId'));
     Meteor.subscribe('homeId');
@@ -65,38 +71,21 @@ Template.homeBrand.Brand = function(){
 
 
 Template.homeProducts.ProductArr = function(){
+  if(Session.get('distanceFilter') == undefined || Session.get('distanceFilter') == "")
+      Session.set('distanceFilter',5);
+    var withinProducts = [];
+      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
+        console.log(obj);
+        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
+          withinProducts = _.union(withinProducts,obj.productId);
+        }
+      });
+      console.log(withinProducts);
   if(_.isEmpty(Session.get('homeBrand'))){
-    if(Session.get('distanceFilter') != undefined && Session.get('distanceFilter') != ""){
-      var withinProducts = [];
-      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
-        console.log(obj);
-        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
-          withinProducts = _.union(withinProducts,obj.productId);
-        }
-      });
-      return addLeastPrice(Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub')},{reactive: Session.get('newProducts')}).fetch());
-    }
-    if(Session.get('homeIdList')==""){
-      return addLeastPrice(Products.find({"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')}).fetch());
-    }
-    else{
-      return addLeastPrice(Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')}).fetch());
-    }
+      return addLeastPrice(Products.find({"_id":{$in: withinProducts},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')}).fetch());
   }else{
-    if(Session.get('distanceFilter') != undefined && Session.get('distanceFilter') != ""){
-      var withinProducts = [];
-      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
-        console.log(obj);
-        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
-          withinProducts = _.union(withinProducts,obj.productId);
-        }
-      });
-      return addLeastPrice(Products.find({"_id":{$in : withinProducts}, "Sub":Session.get('homeSub'), "Brand":{$in:Session.get('homeBrand')}},{reactive: Session.get('newProducts')}).fetch());
-    }
-    if(Session.get('homeIdList')=="")
-      return addLeastPrice(Products.find({"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')}).fetch());
-    else
-      return addLeastPrice(Products.find({"_id":{$in:Session.get('homeIdList')},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')}));
+      console.log('not empty');
+      return addLeastPrice(Products.find({"_id":{$in: withinProducts},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')}).fetch());
   }
 };
 
@@ -147,7 +136,7 @@ Template.homeModalAvailble.shopList = function(){
     if(price){
       returnarr.push({
         shopname:el.shopname,
-        distance:findDistance(el.shopLatitude,el.shopLongitude,window.here.coords.latitude, window.here.coords.longitude),
+        distance:findDistance(el.shopLatitude,el.shopLongitude,Session.get('distanceCenter').latitude, Session.get('distanceCenter').longitude),
         link:'/cv/'+el.username+'/'+Session.get('homeId'),
         price:price
       });
@@ -174,11 +163,39 @@ Template.homeModal.events = {
   }
 }
 
+Template.homeDistanceFilter.rendered = function(){
+  var center = new google.maps.places.Autocomplete(document.getElementById('distanceCenter'));
+  center.setComponentRestrictions({country: 'IN'});
+  center.setTypes(['geocode']);
+
+  google.maps.event.addListener(center, 'place_changed', function(){
+    var place = center.getPlace();
+    console.log(place);
+    if(!place.geometry)
+      return;
+    Session.set('distanceCenter', {'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
+  });
+};
+
+Template.homePriceFilter.rendered = function(){
+  $('#priceSlider').slider({
+    min: 0,
+    max: 10000,
+    step: 100,
+    orientation: 'horizontal',
+    value: [1000,5000],
+    tooltip:'show'
+  });
+
+  $('#priceSlider').on('slideStop', function(e){
+    Session.set('priceRange',$(this).val());
+  });
+};
 
 Template.homeProducts.rendered = function(){
   if(this.rendered==1){
     $("#loadmask").fadeOut('slow');
-    Session.set('newProducts',false);
+    //Session.set('newProducts',false);
     this.rendered=2;
   }
   if(!this.rendered){
@@ -229,6 +246,12 @@ function addLeastPrice(x){
     z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
     if(z.count()>0)
       e.leastPrice =  z.fetch()[0].price;
+    if(Session.get('priceRange') != []){
+      if(e.leastPrice < Session.get('priceRange')[0] || e.leastPrice > Session.get('priceRange')[1]){
+        var i = x.indexOf(e);
+        x.splice(i,1);
+      }
+    }
   });
   return x;
 }

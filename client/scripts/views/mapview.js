@@ -113,7 +113,19 @@ Template.mapView.rendered = function(){
 	var markers = [];
 	var labels= [];
 
-	var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);	
+	if(window.here.coords != undefined)
+		var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);	
+	else{
+		if(navigator.geolocation){
+	      navigator.geolocation.getCurrentPosition(function(position){
+	        window.here = position;
+	        Session.set('distanceCenter',window.here.coords);
+	      });
+    	}else{
+    		alert('We are unable to locate where you are! Please select your location');
+    	}
+    	var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);
+	}
 	var mapProp = {
 	  center: myLatLng,
 	  zoom:14,

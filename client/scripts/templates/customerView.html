@@ -1,34 +1,40 @@
-
+ 
 <template name="customerView">
-  
-
-    <div class="cvCategories">
-      {{> ShopMainCat}}
-      {{> ShopBrand}}
-    </div>
-    <div class="cvProductsList" id="cvProductList">
-      {{> ShopProducts}}
-      {{> shopModal}}
-    </div>
-    <div class="cvMapDisplay">
-      <!--<div id='cvmap-ribbon'>SHOW MAP</div>-->
+    <div class="cvShopDisplay">
       <div id='shopInfo-wrapper'>
         <div class="shopInfo">
-          {{> shopInfo}}
+          {{> ShopInfo}}
         </div>
-        {{> mapCanvas}}
+        <div id='shopMapInfo'>
+          {{> mapCanvas}}
+        </div>
       </div>
+    </div>
+    <div class='cvShopFilters'>
+        {{> ShopBrand}}
+        {{> ShopPriceFilter}}
+    </div>
+    <div class='cvShopProducts'>
+      {{> ShopContentTabs}}
     </div>
 </template>
 
-<template name="shopInfo">
+<template name="ShopInfo">
   {{#with shopDet}}
-    <h3>{{shopname}}</h3>
-    <p style="font-size:1.3em;">{{address}}</p>
-    <i class="fa fa-phone-square"> {{contactnum}}</i>
-    <!--
-    <span>{{contactnum}}</span>
-    -->
+    <div class='shopHeading'><h3>{{shopname}}</h3></div>
+    <p style="font-size:1.1em;"><i class="fa fa-map-marker">&nbsp;&nbsp;{{address}}</i></p>
+    <i class="fa fa-phone-square"></i>&nbsp;&nbsp;{{contactnum}}
+    <div class='shopFacilities'>
+      <ul>
+        <li>Payment Modes: {{#each payments}}{{this}}{{else}}Cash{{/each}}</li>
+        {{#if emi}}
+          <li>EMI Available</li>
+        {{else}}
+          <li>EMI Not Available</li>
+        {{/if}}
+        <li>Shop Timings: {{openHour}} - {{closeHour}}</li>
+      </ul>
+    </div>
   {{/with}}
 </template>
 
@@ -49,9 +55,7 @@
 </template>
 
 <template name='mapCanvas'>
-  <img class='gmap-static' id='small-map' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=13&size=250x150&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
-  <img class='gmap-static' id='large-map' width='450' height='300' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=16&size=450x300&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
-<!--<div id="googleMap" style="width:300px;height:200px;float:left;margin-top:10px;display:inline;"></div>-->
+  <img class='gmap-static' id='small-map' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=15&size=900x280&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
 </template>
 
 <template name='shopModal'>
@@ -130,18 +134,70 @@
 </template>
 
 <template name="ShopBrand">
-  <div id="cvBrand">
-    <p class="lead" style="margin-left:5%">Brands</p>
-    <div style="text-align:left;display:inline-block;height:100px;margin-left:5%;margin-top:-7.5%;">
-    {{#each BrandArr}}
-      <input class="brand" value="{{this}}" type="checkbox">{{this}}</input><br>
-    {{/each}}
+  <div class="brandFilter">
+    <strong>Brands</strong>
+      {{#isolate}}
+      {{#each BrandArr}}
+        <div class="control-group">
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" class='shopBrandCheck' value="{{this}}"> {{this}}
+            </label>
+          </div>
+        </div>
+      {{/each}}
+      {{/isolate}}
+    </ul>
+  </div>
+</template>
+
+<template name='ShopPriceFilter'>
+  <div class='priceFilter'>
+    <strong>PRICE RANGE</strong><br>
+    <div id='shopPriceSlider' class='span2'></div>
+    <div class="slider-controls span2">
+      <span class="pull-left">Rs. 0</span>
+      <span class="pull-right">Rs. 10000</span>
     </div>
   </div>
 </template>
 
+<template name='ShopContentTabs'>
+  <ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#featuredProducts" data-toggle="tab">Featured Products</a></li>
+    <li><a href="#productsList" data-toggle="tab">Products Available</a></li>
+    <li><a href="#shopReviews" data-toggle="tab">Reviews & Ratings</a></li>
+  </ul>
+  <div class="tab-content">
+      {{#isolate}}
+        {{> FeaturedProducts}}
+      {{/isolate}}
+      {{#isolate}}
+        {{> ShopProducts}}
+      {{/isolate}}
+      {{#isolate}}
+        {{> ShopReviews}}
+      {{/isolate}}
+      </div>
+</template>
+
+<template name='FeaturedProducts'>
+  <div class="products-list tab-pane active" id='featuredProducts'>
+    {{#isolate}}
+     {{#each featuredProductArr}}
+       <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
+        <img class="item-image" data-original="{{this.Image.[0]}}"/>
+        <h4>{{this.Brand}}</h4>
+        <p class="lead">{{this.ProductName}}</p>
+        <p>{{this.ModelID}}</p>
+       </div>
+     {{/each}}
+    {{/isolate}}
+  </div>
+</template>
+
 <template name="ShopProducts">
-   <div class="products-list">
+   <div class="products-list tab-pane" id='productsList'>
     {{#isolate}}
      {{#each ProductArr}}
        <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
@@ -153,4 +209,8 @@
      {{/each}}
     {{/isolate}}
     </div>
+</template>
+
+<template name='ShopReviews'>
+  <div id='shopReviews' class='tab-pane'><i>No Reviews Yet!!</i></div>
 </template>
