@@ -241,7 +241,7 @@ $(function(){
     }).get();
     Session.set('homeBrand',brandSel);
   });
-<<<<<<< HEAD
+
   $('#homeModal .column img').live('click',function(){
     var src = $(this).attr('src');
     var html = "<img src='"+src+"'/>";
@@ -263,7 +263,7 @@ $(function(){
   });
 
 });
-=======
+
 });
 
 
@@ -287,4 +287,4 @@ function addLeastPrice(x){
   });
   return x;
 }
->>>>>>> c62c68ab12af4ed97510231156badcf42f820fd7
+

@@ -40,7 +40,7 @@ Handlebars.registerHelper('key_value', function(context, options) {
     result.push({key:key, value:value});
   })
   return result;
-
+});
 Handlebars.registerHelper("stripes", function(array,options) {
 	var fn = options.fn,
 	    elseFn = options.inverse;
