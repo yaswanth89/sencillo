@@ -32,6 +32,15 @@ Handlebars.registerHelper('shopRouter',function(shopname){
 	
 	return linkReturn;
 });
+
+
+Handlebars.registerHelper('key_value', function(context, options) {
+  var result = [];
+  _.each(context, function(value, key, list){
+    result.push({key:key, value:value});
+  })
+  return result;
+});
 Handlebars.registerHelper("stripes", function(array,options) {
 	var fn = options.fn,
 	    elseFn = options.inverse;
@@ -48,4 +57,5 @@ Handlebars.registerHelper("stripes", function(array,options) {
   else {
     return elseFn();
   }
+
 });

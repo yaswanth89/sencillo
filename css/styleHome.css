@@ -125,6 +125,29 @@ div.show-product p{
 	font-size:1.2em;
 }
 div.show-product .lead {
+<<<<<<< HEAD
+font-size: 1em;
+font-weight: 400;
+line-height: 1.2em;
+margin-bottom: 5px;
+margin-top: -5px;
+}
+#homeFilter span {
+text-align: center;
+margin-left: 15%;
+font-size: 1.2em;
+font-weight: 500;
+text-decoration: underline;
+}
+
+#homeModal #imageModal {
+
+width: 75%;
+}
+#homeModal abbr{
+	border-bottom:none;
+}
+=======
 	font-size: 1em;
 	font-weight: 400;
 	line-height: 1.2em;
@@ -155,3 +178,4 @@ div.show-product .lead {
 body{
 	font-family: Tahoma, Geneva, Verdana;
 }
+>>>>>>> c62c68ab12af4ed97510231156badcf42f820fd7

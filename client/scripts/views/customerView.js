@@ -220,4 +220,10 @@ $(function(){
 		prevNav = this;
 		Session.set("shopSub",$(this).text());
 	});
+	
+	$('#shopModal .column img').live('click',function(){
+    var src = $(this).attr('src');
+    var html = "<img src='"+src+"'/>";
+    $('div#shopImageModal').html(html);
+  });
 });
