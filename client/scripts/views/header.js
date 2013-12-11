@@ -17,7 +17,7 @@ this.HeaderView = Backbone.View.extend({
 					App.router.aReplace(e);
 			},
 			'mouseover .dropdown-toggle':function (e) {
-				console.log(e);
+				e.currentTarget.click();
 			},
 			'submit #searchForm':function(e){
 				e.preventDefault();

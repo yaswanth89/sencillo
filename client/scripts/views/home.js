@@ -261,8 +261,6 @@ $(function(){
 
 });
 
-});
-
 
 function addLeastPrice(x){
   _.each(x,function(e) {
