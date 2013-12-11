@@ -17,24 +17,13 @@ this.Home = Backbone.View.extend({
       Session.set('homeIdList','');
     }
     Session.set('newProducts',true);
-    Session.set("homeSub",subCat);
+    Session.setDefault("homeSub",subCat);
     Session.set("homeBrand",[]);
     if(window.homeProductId != undefined)
       Session.set("homeId",window.homeProductId);
     else
       Session.set('homeId','');
     var prod_inc = 20;
-    Session.setDefault('homeLimit',prod_inc);
-    return this.template = Meteor.render(function(){
-    return Template.home();
-      });
-	},
-	render:function(){
-		this.$el = this.template;
-		return this;
-	}
-});
-Deps.autorun(function(){
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(function(position){
         window.here = position;
@@ -45,6 +34,17 @@ Deps.autorun(function(){
       Session.set('distanceFilter',5);
     if(Session.get('priceRange') == undefined)
       Session.set('priceRange', []);
+    Session.setDefault('homeLimit',prod_inc);
+    return this.template = Meteor.render(function(){
+      return Template.home();
+    });
+	},
+	render:function(){
+		this.$el = this.template;
+		return this;
+	}
+});
+Deps.autorun(function(){
     Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'),Session.get('distanceFilter'),Session.get('distanceCenter'),Session.get('priceRange'));
     Meteor.subscribe('homeProductDetail',Session.get('homeId'));
     Meteor.subscribe('homePrices',Session.get('homeId'));
@@ -71,20 +71,17 @@ Template.homeBrand.Brand = function(){
 
 
 Template.homeProducts.ProductArr = function(){
-  if(Session.get('distanceFilter') == undefined || Session.get('distanceFilter') == "")
-      Session.set('distanceFilter',5);
-    var withinProducts = [];
-      Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
-        console.log(obj);
-        if(findDistance(obj.shopLatitude,obj.shopLongitude,window.here.coords.latitude,window.here.coords.longitude) < Session.get('distanceFilter')){
-          withinProducts = _.union(withinProducts,obj.productId);
-        }
-      });
-      console.log(withinProducts);
+  var withinProducts = [];
+  Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
+    if(findDistance(obj.shopLatitude,obj.shopLongitude,Session.get('distanceCenter').coords.latitude,Session.get('distanceCenter').coords.longitude) < Session.get('distanceFilter')){
+      withinProducts = _.union(withinProducts,obj.productId);
+    }
+  });
+    console.log(withinProducts);
   if(_.isEmpty(Session.get('homeBrand'))){
       return addLeastPrice(Products.find({"_id":{$in: withinProducts},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')}).fetch());
   }else{
-      console.log('not empty');
+      // console.log('not empty');
       return addLeastPrice(Products.find({"_id":{$in: withinProducts},"Sub":Session.get('homeSub'),'Brand':{$in:Session.get('homeBrand')}},{reactive:Session.get('newProducts')}).fetch());
   }
 };
@@ -156,7 +153,7 @@ Template.homeModal.events = {
 
 Template.homeDistanceFilter.rendered = function(){
 
-  console.log('rendered distance');
+  // console.log('rendered distance');
   $('#distanceSlider').slider({
     min: 1,
     max: 10,
@@ -168,7 +165,7 @@ Template.homeDistanceFilter.rendered = function(){
   });
 
    $('#distanceSlider').on('slideStop', function(e){
-    console.log('slide stop!!');
+    // console.log('slide stop!!');
     Session.set('distanceFilter',$(this).val());
   });
 
@@ -178,7 +175,7 @@ Template.homeDistanceFilter.rendered = function(){
 
   google.maps.event.addListener(center, 'place_changed', function(){
     var place = center.getPlace();
-    console.log(place);
+    // console.log(place);
     if(!place.geometry)
       return;
     Session.set('distanceCenter', {'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
@@ -245,7 +242,7 @@ $(function(){
 
 function addLeastPrice(x){
   _.each(x,function(e) {
-    console.log(e._id);
+    // console.log(e._id);
     z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
     if(z.count()>0){
       e.leastPrice =  z.fetch()[0].price;

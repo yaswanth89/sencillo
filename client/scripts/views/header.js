@@ -16,6 +16,9 @@ this.HeaderView = Backbone.View.extend({
 				else
 					App.router.aReplace(e);
 			},
+			'mouseover .dropdown-toggle':function (e) {
+				console.log(e);
+			},
 			'submit #searchForm':function(e){
 				e.preventDefault();
 				var query = encodeURIComponent($("#searchInput").val().trim());
