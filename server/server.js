@@ -146,7 +146,7 @@ Meteor.publish('homeId',function(){
   return HomeId.find({});
 });
 
-Meteor.publish('homeProductList',function(sub,limit,distance,loc){
+Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
   var idList = HomeId.find({}).fetch()[0].idList;
   var blah = [];
   var shops = Meteor.users.find({'usertype':'shop'},{fields:{'shopLatitude':1, 'shopLongitude':1}});
@@ -155,11 +155,15 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc){
     if(findDistance(obj.shopLatitude, obj.shopLongitude, loc.latitude, loc.longitude) < distance)
       _.union(withinIdList,obj.productId);
   });
-  idList = 
   x = Products.find({_id:{$in:withinIdList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
   _.each(x.fetch(),function(e){
     y = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"_id":1,"price":1},sort:{price:1},limit:1});
-    blah.push(y.fetch()[0]._id);
+    try{
+      if(priceRange[0] < y.fetch()[0].price && y.fetch()[0].price < priceRange[1])
+        blah.push(y.fetch()[0]._id);
+    }catch(e){
+      blah.push(y.fetch()[0]._id);
+    }
   });
   return [x,Prices.find({_id:{$in:blah}},{fields:{"productId":1,"price":1}})];
 });

@@ -40,12 +40,23 @@ Template.register.events({
     }
  });
 
+var map;
+
 Template.shopRegister.rendered = function(){
+  console.log('rendered register!!');
   var mapOptions = {
     panControl: false,
     zoomControl: false
-  }
-  var map = new google.maps.Map(document.getElementById('registerMap'));
+  };
+  if(document.getElementById('registerMap') != null)
+    this.removeChild(document.getElementById('registerMap'));
+  var regMap = document.createElement('div');
+  regMap.id = 'registerMap';
+  regMap.style.width = '1200px';
+  regMap.style.height = '700px';
+  document.getElementById('register-wrapper').appendChild(regMap);
+  map = new google.maps.Map(regMap);
+  console.log(map);
   //map.panBy(-300,0);
   var localityBox = new google.maps.places.Autocomplete(document.getElementById('shop-locality'));
   var landmarkBox = new google.maps.places.Autocomplete(document.getElementById('shop-landmark'));
@@ -55,16 +66,20 @@ Template.shopRegister.rendered = function(){
 
   var shopForm = document.getElementById('register-form-shop');
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
+  console.log('controls pushed');
   shopForm.style.backgroundColor = 'rgba(255,255,255,0.7)';
   shopForm.style.fontWeight = 'bold';
   //landmarkBox.setTypes(['establishment']);
   var myLatLng;
-  if(window.here != undefined)
-    myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
-  else{
+  if(window.here != undefined){
+      myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
+      map.setCenter(myLatLng);
+      map.setZoom(13);
+  }else{
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(function(position){
         window.here = position;
+        console.log('geo!!');
         myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
         map.setCenter(myLatLng);
         map.setZoom(13);
@@ -142,3 +157,9 @@ Template.shopRegister.rendered = function(){
     });
   });
 };
+
+Template.shopRegister.destroyed = function() {
+  console.log('destroyed!!!');
+  Session.set('mapInit', true);
+};
+

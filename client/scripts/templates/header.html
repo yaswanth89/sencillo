@@ -1,39 +1,35 @@
 <template name="header">
-	
-	<ul class="nav" id="headerCategories">
-		<li style:"cursor:pointer" id="topLi"><span>Categories  <i class="fa fa-sort-asc"></i></span>
-			<ul id="firstLevelUl">
-  			{{#each MainCatArr}}
-	  			<li id="firstLevelLi"><span>{{Main}}</span>
-	  				<ul id="secondLevelUl">
-	  				{{#each Sub}}
-	  					<li id="secondLevelLi"><a class="subCatNav" href="/{{subCatLink this}}">{{this}}</a></li>
-	  				{{/each}}
-	  			    </ul>
-	  			</li>
-  			{{/each}}
-  			</ul>
-  		</li>
-  	</ul>
 	<div class="navbar navbar-inner" id='headerTop'>
 		<ul class="nav">
-		<li><a href="/" class="brand">Sencillo</a></li>
-
-		<li>
-    		<form id="searchForm" class="form-search" style="margin:6px">
-				<div class="input-append">
-				<input type="text" id="searchInput" class="span2 search-query" placeholder="Search" />
-				<button type="submit" class="btn"><i class="icon-search"></i></button>
-				</div>
-			</form>
-		</li>
-    	{{#if currentUser}}
-    	<li><a href="/dashboard">Dashboard</a></li>
-    	<li><a href="#" class="logout" id="logout">Logout</a></li>
-    	{{else}}
-	    <li><a href="/login">Login</a></li>
-	    <li><a href="/register">Register</a></li>
-    	{{/if}}
-	</ul>
+			<li><a href="/" class="brand">Sencillo</a></li>
+			<li>
+	    		<form id="searchForm">
+					<div class="input-append">
+						<input type="text" id="searchInput" class="span6" placeholder="Search" />
+						<button type="submit" class="btn"><i class="icon-search"></i></button>
+					</div>
+				</form>
+			</li>
+	    	{{#if currentUser}}
+		    	<li><a href="/dashboard">Dashboard</a></li>
+		    	<li><a href="#" class="logout" id="logout">Logout</a></li>
+	    	{{else}}
+			    <li><a href="/login">Login</a></li>
+			    <li><a href="/register">Register</a></li>
+	    	{{/if}}
+		</ul>
+		<ul class="nav pull-right">
+			<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+		</ul>
+	</div>
+	<div class="navbar navbar-inner" id='headerTop2'>
+		<ul class="nav">
+			<li><a href="#">Computers</a></li>
+			<li><a href="#">Mobiles</a></li>
+			<li><a href="#">Audio/Video</a></li>
+			<li><a href="#">Home Appliance</a></li>
+			<li><a href="#">Kitchen Appliance</a></li>
+			<li><a href="#">Personal Care</a></li>
+		</ul>
 	</div>
 </template>
