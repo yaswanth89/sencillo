@@ -28,6 +28,7 @@ this.Home = Backbone.View.extend({
       navigator.geolocation.getCurrentPosition(function(position){
         window.here = position;
         Session.set('distanceCenter',window.here.coords);
+        console.log(Session.get('distanceCenter'));
       });
     }
     if(Session.get('distanceFilter') == undefined || Session.get('distanceFilter') == '')
@@ -72,8 +73,18 @@ Template.homeBrand.Brand = function(){
 
 Template.homeProducts.ProductArr = function(){
   var withinProducts = [];
+  if(Session.get('distanceCenter') == undefined)
+    return;
   Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
-    if(findDistance(obj.shopLatitude,obj.shopLongitude,Session.get('distanceCenter').coords.latitude,Session.get('distanceCenter').coords.longitude) < Session.get('distanceFilter')){
+    if(Session.get('distanceFilter') != undefined){
+      if(findDistance(obj.shopLatitude,obj.shopLongitude,Session.get('distanceCenter').latitude,Session.get('distanceCenter').longitude) < Session.get('distanceFilter')){
+        console.log('yayyyy distance checking!!');
+        console.log(obj.productId);
+        withinProducts = _.union(withinProducts,obj.productId);
+      }
+    }
+    else{
+      console.log('not checked!!');
       withinProducts = _.union(withinProducts,obj.productId);
     }
   });
@@ -263,23 +274,24 @@ $(function(){
 
 
 function addLeastPrice(x){
+  var ret = [];
   _.each(x,function(e) {
     // console.log(e._id);
     z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
+    console.log('asdf '+z.count());
     if(z.count()>0){
       e.leastPrice =  z.fetch()[0].price;
-      if(Session.get('priceRange') != []){
-        if(e.leastPrice < Session.get('priceRange')[0] || e.leastPrice > Session.get('priceRange')[1]){
-          var i = x.indexOf(e);
-          e=null;
+      if(Session.get('priceRange') != [] && Session.get('priceRange') != undefined){
+        if(!(e.leastPrice < Session.get('priceRange')[0] || e.leastPrice > Session.get('priceRange')[1])){
+          ret.push(e);
         }
       }
-    }
-    else{
-      var i = x.indexOf(e);
-      e=null;
+      else{
+        ret.push(e);
+      }
     }
   });
-  return x;
+  console.log(ret);
+  return ret;
 }
 
