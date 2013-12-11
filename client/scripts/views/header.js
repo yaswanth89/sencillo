@@ -13,6 +13,10 @@ this.HeaderView = Backbone.View.extend({
 						else
 							alert('error')
 					});
+				else if(e.target.id=="dashboard"){
+					if(Meteor.user().usertype=="shop")
+						$("dashboardDiv").show();
+				}
 				else
 					App.router.aReplace(e);
 			},
@@ -52,11 +56,3 @@ this.HeaderView = Backbone.View.extend({
 Template.header.MainCatArr=function(){
 	return FrameDetail.find({});
 };
-/*
-Template.header.events = {
-	'click a.subCatNav':function(e,t){
-    e.preventDefault();
-    App.router.aReplace(e);
-  }
-}
-*/

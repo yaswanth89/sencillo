@@ -7,7 +7,6 @@ this.Router = Backbone.Router.extend({
 		"shopAdd": "shopAdd",
 		"shopEdit": "shopEdit",
 		"shopDetails": "shopDetails",
-		"dashboard":"dashboard",
 		"framework/p:page":"framework",
 		"brandedit":"brandEdit",
 		"brand":"brand",
@@ -35,26 +34,6 @@ this.Router = Backbone.Router.extend({
 	},
 	mapView:function(){
 		return this.go(mapView);
-	},
-	dashboard:function(){
-		if(Meteor.userId()==null){
-			this.navigate("login", {trigger: true});
-			return;
-		}
-		var router = this;
-		Meteor.call('getUserType',function(error,result){
-			switch(result){
-				case "shop":
-					router.go(ShopDashboard);
-				break;
-				case "brand":
-					router.go(BrandDashboard);
-				break;
-				case 'admin':
-					router.go(Framework,page);
-				break;
-			}
-		});
 	},
 	customerView:function(shop,product){
 		// $("#loadmask").show();

@@ -237,3 +237,6 @@ Meteor.publish("shopProductPrices",function(username){
   else
     return null
 });
+Meteor.publish("userData", function () {
+  return Meteor.users.find({_id: this.userId},{fields: {'usertype': 1}});
+});
