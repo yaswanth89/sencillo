@@ -15,18 +15,17 @@
  	overflow-x: hidden;
 }
 #homeFilter{
-	padding-left: 50px;
+	padding-left: 35px;
 	margin-bottom: 5px;
 }
 #filterButton{
-	background: #2d3e50 !important;
-	padding: 5px 75px !important;
+	background: #2c3e50 !important;
+	padding: 2px 67px !important;
 	border-radius: 0px !important;
 	box-shadow: 0 !important;
 	color: white !important;
 	text-shadow: none !important;
 	border-radius: 0 !important;
-	border-right: 0 !important;
 }
 .caret{
 	color: white !important;
@@ -34,11 +33,12 @@
 #theFilters{
 	box-shadow: none;
 	border-radius: 0;
-	padding: 15px;
+	padding: 10px;
 	border: 1px #2d3e50 solid;
 	margin-top: -1px;
 	color: #2d3e50;
-	width:170px;
+	width: 170px;
+	font-family: 'armata';
 }
 .brandFilter{
 	border-top: 1px solid #2d3e50;
