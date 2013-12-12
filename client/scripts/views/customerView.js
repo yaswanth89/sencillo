@@ -1,8 +1,8 @@
 this.CustomerView = Backbone.View.extend({
 	initialize:function(){
-    	Session.set("shopSub","TV");
-	    Session.set("shopBrand",[]);
-	    Session.set('shopLimit',20);
+  	Session.set("shopSub","TV");
+    Session.set("shopBrand",[]);
+    Session.set('shopLimit',20);
 		Session.set('newProducts',true);
 		return this.template = Meteor.render(function(){
 			return Template.customerView();
@@ -88,6 +88,8 @@ Template.FeaturedProducts.featuredProductArr = function(){
 
 Template.ShopProducts.ProductArr = function(){
 	var productList = [];
+  var priceMax = undefined;
+  var priceMin = undefined;
 	var shopid;
   	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	shopid = loop._id;
@@ -104,16 +106,34 @@ Template.ShopProducts.ProductArr = function(){
           if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined){
             obj.price = p.price;
             prods.push(obj);
+            if(priceMax == undefined){
+              priceMax = p.price;
+              priceMin = p.price;
+            }else{
+              if(priceMax < p.price)
+                priceMax = p.price;
+              if(priceMin > p.price)
+                priceMin = p.price;
+            }
           }
           else{
             if(p.price > Session.get('shopPriceRange')[0] && p.price < Session.get('shopPriceRange')[1]){
               obj.price = p.price;
               prods.push(obj);
+              if(priceMax == undefined){
+                priceMax = p.price;
+                priceMin = p.price;
+              }else{
+                if(priceMax < p.price)
+                  priceMax = p.price;
+                if(priceMin > p.price)
+                  priceMin = p.price;
+              }
             }
           }
+          window.totalPriceRange = [priceMin,priceMax];
         }
   		});
-  		return prods;
   	}
   	else{
   		var prods = [];
@@ -123,20 +143,54 @@ Template.ShopProducts.ProductArr = function(){
     			if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined){
             obj.price = p.price;
             prods.push(obj);
+            if(priceMax == undefined){
+              priceMax = p.price;
+              priceMin = p.price;
+            }else{
+              if(priceMax < p.price)
+                priceMax = p.price;
+              if(priceMin > p.price)
+                priceMin = p.price;
+            }
           }else{
             if(p.price > Session.get('shopPriceRange')[0] && p.price < Session.get('shopPriceRange')[1]){
               obj.price = p.price;
               prods.push(obj);
+              if(priceMax == undefined){
+                priceMax = p.price;
+                priceMin = p.price;
+              }else{
+                if(priceMax < p.price)
+                  priceMax = p.price;
+                if(priceMin > p.price)
+                  priceMin = p.price;
+              }
             }
           }
+          window.totalPriceRange = [priceMin,priceMax];
         }
   		});
-  		return prods;
   	}
+  return prods;
 };
 
 Template.ShopProducts.shopname = function(){
 	return window.shopUsername;
+}
+
+Template.FeaturedProducts.events = {
+  "click div.show-product" : function(e,t){
+      e.preventDefault();
+      var now = e.currentTarget;
+      var id = now.id.split('_');
+      Session.set('shopId',id[1]);
+      Session.set('newProducts',false);
+      App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
+      $("#shopModal").css("top",$(now).position().top+260+24+'px').show().animate({
+        height: 350,
+        opacity: 1});
+      $("#content").animate({ scrollTop: $(now).position().top+260+24+"px" });
+  }
 }
 
 Template.ShopProducts.events = {
@@ -148,10 +202,10 @@ Template.ShopProducts.events = {
       Session.set('newProducts',false);
       App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
       $("#shopModal").css("top",$(now).position().top+260+24+'px').show().animate({
-        height: 300,
+        height: 350,
         opacity: 1});
-      $("#cvProductList").animate({ scrollTop: $(now).position().top+"px" });
-  	}
+      $("#content").animate({ scrollTop: $(now).position().top+260+24+"px" });
+  }
 }
 
 Template.shopModal.product = function(){
@@ -175,22 +229,24 @@ Template.shopModal.events = {
   }
 };
 
-Template.ShopPriceFilter.rendered = function(){
-  $('#shopPriceSlider').slider({
-    min: 0,
-    max: 10000,
-    step: 100,
-    orientation: 'horizontal',
-    value: [1000,5000],
-    tooltip:'show'
-  });
-
-  $('#shopPriceSlider').on('slideStop', function(e){
-    Session.set('shopPriceRange',$(this).val());
-  });
-};
 
 Template.ShopProducts.rendered = function(){
+  
+  if(window.totalPriceRange != undefined){
+    $('#shopPriceSlider').slider({
+      min: Math.floor(window.totalPriceRange[0]/100)*100,
+      max: Math.round(window.totalPriceRange[1]/100)*100,
+      step: 100,
+      orientation: 'horizontal',
+      value: window.totalPriceRange,
+      tooltip:'show'
+    });
+
+    $('#shopPriceSlider').on('slideStop', function(e){
+      Session.set('shopPriceRange',$(this).val());
+    });
+  }
+
 	if(this.rendered == 2){
 		$("#loadmask").fadeOut();
 		this.rendered=3;
@@ -202,14 +258,14 @@ Template.ShopProducts.rendered = function(){
 		this.rendered=1;
 	if(window.shopProductId != undefined){
 		$("#shopModal").css("top",'24px').show().animate({
-        height: 300,
+        height: 350,
         opacity: 1});
 		Session.set('shopId',window.shopProductId);
 		window.shopProductId = undefined;
 	}
 	$("img.item-image").lazyload({
 	    effect : "fadeIn",
-	    container: $(".cvShopProducts")
+	    container: $("#content")
   });
 }
 $(function(){

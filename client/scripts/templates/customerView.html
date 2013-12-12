@@ -10,13 +10,11 @@
         </div>
       </div>
     </div>
-    <div class='cvShopFilters'>
-        {{> ShopBrand}}
-        {{> ShopPriceFilter}}
-    </div>
-    <div class='cvShopProducts'>
-      {{> ShopContentTabs}}
-      {{> shopModal}}
+    <div class='cvShopContent'>
+      <div class='cvShopTabs'>
+        {{> ShopContentTabs}}
+        {{> shopModal}}
+      </div>
     </div>
 </template>
 
@@ -212,7 +210,12 @@
 </template>
 
 <template name="ShopProducts">
-   <div class="products-list tab-pane" id='cvProductsList'>
+  <div class="products-list tab-pane" id='cvProductsList'>
+    <div class='cvShopFilters'>
+      {{> ShopBrand}}
+      {{> ShopPriceFilter}}
+    </div>
+    <div class='cvProductsContent'>
     {{#isolate}}
      {{#each ProductArr}}
        <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
@@ -228,6 +231,7 @@
      {{/each}}
     {{/isolate}}
     </div>
+  </div>
 </template>
 
 <template name='ShopReviews'>

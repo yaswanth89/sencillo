@@ -18,8 +18,8 @@ this.Router = Backbone.Router.extend({
 		"shop/p:page":"shopForm",
 		//"*path":"home",
 		"loggedin": "loggedin",
+		":page/:product":"home",
 		":page":"home",
-		":page/:product":"home"
 	},
 	view:null,
 	page_header_sel:"#header",
@@ -76,6 +76,7 @@ this.Router = Backbone.Router.extend({
 	},
 	home:function(page,product){
 		// $("#loadmask").show();
+		console.log('yoo!!1');
 		if(product != undefined)
 			window.homeProductId = product;
 		return this.go(Home,page);

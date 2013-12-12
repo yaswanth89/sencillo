@@ -53,17 +53,28 @@
 .cvShopFilters{
 	width: 14%;
 	float: left;
-	margin: 37px 20px 20px 20px;
+	margin: 37px 0 20px 0;
+	border-right: 1px solid gray;
+	padding-right: 42px;
 }
-.cvShopProducts{
-	width: 78%;
+.cvShopContent{
+	width: 100%;
+}
+.cvShopTabs{
+	width: 100%;
 	padding: 25px;
-	float: right;
 	position: relative;
+	margin:0px auto;
 }
-.cvShopProducts .show-product{
+.cvShopTabs .show-product{
 	width: 23%;
 	margin: 0.9%;
+}
+.cvProductsContent{
+	width: 78%;
+	padding: 25px;
+	position: relative;
+	float: right;
 }
 #cvmap-ribbon{
 	width:14px;
