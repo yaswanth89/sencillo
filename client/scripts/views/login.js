@@ -19,7 +19,10 @@ Template.login.events={
 				if (Err)
 					alert('Wrong Username or Password!');
 				else{
-					App.router.navigate('dashboard',{trigger:true});
+					if(Meteor.user().usertype == "shop")
+						App.router.navigate('shopAdd',{trigger:true});
+					else
+						App.router.navigate('/',{trigger:true});
 				}
 			}
 		);	

@@ -1,6 +1,5 @@
 Meteor.methods({
 	addToCat:function(all){
-
 		var temp = all[0].value;
 		FrameDetail.insert({Main:temp,Sub:[]});
 		for (var i=1;i<all.length;i++)
