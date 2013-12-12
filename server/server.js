@@ -202,7 +202,7 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
   });
   console.log(blah2);
   if(blah2.length>0)
-    return [Products.find({_id:{$in:blah2}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1}}),Prices.find({_id:{$in:blah}},{fields:{"productId":1,"price":1}})];
+    return [Products.find({_id:{$in:blah2}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1}}),Prices.find({_id:{$in:blah}},{fields:{"shopId":1,"productId":1,"price":1}})];
 });
 
 Meteor.publish('homeProductDetail',function(id){

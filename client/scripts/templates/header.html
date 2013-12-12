@@ -12,10 +12,15 @@
 				</form>
 			</li>
 	    	{{#if currentUser}}
-		    	<li>
+		    	<li style="position:relative">
 		    		<a href="#" id="dashboard">
 		    			Dashboard
 		    		</a>
+		    		<ul id="dashboardDiv" class="dropdown-menu" style="display:none">
+		    			<li><a href="/shopAdd">Shop Add</a></li>
+		    			<li><a href="/shopEdit">Shop Edit</a></li>
+		    			<li><a href="/shopDetail">Shop Detail</a></li>
+		    		</ul>
 		    	</li>
 		    	<li><a href="#" class="logout" id="logout">Logout</a></li>
 	    	{{else}}
@@ -139,7 +144,7 @@
 		    		</ul>
 			    </ul>
 			<li class="dropdown" >
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Pesrsonal Care</a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Personal Care</a>
 			    <ul class="navbar-dropdown dropdown-menu" style="width: 145px;">
 		    		<ul class="nav-links">
 						<li><a href="/Shavers">Shavers</a></li>

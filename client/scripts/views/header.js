@@ -14,8 +14,9 @@ this.HeaderView = Backbone.View.extend({
 							alert('error')
 					});
 				else if(e.target.id=="dashboard"){
-					if(Meteor.user().usertype=="shop")
-						$("dashboardDiv").show();
+					if(Meteor.user().usertype=="shop"){
+						$("#dashboardDiv").toggle();
+					}
 				}
 				else
 					App.router.aReplace(e);

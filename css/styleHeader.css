@@ -25,7 +25,7 @@
 	color: white;
 }
 #headerTop .nav{
-	padding: 9px 0px;
+	padding: 5px 0px;
 }
 #headerTop2{
 	position: relative;
@@ -42,18 +42,19 @@
 #headerTop2 .nav{
 	position: absolute;
 	left:230px;
-	top:3px;
 }
 #headerTop2 .nav a.dropdown-toggle{
 	font-family: 'armata';
 	color: white;
 	text-shadow:none;
 	margin-right: 2px;
-	padding: 2px 15px;
 	text-transform: uppercase;
-	background: #2a80b9;
 	margin-right: 2px;
-	padding: 2px 15px;
+	padding: 6px 15px;
+}
+#headerTop2 .nav .open a.dropdown-toggle{
+	color: #2a80b9;
+	background: white;
 }
 #searchForm{
 	margin-bottom: 0px;
@@ -123,4 +124,29 @@
 }
 .navbar-dropdown{
 	margin-top: -2px;
+	margin-left: -2px;
+	border-top: 0;
+}
+.navbar .nav > li > .dropdown-menu:before{
+	border:0;
+}
+.dropdown{
+	border-right: 1px solid white;
+}
+.dropdown.open{
+	background: white;
+}
+#dashboardDiv{
+	display: block;
+	position: absolute;
+	left:0;
+}
+#dashboardDiv.dropdown-menu > li > a {
+	color:#115d8e;
+}
+#dashboardDiv.dropdown-menu > li > a:hover{
+	color: white;
+}
+a:focus{
+	outline: 0 !important;
 }

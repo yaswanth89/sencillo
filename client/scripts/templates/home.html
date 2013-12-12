@@ -73,7 +73,9 @@
       <div class="item-desc">
         <p class="item-name">{{this.ProductName}} {{this.ModelID}}</p>
         <div class="item-price-brand">
+          {{#isolate}}
           <span class="pull-left"><i class="fa fa-rupee"></i>{{this.leastPrice}}/-</span>
+          {{/isolate}}
           <span class="pull-right">{{this.Brand}}</span>
         </div>
       </div>

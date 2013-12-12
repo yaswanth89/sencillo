@@ -1,5 +1,3 @@
-var global = {};
-
 this.Home = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
@@ -65,13 +63,13 @@ Template.homeBrand.Brand = function(){
 
 Template.homeProducts.ProductArr = function(){
   var withinProducts = [];
+  window.shopList = [];
   if(Session.get('distanceCenter') == undefined)
     return;
   Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
     if(Session.get('distanceFilter') != undefined){
       if(findDistance(obj.shopLatitude,obj.shopLongitude,Session.get('distanceCenter').latitude,Session.get('distanceCenter').longitude) < Session.get('distanceFilter')){
-        console.log('yayyyy distance checking!!');
-        console.log(obj.productId);
+        window.shopList.push(obj._id);
         withinProducts = _.union(withinProducts,obj.productId);
       }
     }
@@ -219,7 +217,7 @@ Template.homeProducts.rendered = function(){
     $("#productList").scroll(function() {
       if(!window.loading && $("#productList").scrollTop() + $("#productList").height() > $("#productList .products-list").eq(0).height() - 100) {
         Session.set('newProducts',true);
-        Session.set('homeLimit',Session.get('homeLimit')*2);
+        Session.set('homeLimit',Session.get('homeLimit')+10);
         window.loading = true;
       }
     });
@@ -259,17 +257,14 @@ $(function(){
     if(scrolled > max)
       scrolled=max;
     $('#thumbSlider').scrollLeft(scrolled);
-    
   });
-
 });
-
 
 function addLeastPrice(x){
   var ret = [];
   _.each(x,function(e) {
     // console.log(e._id);
-    z = Prices.find({productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
+    z = Prices.find({shopId:{$in:window.shopList},productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
     console.log('asdf '+z.count());
     if(z.count()>0){
       e.leastPrice =  z.fetch()[0].price;
@@ -286,4 +281,3 @@ function addLeastPrice(x){
   console.log(ret);
   return ret;
 }
-
