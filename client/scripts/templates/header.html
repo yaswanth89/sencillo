@@ -1,7 +1,6 @@
 <template name="header">
 	<div class="navbar navbar-inner" id='headerTop'>
 		<ul class="nav">
-
 			<li style="position:relative"><div class="backExtend"></div><span class="caption">Shopping Simplified</span><a href="/" class="brand">Sencillo</a></li>
 			<li>
 	    		<form id="searchForm">
@@ -12,11 +11,11 @@
 				</form>
 			</li>
 	    	{{#if currentUser}}
-		    	<li style="position:relative">
-		    		<a href="#" id="dashboard">
+		    	<li class="dropdown">
+		    		<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dashboard">
 		    			Dashboard
 		    		</a>
-		    		<ul id="dashboardDiv" class="dropdown-menu" style="display:none">
+		    		<ul id="dashboardDiv" class="dropdown-menu">
 		    			<li><a href="/shopAdd">Shop Add</a></li>
 		    			<li><a href="/shopEdit">Shop Edit</a></li>
 		    			<li><a href="/shopDetail">Shop Detail</a></li>
