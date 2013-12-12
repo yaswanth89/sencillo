@@ -191,7 +191,7 @@ Template.homePriceFilter.rendered = function(){
     max: 10000,
     step: 100,
     orientation: 'horizontal',
-    value: [1000,5000],
+    value: [0,10000],
     tooltip:'show'
   });
 
