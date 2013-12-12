@@ -12,6 +12,7 @@ this.Router = Backbone.Router.extend({
 		"brand":"brand",
 		"login":"login",
 		"admin":"admin",
+		"retailers":"retailers",
 		"register": "register",
 		"shop":"shop",
 		"search/:query":"search",
@@ -127,6 +128,9 @@ this.Router = Backbone.Router.extend({
 			else
 				router.navigate('dashboard',{trigger: true});
 		});
+	},
+	retailers:function(){
+		return this.go(Retailers);
 	},
 	goShop:function(viewClass,page){
 		console.log("ok");
