@@ -152,7 +152,10 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
   var withinIdList = [];
   var shopList = [];
   Meteor.users.find({'usertype':'shop'},{fields:{'shopLatitude':1, 'shopLongitude':1,'productId':1}}).forEach(function(obj){
-    if(loc){
+    if(loc != undefined){
+      if(distance == undefined)
+        distance = 5;
+      console.log(findDistance(obj.shopLatitude, obj.shopLongitude, loc.latitude, loc.longitude));
       if(findDistance(obj.shopLatitude, obj.shopLongitude, loc.latitude, loc.longitude) < distance){
         withinIdList = _.union(withinIdList,obj.productId);
         shopList.push(obj._id);
@@ -162,9 +165,12 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
       withinIdList = _.union(withinIdList,obj.productId);
     }
   });
+  console.log('shops are..');
+  console.log(shopList);
+  console.log(withinIdList);
   Products.find({_id:{$in:withinIdList},'Sub':sub},{fields:{'_id':1,"price":1}}).forEach(function(e){
     if(blah.length < limit){
-      if(priceRange.length != 0)
+      if(priceRange.length != 0 && priceRange != undefined)
         y = Prices.find({
           productId:e._id,
           shopId:{$in:shopList},
@@ -185,15 +191,18 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
           limit:1
         });
       y = y.fetch()[0];
-      if(y){
+      if(y != undefined){
         console.log('bl');
+        console.log(y._id);
+        console.log(e._id);
         blah.push(y._id);
         blah2.push(e._id);
       }
     }
   });
+  console.log(blah2);
   if(blah2.length>0)
-    return [Products.find({_id:{$in:blah2}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1}}),Prices.find({_id:{$in:blah}},{fields:{"productId":1,"price":1}})];
+    return [Products.find({_id:{$in:blah2}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1}}),Prices.find({_id:{$in:blah}},{fields:{"productId":1,"price":1}})];
 });
 
 Meteor.publish('homeProductDetail',function(id){
