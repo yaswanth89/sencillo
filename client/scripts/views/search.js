@@ -56,11 +56,18 @@ Template.searchBrand.Brand = function(){
   else
     return arr;
 };
-Template.searchSub.Sub = function(){
+/*Template.searchSub.Sub = function(){
+  message={
+    "search":window.queryString,
+    ""
+
+  };
+
   chatStream.emit('getSubCategories', message);
+  
   chatStream.on('gotSubCategories', function(message) {
   });
-}
+}*/
 Template.searchProducts.ProductArr = function(){
   var withinProducts = [];
   window.shopList = [];
