@@ -1,8 +1,12 @@
 this.Search = Backbone.View.extend({
 	template:null,
 	initialize:function(query){
-    queryString = decodeURIComponent(query).replace(/ /g,"|");
-    window.queryString = new RegExp("\\b("+queryString+")\\b",'i');
+    queryString = decodeURIComponent(query).split(" ");
+    a="";
+    _.each(queryString,function(e){
+      a += "(?=.*\\b"+e+"\\b)";
+    })
+    window.queryString = new RegExp(a,'i');
     Session.setDefault('searchLimit',20);
     try{
       Session.set('homeIdList',HomeId.find({}).fetch()[0].idList);

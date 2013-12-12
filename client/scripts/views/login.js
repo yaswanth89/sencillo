@@ -16,13 +16,14 @@ Template.login.events={
 		var allInputs = $(':input').serializeArray();
 		Meteor.loginWithPassword(allInputs[0].value,allInputs[1].value,
 			function(Err){
-				if (Err)
-					alert('Wrong Username or Password!');
-				else{
+				try{
 					if(Meteor.user().usertype == "shop")
 						App.router.navigate('shopAdd',{trigger:true});
 					else
 						App.router.navigate('/',{trigger:true});
+				}
+				catch(e){
+					alert('Wrong Username or password!');
 				}
 			}
 		);	

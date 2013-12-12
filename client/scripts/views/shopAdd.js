@@ -59,7 +59,22 @@ Template.shopAddProducts.ProductArr = function(){
     return [];
   }
 };
-
+Template.shopAddProducts.rendered = function (argument) {
+  if(!this.rendered)
+    $("#shopAddProducts").scroll(function() {
+        if(!window.loading && $("#shopAddProducts").scrollTop() + $("#shopAddProducts").height() > $("#productsWrap").height() - 200) {
+          console.log("loading...");
+          $('#showMoreResults').html('loading....');
+          Session.set('itemsLimit',Session.get('itemsLimit')+20);
+          window.loading = true;
+        }
+    });
+  if(window.loading){
+    console.log("load More");
+    $('#showMoreResults').html('load More');
+    window.loading = false;
+  }
+};
 $(function(){
   $('li#shopAddSub').live('click',function(e){
     e.preventDefault();

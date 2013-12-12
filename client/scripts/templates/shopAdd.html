@@ -47,7 +47,7 @@
 
 <template name="shopAddProducts">
   
-    <div class="products-row">
+    <div class="products-row" id="productsWrap" style="overflow:hidden">
    {{#each ProductArr}}
       <div class="add-item" id="product_{{this._id}}" style="cursor:pointer;">
         <img class="item-image" src="{{this.Image.[0]}}" />
@@ -59,6 +59,6 @@
    {{/each}}
   </div>
   <div  style="margin-left: 25px;">
-      <button id="showMoreResults" class="btn btn-medium">More Results...</button>
+      <button id="showMoreResults" class="btn btn-medium">Loading....</button>
   </div>
 </template>

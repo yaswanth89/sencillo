@@ -16,7 +16,6 @@ this.Router = Backbone.Router.extend({
 		"shop":"shop",
 		"search/:query":"search",
 		"shop/p:page":"shopForm",
-		//"*path":"home",
 		"loggedin": "loggedin",
 		":page/:product":"home",
 		":page":"home",
@@ -82,7 +81,6 @@ this.Router = Backbone.Router.extend({
 		return this.go(Home,page);
 	},
 	default:function(){
-		console.log('its default');
 		return this.go(Default);
 	},
 	login:function(){
