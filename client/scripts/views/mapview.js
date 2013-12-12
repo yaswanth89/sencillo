@@ -2,6 +2,7 @@ this.mapView = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
 		this.template = Meteor.render(function(){
+			google = undefined;
 			return Template.mapView();
 		});
 	},
@@ -20,7 +21,8 @@ Deps.autorun(function(){
 function mapLabel(opt_options) {
   // Initialization
   this.setValues(opt_options);
-
+  if(!google)
+  	return;
 
   // Label specific
   var span = this.span_ = document.createElement('span');
@@ -34,7 +36,8 @@ function mapLabel(opt_options) {
   div.style.cssText = 'position: absolute; display: none';
 }
 
-mapLabel.prototype = new google.maps.OverlayView;
+
+//mapLabel.prototype = new google.maps.OverlayView;
 
 
 // Implement onAdd
@@ -113,8 +116,10 @@ Template.mapView.rendered = function(){
 	var markers = [];
 	var labels= [];
 
-	if(window.here.coords != undefined)
-		var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);	
+	if(!google)
+		return;
+	if(window.here != undefined)
+			var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);	
 	else{
 		if(navigator.geolocation){
 	      navigator.geolocation.getCurrentPosition(function(position){
@@ -124,7 +129,8 @@ Template.mapView.rendered = function(){
     	}else{
     		alert('We are unable to locate where you are! Please select your location');
     	}
-    	var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);
+    	if(google)
+    		var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);
 	}
 	var mapProp = {
 	  center: myLatLng,

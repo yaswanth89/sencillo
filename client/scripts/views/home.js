@@ -35,7 +35,7 @@ this.Home = Backbone.View.extend({
       Session.set('distanceFilter',5);
     if(Session.get('priceRange') == undefined)
       Session.set('priceRange', []);
-    Session.setDefault('homeLimit',prod_inc);
+    Session.set('homeLimit',prod_inc);
     return this.template = Meteor.render(function(){
       return Template.home();
     });
