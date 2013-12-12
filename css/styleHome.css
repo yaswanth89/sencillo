@@ -156,6 +156,10 @@ div.show-product .lead {
 	overflow: hidden;
 	font-size: 13px;
 }
+.item-price-brand .pull-left{
+	background-color: #3598db;
+	padding: 1px 10px;
+}
 body{
 	font-family: Tahoma, Geneva, Verdana;
 }
