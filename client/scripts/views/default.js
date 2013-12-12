@@ -12,13 +12,8 @@ this.Default = Backbone.View.extend({
 });
 Deps.autorun(function(){
 	Meteor.subscribe("frameDetail");
+	Meteor.subscribe("featuredProducts");
 });
-Template.default.MainCatArr=function(){
-	return FrameDetail.find({});
-}
-Template.default.events={
-	'click a':function(e,t){
-		e.preventDefault();
-		App.router.aReplace(e);
-	}
-}
+/*Template.featuredProducts.shops=function(){
+	Meteor.user.find
+}*/

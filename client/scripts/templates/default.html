@@ -1,4 +1,43 @@
 <template name="default">
-	<div id='defIntroImage'>
+	<div class="container" style="height: 100%;">
+		<div id="myCarousel" class="carousel slide">
+		  <ol class="carousel-indicators">
+		    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		    <li data-target="#myCarousel" data-slide-to="1"></li>
+		    <li data-target="#myCarousel" data-slide-to="2"></li>
+		  </ol>
+		  <div class="carousel-inner">
+		    <div class="active item"><img src="image/slider.png" /></div>
+		  </div>
+		  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+		  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+		</div>
+		{{> featuredProducts}}
 	</div>
+</template>
+
+<template name="featuredProducts">
+	{{#each shops}}
+		<div class="featuredProducts">
+			<p class="shop-name">{{shopName}}</p>
+			<p class="info">FEATURED PRODUCTS</p>
+			<div class="featuredProductsList">
+				{{#each Product}}
+					<div class="show-product" id="featuredProduct_{{_id}}" style="cursor:pointer">
+					<img class="item-image" src = "{{this.Image.[0]}}"/>
+						<div class="item-desc">
+							<p class="item-name">{{this.ProductName}}</p>
+							<p class="item-model">{{this.ModelID}}</p>
+							<div class="item-price-brand">
+								{{#isolate}}
+								<span class="pull-left"><i class="fa fa-rupee"></i>{{this.leastPrice}}/-</span>
+								{{/isolate}}
+								<span class="pull-right">{{this.Brand}}</span>
+							</div>
+						</div>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+	{{/each}}
 </template>

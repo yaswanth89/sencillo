@@ -8,6 +8,7 @@
         <th>Price</th>
         <th>In Stock</th>
         <th>On Display</th>
+        <th>Featured</th>
       </thead>
       <form id="editProducts">
       {{#each allProducts}}
@@ -35,6 +36,14 @@
               <div>Off</div>
             </div>
           </td>
+          <td>
+            <div class="toggle {{#if Featured}}on{{else}}off{{/if}}" id='featured_{{_id}}'>
+              <div>Yes</div>
+              <div class="cover"></div>
+              <div>No</div>
+            </div>
+          </td>
+          <td>
           <input type="hidden" class='productId' value="{{_id}}"/>
         </tr>
       {{/each}}

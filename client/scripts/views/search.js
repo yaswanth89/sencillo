@@ -24,7 +24,7 @@ this.Search = Backbone.View.extend({
     if(Session.get('distanceFilter') == undefined || Session.get('distanceFilter') == '')
       Session.set('distanceFilter',5);
     if(Session.get('priceRange') == undefined)
-      Session.set('priceRange', [10,100000]);
+      Session.set('priceRange', []);
     return this.template = Meteor.render(function(){
       return Template.search();
     });
@@ -41,7 +41,7 @@ Deps.autorun(function(){
     Meteor.subscribe('homeId');
 });
 
-Template.searchBrand.Brand = function(){
+/*Template.searchBrand.Brand = function(){
   if(Session.get('homeIdList')=="")
       retBrand = Products.find({"searchIndex": {$regex: new RegExp(window.queryString)}},{fields:{'_id':0,"Brand":1}}).fetch();
     else
@@ -55,19 +55,7 @@ Template.searchBrand.Brand = function(){
     return null;
   else
     return arr;
-};
-/*Template.searchSub.Sub = function(){
-  message={
-    "search":window.queryString,
-    ""
-
-  };
-
-  chatStream.emit('getSubCategories', message);
-  
-  chatStream.on('gotSubCategories', function(message) {
-  });
-}*/
+};*/
 Template.searchProducts.ProductArr = function(){
   var withinProducts = [];
   window.shopList = [];

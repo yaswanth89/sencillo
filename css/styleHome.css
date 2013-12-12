@@ -148,6 +148,7 @@ div.show-product .lead {
 	font-size: 10px;
 	height: 94px;
 	font-family: Tahoma, Geneva, Verdana;
+	border-top:2px solid gray;
 }
 .item-price-brand{
 	position: absolute;
@@ -159,7 +160,29 @@ div.show-product .lead {
 .item-price-brand .pull-left{
 	background-color: #3598db;
 	padding: 1px 10px;
+	color:white;
 }
 body{
 	font-family: Tahoma, Geneva, Verdana;
+}
+.item-name{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-bottom: 0;
+}
+.item-price-brand{
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 5px 0px;
+}
+.galleryImage{
+	border: 1px gray solid;
+}
+.shopNav{
+	background: #3598db;
+	border: 0;
+	border-radius: 0;
+	color: white;
+	text-shadow: none;
 }

@@ -1,11 +1,9 @@
 <template name="search">
   {{> searchView}}
 </template>
-
 <template name="searchView">
   <div id="searchContainer">
     <div id="searchFilter">
-      {{> searchBrand}}
     </div>
     <div class="" id="searchProductList">
       {{> searchProducts}}
@@ -13,20 +11,6 @@
     </div>    
   </div>    
 </template>
-
-<template name="searchBrand">
-  <p>
-    <span>Brands : </span>
-    <ul>
-      {{#isolate}}
-      {{#each Brand}}
-      <li style="list-style:none"><input type="checkbox" value="{{this}}">  {{this}}</li>
-      {{/each}}
-      {{/isolate}}
-    </ul>
-  </p>
-</template>
-
 <template name="searchProducts">
   <div class="products-list">
   {{#isolate}}
@@ -42,7 +26,6 @@
    
   </div>
 </template>
-
 <template name='searchModal'>
 <div id="searchModal" class="hide">
     <a id="closeModal" href="#">X</a>

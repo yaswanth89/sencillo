@@ -29,6 +29,10 @@ Template.shopEdit.events={
       console.log(id);
       if($('#stock_'+id).attr('class') == 'toggle on') var instock = 1;
       else var instock = 0;
+      if($('#display_'+id).attr('class') == 'toggle on') var onDisplay = 1;
+      else var onDisplay = 0;
+      if($('#featured_'+id).attr('class') == 'toggle on') var featured = 1;
+      else var featured = 0;
       if(instock){
         if(!$('#price_'+id).val()){
           $("#price_"+id).addClass('error');
@@ -40,18 +44,31 @@ Template.shopEdit.events={
           return;
         }
       }
-      else
+      else{
         price='';
-      if($('#display_'+id).attr('class') == 'toggle on') var onDisplay = 1;
-      else var onDisplay = 0;
+        if(onDisplay || featured){
+          $("#price_"+id).addClass('error');
+          $("#alerter").html("Product was specified as Not in stock!").fadeIn();
+          setTimeout(function(){
+            $("#alerter").fadeOut();
+          },5000);
+          return;
+        }
+      }
       productSet.push({
         'productId': id,
         'price': price,
         'inStock': instock,
-        'onDisplay':onDisplay
+        'onDisplay':onDisplay,
+        'Featured':featured
       });
     });
-    Meteor.call('editProducts', productSet);
+    Meteor.call('editProducts', productSet,function(e){
+      $("#informer").html("The preferences were saved!").fadeIn();
+          setTimeout(function(){
+            $("#informer").fadeOut();
+          },5000);
+    });
   }
 }
 Template.shopEdit.allProducts = function(){
@@ -70,7 +87,8 @@ Template.shopEdit.allProducts = function(){
               'onDisplay': pricetag.onDisplay,
               'Brand': e.Brand,
               "ProductName":e.ProductName,
-              "ModelID":e.ModelID
+              "ModelID":e.ModelID,
+              "Featured":e.Featured
             });
           else
             allproducts.push({
@@ -78,6 +96,7 @@ Template.shopEdit.allProducts = function(){
               'price': '',
               'inStock': 0,
               'onDisplay': 0,
+              'Featured':0,
               'Brand': e.Brand,
               "ProductName":e.ProductName,
               "ModelID":e.ModelID

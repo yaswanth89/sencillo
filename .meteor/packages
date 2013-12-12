@@ -6,7 +6,6 @@
 standard-app-packages
 preserve-inputs
 backbone
-bootstrap
 underscore
 accounts-ui
 accounts-password
@@ -17,3 +16,4 @@ accounts-facebook
 accounts-google
 http
 streams
+bootstrap

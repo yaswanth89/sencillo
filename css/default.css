@@ -1,9 +1,5 @@
-.defaultContainer {
-width: 90%;
-margin-left: 10%;
-height: 100%;
-overflow-y: scroll;
-overflow-x: hidden;
+#myCarousel{
+	height:50%;
 }
 .defaultHolder {
 height: 30%;
