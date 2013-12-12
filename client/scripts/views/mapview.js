@@ -2,7 +2,6 @@ this.mapView = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
 		this.template = Meteor.render(function(){
-			google = undefined;
 			return Template.mapView();
 		});
 	},
@@ -122,14 +121,15 @@ Template.mapView.rendered = function(){
 			var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);	
 	else{
 		if(navigator.geolocation){
-	      navigator.geolocation.getCurrentPosition(function(position){
-	        window.here = position;
-	        Session.set('distanceCenter',window.here.coords);
-	      });
+			console.log('here');
+		    navigator.geolocation.getCurrentPosition(function(position){
+		      	window.here = position;
+		       	Session.set('distanceCenter',window.here.coords);
+		    });
     	}else{
     		alert('We are unable to locate where you are! Please select your location');
     	}
-    	if(google)
+    	if(window.here != undefined)
     		var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);
 	}
 	var mapProp = {

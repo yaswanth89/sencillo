@@ -14,6 +14,7 @@ this.Home = Backbone.View.extend({
     catch(e){
       Session.set('homeIdList','');
     }
+    console.log('initializing........');
     Session.set('newProducts',true);
     Session.set("homeSub",subCat);
     Session.set("homeBrand",[]);
