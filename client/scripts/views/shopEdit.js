@@ -63,6 +63,7 @@ Template.shopEdit.events={
         'Featured':featured
       });
     });
+console.log(productSet);
     Meteor.call('editProducts', productSet,function(e){
       $("#informer").html("The preferences were saved!").fadeIn();
           setTimeout(function(){

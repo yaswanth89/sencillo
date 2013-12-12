@@ -72,3 +72,21 @@
 #availableShop .table strong{
 	font-family: 'armata'
 }
+#thumbRight{
+	position: relative;
+	cursor: pointer;
+	float: left;
+	top: 26px;
+	width: 10%;
+	height: 34px;
+	background: url('../image/arrow2.png') no-repeat center;
+}
+#thumbLeft{
+	position: relative;
+	cursor: pointer;
+	float: left;
+	top: 26px;
+	width: 10%;
+	height: 34px;
+	background: url('../image/arrow.png') no-repeat center;
+}
