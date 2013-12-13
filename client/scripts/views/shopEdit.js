@@ -95,7 +95,7 @@ Template.shopEdit.allProducts = function(){
               'Brand': e.Brand,
               "ProductName":e.ProductName,
               "ModelID":e.ModelID,
-              "Featured":e.Featured
+              "Featured":pricetag.Featured
             });
           else
             allproducts.push({
@@ -111,6 +111,7 @@ Template.shopEdit.allProducts = function(){
         });
       }
   });
+console.log(allproducts);
   return allproducts;
 };
 Template.shopEditCategories.cat = function(){
@@ -118,8 +119,7 @@ Template.shopEditCategories.cat = function(){
 }
 Template.shopEditCategories.events={
   "click .filterLinks":function(e){
-    if(!Session.get('shopEditFilters'))
-      $("#saveChanges").click();
+    $("#saveChanges").click();
     filters = e.currentTarget.getAttribute('data-filter').split('-');
     console.log(filters);
     setTimeout(function(){
