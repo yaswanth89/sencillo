@@ -12,7 +12,7 @@ this.Default = Backbone.View.extend({
 });
 Deps.autorun(function(){
 	Meteor.subscribe("frameDetail");
-	Meteor.subscribe("featuredProducts");
+	window.subscribed = Meteor.subscribe("featuredProducts");
 });
 Template.featuredProducts.shops=function(){
 	var blah=[];
@@ -24,8 +24,10 @@ Template.featuredProducts.shops=function(){
 	});
 	x = Prices.find({shopId:id,"Featured":1},{limit:5}).forEach(function(e){
 		product = Products.find({_id:e.productId},{fields:{"ProductName":1,"ModelID":1,"Image":1}}).fetch();
-		product[0].price = e.price;
-		blah.push(product[0]);
+		if(product[0]){
+			product[0].price = e.price;
+			blah.push(product[0]);
+		}
 	});
 	console.log(blah);
 	return [{"link":"/cv/achal","shopName":shopName,"Product":blah}];
