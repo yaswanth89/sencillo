@@ -79,7 +79,8 @@
      <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
       <img class="item-image" src="image/482.GIF" data-original="{{this.Image.[0]}}"/>
       <div class="item-desc">
-        <p class="item-name">{{this.ProductName}} {{this.ModelID}}</p>
+        <p class="item-name">{{this.ProductName}}</p>
+        <p class="item-model">{{this.ModelID}}</p>
         <div class="item-price-brand">
           {{#isolate}}
           <span class="pull-left"><i class="fa fa-rupee"></i>{{this.leastPrice}}/-</span>
@@ -103,7 +104,7 @@
     <a id="closeModal" href="#">X</a>
     {{#isolate}}
     {{#each product}}
-      <div class="column" style="width:25%">
+      <div class="column" style="width:30%">
         <p class="item-modal-brand">{{Brand}}</p>
         <div class="item-modal-rest">
           <p class="item-modal-name">{{ProductName}}</p>
@@ -111,21 +112,21 @@
           <div id="imageModal" style="margin-bottom:2%">
             <img src="{{Image.[0]}}">
           </div>
-          <i id="thumbLeft" class="fa fa-caret-square-o-left" style="cursor:pointer;float:left;width:10%"></i>
-          <div style="width:80%;height:90px;float:left;">
+          <i id="thumbLeft" class="fa fa-caret-square-o-left" style="cursor: pointer;float: left;width: 10%;top: 40px;position: relative;"></i>
+          <div style="width:80%;height: 60px;float:left;">
             <div id="thumbSlider" style="overflow-x:scroll;overflow-y:hidden;white-space:nowrap;width:100%;height:100%;padding-bottom:15%;padding-top:4%">
           {{#each Image}}
-              <img src="{{this}}" style="cursor:pointer;margin-right:1%;height:100%" >
+              <img class="galleryImage" src="{{this}}" style="cursor:pointer;margin-right:1%;height:100%" >
           {{/each}}
             </div>
           </div>
-          <i id="thumbRight" class="fa fa-caret-square-o-right" style="cursor:pointer;float:left;width:10%"></i>
+          <i id="thumbRight" class="fa fa-caret-square-o-right" style="position:relative;cursor:pointer;float:left;top:40px;width:10%"></i>
         </div>
       </div>
 
     {{/each}}
     {{/isolate}}
-    <div class="column" style="width:75%">
+    <div class="column" style="width:70%; background-color:#f6f6f6">
       <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
         <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
@@ -187,14 +188,16 @@
     <table class="table">
       <tr>
         <th>Shop Name</th>
+        <th></th>
         <th>Price</th>
         <th>Distance</th>
       </tr>
     {{#each shopList}}
       <tr>
-        <td><a class="shopNav" href="{{link}}">{{shopname}}<a/></td>
+        <td>{{shopname}}</td>
+        <td><a class="shopNav btn" href="{{link}}">Address/Reviews</a></td>
         <td>{{#if price}}<i class="fa fa-rupee"></i>{{price}} {{else}} NA {{/if}}</td>
-        <td>{{distance}}Km</td>
+        <td>{{distance}}K.M</td>
       </tr>
     {{/each}}
     </table>

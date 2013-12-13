@@ -1,6 +1,7 @@
 {
   "packages": {
     "npm": {},
-    "mongodb-aggregation": {}
+    "mongodb-aggregation": {},
+    "streams": {}
   }
 }

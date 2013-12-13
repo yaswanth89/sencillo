@@ -1,7 +1,6 @@
 <template name="header">
 	<div class="navbar navbar-inner" id='headerTop'>
 		<ul class="nav">
-
 			<li style="position:relative"><div class="backExtend"></div><span class="caption">Shopping Simplified</span><a href="/" class="brand">Sencillo</a></li>
 			<li>
 	    		<form id="searchForm">
@@ -12,14 +11,14 @@
 				</form>
 			</li>
 	    	{{#if currentUser}}
-		    	<li style="position:relative">
-		    		<a href="#" id="dashboard">
+		    	<li class="dropdown">
+		    		<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dashboard">
 		    			Dashboard
 		    		</a>
-		    		<ul id="dashboardDiv" class="dropdown-menu" style="display:none">
+		    		<ul id="dashboardDiv" class="dropdown-menu">
 		    			<li><a href="/shopAdd">Shop Add</a></li>
 		    			<li><a href="/shopEdit">Shop Edit</a></li>
-		    			<li><a href="/shopDetail">Shop Detail</a></li>
+		    			<li><a href="/shopDetails">Shop Details</a></li>
 		    		</ul>
 		    	</li>
 		    	<li><a href="#" class="logout" id="logout">Logout</a></li>
@@ -45,7 +44,7 @@
 			    			<li><a href="/Ultrabooks">Ultrabooks</a></li>
 			    		</ul>
 			    	</div>
-			    	<div class="categories">
+			    	<div class="categories" style="border-left:1px solid #888">
 			    		<span class="main-cat">Computers Peripherals</span>
 			    		<ul class="nav-links">
 			    			<li><a href="/Monitors">Monitors</a></li>
@@ -75,8 +74,8 @@
 			</li>
 			<li class="dropdown" >
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Audio/Video</a>
-			    <ul class="navbar-dropdown dropdown-menu" style="width: 319px;">
-			    	<div class="categories">
+			    <ul class="navbar-dropdown dropdown-menu" style="width: 320px;">
+			    	<div class="categories" style="border-right:1px solid #888">
 			    		<span class="main-cat">Audio</span>
 			    		<ul class="nav-links">
 			    			<li><a href="/Earphones">Earphones</a></li>
@@ -97,7 +96,7 @@
 			</li>
 			<li class="dropdown" >
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Home Appliance</a>
-			    <ul class="navbar-dropdown dropdown-menu" style="width: 442px;">
+			    <ul class="navbar-dropdown dropdown-menu" style="width: 443px;">
 			    	<div class="categories">
 			    		<span class="main-cat">Large Home Appliances</span>
 			    		<ul class="nav-links">
@@ -109,7 +108,7 @@
 							<li><a href="/Vacuum_Cleaners">Vacuum Cleaners</a></li>
 			    		</ul>
 			    	</div>
-			    	<div class="categories">
+			    	<div class="categories" style="border-left:1px solid #888">
 			    		<span class="main-cat">Small Home Appliances</span>
 			    		<ul class="nav-links">
 			    			<li><a href="/Geysers">Geysers</a></li>
