@@ -21,18 +21,20 @@
 <template name="ShopInfo">
   {{#with shopDet}}
     <div class='shopHeading'><h3>{{shopname}}</h3></div>
-    <p style="font-size:1.1em;"><i class="fa fa-map-marker" style='color:#e71e24;'></i>&nbsp;&nbsp;{{address}}</p>
-    <i class="fa fa-phone-square" style='color:green;'></i>&nbsp;&nbsp;{{contactnum}}
+    <table class='shop-primary-info'>
+      <tr><td><i class="fa fa-map-marker" style='color:#3598db;font-size:1.7em;'></i></td><td>{{address}}</td></p>
+      <tr><td><i class="fa fa-phone-square" style='color:#3598db;font-size:1.7em;'></i></td><td>{{contactnum}}</td></p>
+    </table>
     <div class='shopFacilities'>
-      <ul>
-        <li>Payment Modes: {{#each payments}}{{this}}{{else}}Cash only{{/each}}</li>
+      <table>
         {{#if emi}}
-          <li>EMI Available</li>
+          <tr><td><img src='/image/12.png' class='facility-icon'/></td><td>EMI Available</td></tr>
         {{else}}
-          <li>EMI Not Available</li>
+          <tr><td><img src='/image/12.png' class='facility-icon'/></td><td>EMI Not Available</td></tr>
         {{/if}}
-        <li>Shop Timings: {{openHour}} - {{closeHour}}</li>
-      </ul>
+        <tr><td><img src='/image/13.png' class='facility-icon'/></td><td>Shop Timings: {{openHour}} - {{closeHour}}</td></tr>
+        <tr><td><img src='/image/14.png' class='facility-icon'/></td><td>Payment Modes: {{#with payments}} {{#if debit}}Debit Card{{/if}} {{#if credit}},Credit Card{{/if}} {{#if cheque}}Cheque{{/if}} {{/with}}</td></tr>
+      </table>
     </div>
   {{/with}}
 </template>
@@ -54,33 +56,27 @@
 </template>
 
 <template name='mapCanvas'>
-  <img class='gmap-static' id='small-map' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=15&size=900x280&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
+  <img class='gmap-static' id='small-map' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=15&size=450x350&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
 </template>
 
 <template name='shopModal'>
   <div id="shopModal">
       <a id="shopCloseModal" href="#">X</a>
       {{#isolate}}
-      {{#each product}}
-         <div class="column" style="width:30%;height:100%">
-        
-        <p class="lead">{{Brand}} <abbr title="{{ProductName}}" style="text-decoration:underline">{{ModelID}}</abbr></p>
-        <div id="shopImageModal" style="margin-bottom:2%">
+      {{#with product}}
+      <div class="top-row" style="width:100%;">
+        <div id="shopImageModal">
           <img src="{{Image.[0]}}">
         </div>
-        <i id="thumbLeft" class="fa fa-caret-square-o-left" style="cursor:pointer;float:left;width:10%"></i>
-        <div style="width:80%;height:20%;float:left;">
-          <div id="thumbSlider" style="overflow-x:scroll;overflow-y:hidden;white-space:nowrap;width:100%;height:100%;padding-bottom:15%;padding-top:10%">
-        {{#each Image}}
-            <img src="{{this}}" style="cursor:pointer;margin-right:1%;height:100%" >
-        {{/each}}
-          </div>
+        <div id='shopModalHeading'>
+          <p class="lead">{{ProductName}}</p>
+          <p>Model ID: {{ModelID}}</p>
+          <p>Price: {{price}}</p>
         </div>
-        <i id="thumbRight" class="fa fa-caret-square-o-right" style="cursor:pointer;float:left;width:10%"></i>
       </div>
-      {{/each}}
+      {{/with}}
       {{/isolate}}
-      <div class="column" style="width:70%">
+      <div class="bottom-row" style="width:100%">
         <ul class="nav nav-tabs" id="myTab">
           <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
           <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
@@ -165,8 +161,10 @@
     <strong>PRICE RANGE</strong><br>
     <div id='shopPriceSlider' class='span2'></div>
     <div class="slider-controls span2">
-      <span class="pull-left">Rs. 0</span>
-      <span class="pull-right">Rs. 10000</span>
+      {{#with priceRange}}
+        <span class="pull-left">Rs. {{min}}</span>
+        <span class="pull-right">Rs. {{max}}</span>
+      {{/with}}
     </div>
   </div>
 </template>

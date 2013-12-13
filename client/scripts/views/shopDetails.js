@@ -23,13 +23,27 @@ Template.shopDetails.events = {
 		e.preventDefault();
 		var c = $("#edit-form-shop").serializeArray();
 		payments=[];
-		emi="no";
+		emi=false;
 		openHour="";
 		closeHour="";
 		console.log(c);
+		debit = 0;
+		credit = 0;
+		cheque=0;
 		_.each(c,function(el, index) {
-			if(el.name=="payments")
-				payments.push(el.value);
+			if(el.name=="edit-payments"){
+				switch(el.value){
+					case 'debit':
+						debit = 1;
+						break;
+					case 'credit':
+						credit = 1;
+						break;
+					case 'cheque':
+						cheque = 1;
+						break;
+				}
+			}
 			if(el.name=="emi"){
 				if(el.value == "yes")
 					emi=true;
@@ -55,10 +69,16 @@ Template.shopDetails.events = {
 			'shopLatitude': Session.get('selected').lat,
 			'shopLongitude': Session.get('selected').lng,
 			"emi":emi,
-			"payments":payments,
+			"payments":{'debit':debit,'credit':credit,'cheque':cheque},
 			"openHour":openHour,
 			"closeHour":closeHour
 		};
+		var formatted_address = details.address+','+details.locality.split(',').slice(0,-3).join(',')+', Near '+details.landmark.split(',')[0]+','+details.city+','+details.pincode;
+		details.formatted_address = formatted_address;
+		
+	    $('#informer').html('Your address is going to be '+formatted_address);
+	    setTimeout(function(){ $('#informer').fadeOut(); },3000);
+
 		Meteor.call('editDetails', details,function(err){ if(err) alert('Sorry..could not edit!!'); });
 		return false;
 	}
@@ -78,15 +98,17 @@ Template.shopDetails.events = {
 		  };
 		var map=new google.maps.Map(document.getElementById('googleMap'),mapOptions);
 		map.setZoom(12);
-
+		console.log('map set');
 		var localityBox = new google.maps.places.Autocomplete(document.getElementById('edit-locality'));
+		console.log('crossed one');
 		var landmarkBox = new google.maps.places.Autocomplete(document.getElementById('edit-landmark'));
+		console.log('croseed two');
 		localityBox.setComponentRestrictions({country: 'IN'});
 		landmarkBox.setComponentRestrictions({country: 'IN'});
 		localityBox.setTypes(['geocode']);
-		
+		console.log('crossed full');
 		var info;
-		$.get("http://maps.googleapis.com/maps/api/geocode/json", {'address':Session.get('user').pincode,'sensor':'true'}, function(data){
+		$.get("http://maps.googleapis.com/maps/api/geocode/json", {'address':Session.get('user').pincode+'+india','sensor':'true'}, function(data){
 			info = data;
 			var bounds = info.results[0].geometry.bounds;
 			var ne = new google.maps.LatLng(bounds.northeast.lat, bounds.northeast.lng);

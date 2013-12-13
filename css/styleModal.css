@@ -9,7 +9,7 @@
 	border: 5px solid #ababab;
 }
 .cvShopContent #shopModal{
-	width: 94%;
+	width: 89%;
 }
 #searchModal .tab-content , #shopModal .tab-content , #homeModal .tab-content{
 	overflow-y:scroll;
@@ -28,9 +28,8 @@
 #myTab > li.active > a{
 	background: white;
 }
-.column{
-	height: 100%;
-	float: left;
+.top-row{
+	border-bottom: 1px solid black;
 }
 #shopCloseModal, #closeModal{
 	position: absolute;
@@ -40,6 +39,18 @@
 	font-size: 20px;
 	color: black;
 	z-index: 10;
+}
+#shopImageModal{
+	float: left;
+	width: 31%;
+}
+#shopImageModal img{
+	max-width: 100%;
+}
+#shopModalHeading{
+	float: left;
+	width: 59%;
+	margin: 33px 25px;
 }
 .item-modal-brand{
 	padding: 4px;

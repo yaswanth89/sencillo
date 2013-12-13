@@ -28,6 +28,9 @@ Template.register.events({
       var contactname = t.find('#shop-contactname').value;
       var contactnum = t.find('#shop-contactnum').value;
       var formatted_address = address+','+locality.split(',')[0]+','+locality.split(',')[1]+','+landmark.split(',')[0]+','+city+','+pincode;
+      $('#informer').html('Your address is going to be '+formatted_address);
+      setTimeout(function(){ $('#informer').fadeOut(); },3000);
+      return;
       if(Session.get('shopLocation') != undefined)
         Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked',pincode: pincode,locality: locality,landmark: landmark,city: city ,address: address, contactname: contactname, contactnum: contactnum,shopLatitude:Session.get('shopLocation').lat, shopLongitude:Session.get('shopLocation').lng, usertype: 'shop'}, function(err){
             if (err) {

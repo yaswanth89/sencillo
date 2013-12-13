@@ -14,14 +14,46 @@
 	z-index:1;
 }
 .cvShopDisplay{
-	width:100%;
+	width: 32%;
 	position: relative;
-	height: 290px;
-	z-index:2;
+	height: 700px;
+	z-index: 2;
+	background-color: #e8e8e8;
+	float: left;
+}
+.cvShopDisplay .shopHeading{
+	padding: 9px;
+	background-color: yellowgreen;
+	font-family: 'Armata';
+	text-align: center;
+	text-transform: capitalize;
+}
+.cvShopDisplay .shop-primary-info{
+	font-size: 1.2em;
+	padding: 10px;
+	width: 100%;
+}
+.cvShopDisplay .shop-primary-info tr{
+	height: 50px;
+}
+.cvShopDisplay .shop-primary-info tr td:first-child{
+	width: 12%;
+	text-align: center;
+}
+.shopFacilities table{
+	width: 100%;
+}
+.shopFacilities table tr td:first-child{
+	background-color: #e8e8e8;
+}
+.cvShopDisplay .shopFacilities td{
+	padding: 11px;
+	font-size: 1.25em;
+	background-color: gray;
+	margin: 0.5px 0; 
 }
 #shopMapInfo{
 	float:right;
-	width: 57%;
 	height:98%;
 }
 .gmap-static{
@@ -37,18 +69,10 @@
 	height: 100%;
 	background-color: white;
 }
-.shopInfo, #googleMap{
-	width: 38%;
+.shopInfo{
+	width: 100%;
 	float: left;
 	word-wrap:break-word;
-	margin-left: 61px;
-	margin-top: 15px;
-}
-.shopHeading{
-	font-family: 'Armata';
-}
-.shopFacilities{
-	margin-top: 21px;
 }
 .cvShopFilters{
 	width: 14%;
@@ -58,7 +82,9 @@
 	padding-right: 42px;
 }
 .cvShopContent{
-	width: 100%;
+	width: 68%;
+	float: right;
+	overflow-y: auto;
 }
 .cvShopTabs{
 	width: 100%;
