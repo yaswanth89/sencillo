@@ -231,7 +231,6 @@ Template.shopModal.events = {
 
 
 Template.ShopProducts.rendered = function(){
-  
   if(window.totalPriceRange != undefined){
     $('#shopPriceSlider').slider({
       min: Math.floor(window.totalPriceRange[0]/100)*100,

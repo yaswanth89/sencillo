@@ -16,6 +16,10 @@
 	padding-left: 35px;
 	margin-bottom: 5px;
 }
+#homeLocationInput{
+	float: right;
+	margin:5px;
+}
 #filterButton{
 	background: #2c3e50 !important;
 	padding: 2px 67px !important;

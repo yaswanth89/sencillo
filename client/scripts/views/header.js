@@ -53,6 +53,7 @@ this.HeaderView = Backbone.View.extend({
 				resetMenu(menu);
 			}
 		};
+
 		return this.template = Meteor.render(function(){
 			return Template.header({});
 		});

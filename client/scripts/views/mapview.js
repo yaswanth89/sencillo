@@ -36,7 +36,7 @@ function mapLabel(opt_options) {
 }
 
 
-//mapLabel.prototype = new google.maps.OverlayView;
+mapLabel.prototype = new google.maps.OverlayView;
 
 
 // Implement onAdd

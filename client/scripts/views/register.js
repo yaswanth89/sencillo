@@ -20,33 +20,42 @@ Template.register.events({
       var username = t.find('#shop-username').value;
       var shopname = t.find('#shop-shopname').value;
       var password = t.find('#shop-password').value;
+      var pincode = t.find('#shop-pincode').value;
+      var locality = t.find('#shop-locality').value;
+      var landmark = t.find('#shop-landmark').value;
+      var city = t.find('#shop-city').value;
       var address = t.find('#shop-shopaddress').value;
-      var shopLatitude = t.find('#shopLatitude').value;
-      var shopLongitude =t.find('#shopLongitude').value; 
       var contactname = t.find('#shop-contactname').value;
       var contactnum = t.find('#shop-contactnum').value;
-      Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked', address: address, contactname: contactname, contactnum: contactnum,shopLatitude:shopLatitude, shopLongitude:shopLongitude, usertype: 'shop'}, function(err){
-          if (err) {
-            alert('Could not create');
-            // Inform the user that account creation failed
-          } else {
-            App.router.navigate('dashboard',{trigger:true});
-            // Success. Account has been created and the user
-            // has logged in successfully. 
-          }
+      var formatted_address = address+','+locality.split(',')[0]+','+locality.split(',')[1]+','+landmark.split(',')[0]+','+city+','+pincode;
+      if(Session.get('shopLocation') != undefined)
+        Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked',pincode: pincode,locality: locality,landmark: landmark,city: city ,address: address, contactname: contactname, contactnum: contactnum,shopLatitude:Session.get('shopLocation').lat, shopLongitude:Session.get('shopLocation').lng, usertype: 'shop'}, function(err){
+            if (err) {
+              alert('Could not create');
+              // Inform the user that account creation failed
+            } else {
+              App.router.navigate('shopAdd',{trigger:true});
+              // Success. Account has been created and the user
+              // has logged in successfully. 
+            }
 
-        });
+          });
+      else
+        alert('Please Choose Your Location on the Map');
       return false;
     }
  });
 
 var map;
+var geocoder;
 
 Template.shopRegister.rendered = function(){
   console.log('rendered register!!');
+  geocoder = new google.maps.Geocoder();
   var mapOptions = {
     panControl: false,
-    zoomControl: false
+    zoomControl: false,
+    scrollwheel: false
   };
   if(document.getElementById('registerMap') != null)
     this.removeChild(document.getElementById('registerMap'));
@@ -55,7 +64,7 @@ Template.shopRegister.rendered = function(){
   regMap.style.width = '1200px';
   regMap.style.height = '700px';
   document.getElementById('register-wrapper').appendChild(regMap);
-  map = new google.maps.Map(regMap);
+  map = new google.maps.Map(regMap, mapOptions);
   console.log(map);
   //map.panBy(-300,0);
   var localityBox = new google.maps.places.Autocomplete(document.getElementById('shop-locality'));
@@ -69,23 +78,14 @@ Template.shopRegister.rendered = function(){
   console.log('controls pushed');
   shopForm.style.backgroundColor = 'rgba(255,255,255,0.7)';
   shopForm.style.fontWeight = 'bold';
+  shopForm.style.padding = '10px 30px'; 
+  shopForm.style.marginLeft = '30px';
   //landmarkBox.setTypes(['establishment']);
   var myLatLng;
-  if(window.here != undefined){
-      myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
-      map.setCenter(myLatLng);
-      map.setZoom(13);
-  }else{
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(function(position){
-        window.here = position;
-        console.log('geo!!');
-        myLatLng = new google.maps.LatLng(window.here.coords.latitude, window.here.coords.longitude);
-        map.setCenter(myLatLng);
-        map.setZoom(13);
-      });
-    }
-  }
+  myLatLng = new google.maps.LatLng(22.572646,88.36389500000001);
+  map.setCenter(myLatLng);
+  map.setZoom(13);
+
 
   $('#shop-pincode').blur(function(){
     $.get('http://maps.googleapis.com/maps/api/geocode/json', {'address':$(this).val()+'+india', 'sensor':'true'},function(data){
@@ -100,7 +100,22 @@ Template.shopRegister.rendered = function(){
       console.log('bounded!');
     });
   });
+  
   var marker;
+
+  function getAddress(latlng){
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]){
+          $('#shop-shopaddress').val(results[1].address_components);
+        }
+      }else{
+        alert('Geocoder failed due to: ' + status);
+      }
+    });
+  }
+
+
 
   google.maps.event.addListener(localityBox, 'place_changed', function(){
     var place = localityBox.getPlace();
@@ -128,6 +143,7 @@ Template.shopRegister.rendered = function(){
       position: place.geometry.location
     });
 
+    Session.set('shopLocation',place.geometry.location);
   });
 
   google.maps.event.addListener(landmarkBox, 'place_changed', function(){
@@ -153,8 +169,15 @@ Template.shopRegister.rendered = function(){
       map: map,
       visible: true,
       draggable: true,
-      position: place.geometry.location
+      position: place.geometry.location,
+      crossOnDrag: false
     });
+
+    Session.set('shopLocation',place.geometry.location);
+  });
+
+  google.maps.event.addListener(marker, 'dragend',function(e){
+    Session.set('shopLocation',{'lat': e.latLng.lat(), 'lng': e.latLng.lng()});
   });
 };
 

@@ -162,7 +162,8 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
       }
     }
     else{
-      withinIdList = _.union(withinIdList,obj.productId);
+      return;
+      //withinIdList = _.union(withinIdList,obj.productId);
     }
   });
   console.log('shops are..');

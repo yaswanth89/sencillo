@@ -23,18 +23,12 @@ this.Home = Backbone.View.extend({
     else
       Session.set('homeId','');
     var prod_inc = 20;
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(function(position){
-        window.here = position;
-        Session.set('distanceCenter',window.here.coords);
-        console.log(Session.get('distanceCenter'));
-      });
-    }
     if(Session.get('distanceFilter') == undefined || Session.get('distanceFilter') == '')
       Session.set('distanceFilter',5);
     if(Session.get('priceRange') == undefined)
       Session.set('priceRange', []);
     Session.set('homeLimit',prod_inc);
+
     return this.template = Meteor.render(function(){
       return Template.home();
     });
@@ -45,12 +39,19 @@ this.Home = Backbone.View.extend({
 	}
 });
 Deps.autorun(function(){
-    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'),Session.get('distanceFilter'),Session.get('distanceCenter'),Session.get('priceRange'));
+    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'),Session.get('distanceFilter'),Session.get('homeDistanceCenter'),Session.get('priceRange'));
     Meteor.subscribe('homeProductDetail',Session.get('homeId'));
     Meteor.subscribe('homePrices',Session.get('homeId'));
     Meteor.subscribe('homeId');
     Meteor.subscribe('homeBrand', Session.get('homeSub'));
 });
+
+Template.homeView.centerSet = function(){
+  if(Session.get('homeDistanceCenter') != undefined)
+    return Session.get('homeDistanceCenter').name;
+  else
+    return false;
+};
 
 Template.homeBrand.Brand = function(){
   try{
@@ -65,11 +66,11 @@ Template.homeBrand.Brand = function(){
 Template.homeProducts.ProductArr = function(){
   var withinProducts = [];
   window.shopList = [];
-  if(Session.get('distanceCenter') == undefined)
+  if(Session.get('homeDistanceCenter') == undefined)
     return;
   Meteor.users.find({'usertype':'shop'},{fields: {'shopLatitude':1,'shopLongitude':1,'productId':1}}).forEach(function(obj){
     if(Session.get('distanceFilter') != undefined){
-      if(findDistance(obj.shopLatitude,obj.shopLongitude,Session.get('distanceCenter').latitude,Session.get('distanceCenter').longitude) < Session.get('distanceFilter')){
+      if(findDistance(obj.shopLatitude,obj.shopLongitude,Session.get('homeDistanceCenter').latitude,Session.get('homeDistanceCenter').longitude) < Session.get('distanceFilter')){
         window.shopList.push(obj._id);
         withinProducts = _.union(withinProducts,obj.productId);
       }
@@ -118,6 +119,8 @@ Template.homeModalSpec.productSpec = function(){
 
 Template.homeModalAvailble.shopList = function(){
   returnarr =[];
+  if(!Session.get('homeDistanceCenter'))
+    return;
   Meteor.users.find({"productId":{$all:[Session.get('homeId')]}}).forEach(function(el){
     price=undefined;
     Prices.find({"productId":Session.get('homeId'),"shopId":el._id,"price":{$gt:0}}).forEach(function(e){
@@ -126,7 +129,7 @@ Template.homeModalAvailble.shopList = function(){
     if(price){
       returnarr.push({
         shopname:el.shopname,
-        distance:findDistance(el.shopLatitude,el.shopLongitude,Session.get('distanceCenter').latitude, Session.get('distanceCenter').longitude),
+        distance:findDistance(el.shopLatitude,el.shopLongitude,Session.get('homeDistanceCenter').latitude, Session.get('homeDistanceCenter').longitude),
         link:'/cv/'+el.username+'/'+Session.get('homeId'),
         price:price
       });
@@ -170,18 +173,6 @@ Template.homeDistanceFilter.rendered = function(){
     // console.log('slide stop!!');
     Session.set('distanceFilter',$(this).val());
   });
-
-  var center = new google.maps.places.Autocomplete(document.getElementById('distanceCenter'));
-  center.setComponentRestrictions({country: 'IN'});
-  center.setTypes(['geocode']);
-
-  google.maps.event.addListener(center, 'place_changed', function(){
-    var place = center.getPlace();
-    // console.log(place);
-    if(!place.geometry)
-      return;
-    Session.set('distanceCenter', {'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
-  });
 };
 
 Template.homePriceFilter.rendered = function(){
@@ -196,6 +187,26 @@ Template.homePriceFilter.rendered = function(){
 
   $('#priceSlider').on('slideStop', function(e){
     Session.set('priceRange',$(this).val());
+  });
+};
+
+Template.homeView.rendered = function(){
+  console.log('home rendered!!');
+  var center = new google.maps.places.Autocomplete(document.getElementById('homeDistanceCenter'));
+  console.log('crossed');
+  center.setComponentRestrictions({country: 'IN'});
+  center.setTypes(['establishment']);
+
+  google.maps.event.addListener(center, 'place_changed', function(){
+      var place = center.getPlace();
+      console.log(place);
+      if(!place.geometry)
+        return;
+      Session.set('homeDistanceCenter', {'name': place.address_components[0].short_name+','+place.address_components[1].short_name+','+place.address_components[2].short_name,'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
+  });
+
+  $('.change-center').click(function(){
+    $(this).parent().parent().find('span').fadeOut('fast',function(){ $(this).parent().parent().find('input.distance-center').fadeIn(); });
   });
 };
 
