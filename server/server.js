@@ -21,44 +21,10 @@ Accounts.onCreateUser(function(options, user) {
     return user;
   }
 });
-/*
+
 Meteor.startup(function(){
   //console.log("hello");
-  var tempId=[];
-  var showId = Meteor.users.find({"usertype":"shop"},{fields:{productId:1,"username":1}}).forEach(function(loop){
-    brands={};
-    idList = loop.productId;
-    Products.find({"_id":{$in:loop.productId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(f){
-      if(brands[f.Sub] == undefined)
-        brands[f.Sub] = [];
-      if(brands[f.Sub].indexOf(f.Brand) == -1)
-        brands[f.Sub].push(f.Brand);
-    });
-    _.each(brands,function(key, val){
-      Brands.upsert({'shopid':loop.username,'Sub':val},{$set:{"list":key}});
-    });
-    tempId = _.union(tempId,loop.productId); 
-  });
-  z = _.filter(tempId,function(e){
-    y = Prices.find({productId:e,price:{$gt:0}},{fields:{"price":1}});
-    // console.log(y.count());
-    if(y.count()>0)
-      return true;
-    else
-      return false;
-  });
-  HomeId.update({},{'idList':z});
-  brands={};
-  Products.find({"_id":{$in:tempId}},{fields:{"Sub":1,"Brand":1}}).forEach(function(e){
-    if(brands[e.Sub] == undefined)
-      brands[e.Sub] = [];
-    if(brands[e.Sub].indexOf(e.Brand) == -1)
-      brands[e.Sub].push(e.Brand);
-  });
-  _.each(brands,function(key, val){
-    Brands.upsert({'view':'home','Sub':val},{$set:{"list":key}});
-  });
-  console.log('updated!');
+  //console.log('updated!');
   //console.log(HomeId.find({}).fetch());
   Accounts.loginServiceConfiguration.remove({
     service: "facebook"
@@ -78,7 +44,7 @@ Meteor.startup(function(){
       secret: "azehiKgpz3hkOqG4zd6gd3lj"
   }); 
 });
-*/
+
 
 function findDistance(lat1,lng1,lat2,lng2){
   var R = 6371; //Approximate Radius of Earth in km!!
@@ -110,14 +76,19 @@ Meteor.publish("shopProductList",function(username,sub,limit){
   return Products.find({_id:{$in:idList},Sub:sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
 });
 
-Meteor.publish("shopProducts",function(){
+Meteor.publish("shopProducts",function(filter){
   try{
     idList = Meteor.users.findOne({_id:this.userId}).productId;
   }
   catch(e){
     return null; 
   }
-  return Products.find({_id:{$in:idList}},{fields:{'Brand':1,'ProductName':1,'ModelID':1}});
+  q = {_id:{$in:idList}};
+  if(filter){
+    q.Sub = filter[0];
+    q.Brand = filter[1];
+  }
+  return Products.find(q,{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1}});
 });
 
 Meteor.publish('shopAddProducts',function(sub,brand,limit){
@@ -252,6 +223,7 @@ Meteor.publish("searchQuery",function(query,sub,limit,distance,loc,priceRange){
           sort:{price:1},
           limit:1
         });
+
       else
         y = Prices.find({
           productId:e._id,
@@ -311,4 +283,8 @@ Meteor.publish("featuredProducts",function(){
     blah.push(e.productId);
   });
   return [x,Products.find({_id:{$in:blah}},{fields:{_id:1,"ProductName":1,"ModelID":1,"Image":1}}),Meteor.users.find({username:"achal"},{fields:{_id:1,shopname:1}})];
-})
+});
+Meteor.publish("shopCategories",function(){
+  var username = Meteor.users.findOne({"_id":this.userId},{fields:{"username":1}}).username;
+  return Brands.find({"shopid":username},{fields:{"list":1, "shopid":1, "Sub":1}});
+});

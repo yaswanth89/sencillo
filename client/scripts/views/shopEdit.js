@@ -11,7 +11,8 @@ this.ShopEdit = Backbone.View.extend({
   }
 });
 Deps.autorun(function(){
-  Meteor.subscribe('shopProducts');
+  Meteor.subscribe('shopProducts',Session.get('shopEditFilters'));
+  Meteor.subscribe('shopCategories');
   Meteor.subscribe('productPrices');
 });
 Template.shopEdit.events={
@@ -78,7 +79,12 @@ Template.shopEdit.allProducts = function(){
   Meteor.users.find({username:Meteor.user().username}).forEach(function(loop){
       productList = loop.productId;
       if(productList){
-        Products.find({_id:{$in:productList}},{fields:{'Brand':1,'ProductName':1,'ModelID':1}}).forEach(function(e){
+        q={_id:{$in:productList}};
+        if(Session.get('shopEditFilters')){
+          q.Sub = Session.get('shopEditFilters')[0];
+          q.Brand = Session.get('shopEditFilters')[1];
+        }
+        Products.find(q,{fields:{'Brand':1,'ProductName':1,'ModelID':1}}).forEach(function(e){
           pricetag = Prices.findOne({productId:e._id,shopId:loop._id});
           if(pricetag)
             allproducts.push({
@@ -107,3 +113,17 @@ Template.shopEdit.allProducts = function(){
   });
   return allproducts;
 };
+Template.shopEditCategories.cat = function(){
+  return Brands.find({"shopid":Meteor.user().username});
+}
+Template.shopEditCategories.events={
+  "click .filterLinks":function(e){
+    if(!Session.get('shopEditFilters'))
+      $("#saveChanges").click();
+    filters = e.currentTarget.getAttribute('data-filter').split('-');
+    console.log(filters);
+    setTimeout(function(){
+      Session.set('shopEditFilters',filters);
+    },100);
+  }
+}
