@@ -75,7 +75,7 @@ Meteor.methods({
 		_.each(set,function(e){
 			// console.log(e.productId);
 			// console.log(Meteor.userId());
-			Prices.upsert({"productId":e.productId,"shopId":Meteor.userId()},{$set:{'price': e.price,'inStock': e.inStock,'onDisplay': e.onDisplay}});
+			Prices.upsert({"productId":e.productId,"shopId":Meteor.userId()},{$set:{'price': e.price,'inStock': e.inStock,'onDisplay': e.onDisplay,'Featured':e.Featured}});
 		});
 	},
 	editDetails: function(details){

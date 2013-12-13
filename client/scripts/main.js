@@ -6,3 +6,15 @@ $(window).load(function(){
 	  content.height(window.productHeight);
 	});	
 });
+function displaySucess(string){
+	$("#informer").html(string).fadeIn();
+	setTimeout(function(){
+		$("#informer").fadeOut();
+	});
+}
+function dispalySucess(string){
+	$("#alerter").html(string).fadeIn();
+	setTimeout(function(){
+		$("#alerter").fadeOut();
+	});
+}

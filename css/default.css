@@ -1,5 +1,24 @@
-#myCarousel{
-	height:50%;
+.shop-name{
+	float: left;
+	padding: 10px 25px;
+	background: #ffc930;
+	margin-right: 15px;
+	text-transform: uppercase;
+}
+.info{
+	background: #c8c8c8;
+}
+.featuredProductsList{
+	position: absolute;
+	left:0;
+	top:40px;
+}
+.featuredProducts{
+	position: relative;
+}
+#myCarousel .carousel-control{
+	background: none;
+	border: 0;
 }
 .defaultHolder {
 height: 30%;

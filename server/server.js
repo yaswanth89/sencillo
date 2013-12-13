@@ -302,3 +302,14 @@ Meteor.publish("shopProductPrices",function(username){
 Meteor.publish("userData", function () {
   return Meteor.users.find({_id: this.userId},{fields: {'usertype': 1}});
 });
+Meteor.publish("featuredProducts",function(){
+  var blah=[];
+  var id = Meteor.users.findOne({username:"achal"},{fields:{_id:1}})._id;
+  x = Prices.find({"Featured":1,"shopId":id},{fields:{"Featured":1,productId:1,shopId:1,price:1},limit:5});
+  // console.log(x.fetch());
+  x.forEach(function(e){
+    blah.push(e.productId);
+  });
+  console.log(blah);
+  return [x,Products.find({_id:{$in:blah}},{fields:{_id:1,"ProductName":1,"ModelID":1,"Image":1}}),Meteor.users.find({username:"achal"},{fields:{_id:1,shopname:1}})];
+})
