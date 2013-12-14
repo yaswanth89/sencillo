@@ -304,7 +304,9 @@ Meteor.publish("FrameAll", function(){
 });
 
 Meteor.publish("shopCategories",function(){
-  var username = Meteor.users.findOne({"_id":this.userId},{fields:{"username":1}}).username;
-  return Brands.find({"shopid":username},{fields:{"list":1, "shopid":1, "Sub":1}});
+  if(this.userId){
+    var username = Meteor.users.findOne({"_id":this.userId},{fields:{"username":1}}).username;
+    return Brands.find({"shopid":username},{fields:{"list":1, "shopid":1, "Sub":1}});
+  }
 });
 
