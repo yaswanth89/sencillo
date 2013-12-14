@@ -1,0 +1,39 @@
+.round{
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	background: #d6d7d9;
+	padding: 4px;
+	text-align: center;
+	display: inline-block;
+	line-height: 15px;
+	font-family: armata;
+	color: #3598db;
+}
+#forRetailersTabContent .span11{
+	padding: 10px 0px;
+}
+#forRetailersTab > li > a{
+	color: #333;
+	border: 0;
+	padding: 4px 20px;
+	border-radius: 0;
+	font-size: 20px;
+}
+#forRetailersTab > li{
+	border-right: 1px solid #333;
+	margin-bottom: 7px;
+}
+#forRetailersTab > li > a:hover{
+	background: none;
+}
+#forRetailersTab > li.active {
+	background: #d6d6d6;
+}
+#forRetailersTab > li.active > a{
+	color: #3598db;
+	background: none;
+}
+#forRetailersTab{
+	border-bottom: 1px solid #333;
+}

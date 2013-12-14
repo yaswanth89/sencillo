@@ -310,6 +310,5 @@ Meteor.publish("featuredProducts",function(){
   x.forEach(function(e){
     blah.push(e.productId);
   });
-  console.log(blah);
   return [x,Products.find({_id:{$in:blah}},{fields:{_id:1,"ProductName":1,"ModelID":1,"Image":1}}),Meteor.users.find({username:"achal"},{fields:{_id:1,shopname:1}})];
 })
