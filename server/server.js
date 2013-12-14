@@ -100,14 +100,21 @@ Meteor.publish("frameDetail",function(){
   return FrameDetail.find({});
 });
 
-Meteor.publish("shopProductList",function(username,sub,limit){
+Meteor.publish("shopProductList",function(username,main,sub,limit){
   try{
     idList = Meteor.users.findOne({username:username}).productId;
   }
   catch(e){
     return null; 
   }
-  return Products.find({_id:{$in:idList},Sub:sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+  if(main && sub)
+    return Products.find({_id:{$in:idList},Main: main,Sub:sub},{fields:{'Main':1,'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+  else if(main)
+    return Products.find({_id:{$in:idList},Main: main},{fields:{'Main':1,'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+  else if(sub)
+    return Products.find({_id:{$in:idList},Sub:sub},{fields:{'Main':1,'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+  else
+    return Products.find({_id:{$in:idList}},{fields:{'Main':1,'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
 });
 
 Meteor.publish("shopProducts",function(){
@@ -279,8 +286,15 @@ Meteor.publish("homeBrand",function(sub){
   return Brands.find({"view":"home","Sub":sub},{fields:{"list":1,"view":1,"Sub":1}});
 });
 
-Meteor.publish("shopBrand",function(shopname,sub){
-  return Brands.find({"shopid":shopname, "Sub":sub},{fields:{"list":1, "shopid":1, "Sub":1}});
+Meteor.publish("shopBrand",function(shopname,main,sub){
+  if(main && sub)
+    return Brands.find({"shopid":shopname,"Main":main,"Sub":sub},{fields:{"list":1, "shopid":1, "Sub":1}});
+  else if(main)
+    return Brands.find({"shopid":shopname,"Main":main},{fields:{"list":1, "shopid":1, "Sub":1}});
+  else if(sub)
+    return Brands.find({"shopid":shopname,"Sub":sub},{fields:{"list":1, "shopid":1, "Sub":1}});
+  else
+    return Brands.find({"shopid":shopname},{fields:{"list":1, "shopid":1, "Sub":1}});
 });
 
 Meteor.publish("productPrices",function(){
@@ -311,4 +325,8 @@ Meteor.publish("featuredProducts",function(){
     blah.push(e.productId);
   });
   return [x,Products.find({_id:{$in:blah}},{fields:{_id:1,"ProductName":1,"ModelID":1,"Image":1}}),Meteor.users.find({username:"achal"},{fields:{_id:1,shopname:1}})];
-})
+});
+
+Meteor.publish("FrameAll", function(){
+  return FrameDetail.find({});
+});

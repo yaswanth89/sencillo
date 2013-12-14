@@ -1,6 +1,6 @@
 this.CustomerView = Backbone.View.extend({
 	initialize:function(){
-  	Session.set("shopSub","TV");
+  	//Session.set("shopSub","TV");
     Session.set("shopBrand",[]);
     Session.set('shopLimit',20);
 		Session.set('newProducts',true);
@@ -14,11 +14,12 @@ this.CustomerView = Backbone.View.extend({
 	}
 });
 Deps.autorun(function(){
-    Meteor.subscribe('shopProductList',window.shopUsername,Session.get('shopSub'),Session.get('shopLimit'));
+    Meteor.subscribe('shopProductList',window.shopUsername,Session.get('shopMainFilter'),Session.get('shopSubFilter'),Session.get('shopLimit'));
     Meteor.subscribe('shopProductPrices',window.shopUsername);
     Meteor.subscribe('homeProductDetail',Session.get('shopId'));
     Meteor.subscribe('shopDetail',window.shopUsername);
-    Meteor.subscribe("shopBrand",window.shopUsername,Session.get('shopSub'))
+    Meteor.subscribe("shopBrand",window.shopUsername,Session.get('shopMainFilter'),Session.get('shopSubFilter'));
+    Meteor.subscribe('FrameAll');
 });
 Template.ShopMainCat.MainCatArr = function(){
 	return FrameDetail.find({});
@@ -58,13 +59,17 @@ Template.mapCanvas.latlng = function(){
 	}
 }
 
+Template.shopCategories.shopCat = function(){
+  return FrameDetail.find({});
+}
+
 Template.ShopBrand.BrandArr = function(){
-	try{
-    return Brands.findOne({"shopid":window.shopUsername,"Sub":Session.get('shopSub')}).list;
-  }
-  catch(e){
+  if(Session.get('shopSubFilter')){
+    console.log('brandssss');
+    console.log(Brands.findOne({"shopid":window.shopUsername,"Sub":Session.get('shopSubFilter')}).list);
+    return Brands.findOne({"shopid":window.shopUsername,"Sub":Session.get('shopSubFilter')}).list;
+  }else
     return null;
-  }
 };
 
 Template.ShopBrand.events = {
@@ -87,6 +92,7 @@ Template.shopFeaturedProducts.featuredProductArr = function(){
     product[0].price = e.price;
     blah.push(product[0]);
   });
+  console.log('feaaaaaatured!!!');
   console.log(blah);
   return blah;
 };
@@ -116,10 +122,29 @@ Template.ShopProducts.ProductArr = function(){
   	});
   	if(_.isEmpty(productList))
   		return null;
-  	
+  	console.log('productList');
+    console.log(productList);
   	if(_.isEmpty(Session.get("shopBrand"))){
   		var prods = [];
-  		Products.find({_id:{$in:productList},'Sub':Session.get('shopSub')},{reactive:Session.get('newProducts')}).forEach(function(obj){
+  		if(Session.get('shopMainFilter') && Session.get('shopSubFilter')){
+        console.log('main n sub');
+        var docs = Products.find({_id:{$in:productList},'Main': Session.get('shopMainFilter'),'Sub':Session.get('shopSubFilter')},{reactive:Session.get('newProducts')});
+      }
+      else if(Session.get('shopMainFilter')) {
+        console.log('only main');
+        var docs = Products.find({_id:{$in:productList},'Main': Session.get('shopMainFilter')},{reactive:Session.get('newProducts')});
+      }
+      else if(Session.get('shopSubFilter')){
+        console.log('only sub');
+        var docs = Products.find({_id:{$in:productList},'Sub':Session.get('shopSubFilter')},{reactive:Session.get('newProducts')});
+      }
+      else{
+        console.log('nothing!!!');
+        var docs = Products.find({_id:{$in:productList}},{reactive:Session.get('newProducts')});
+      }
+      console.log('docsssss');
+      console.log(docs);
+        docs.forEach(function(obj){
   			var p = Prices.findOne({'shopId':shopid,'productId':obj._id});
         if(p != undefined){
           if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined){
@@ -197,6 +222,21 @@ Template.ShopProducts.ProductArr = function(){
   return prods;
 };
 
+Template.shopCategories.events = {
+  "click li.mainCat a.main-click": function(e, t){
+    var now = e.currentTarget;
+    var main = now.getAttribute('data-content');
+    Session.set('shopSubFilter',undefined);
+    Session.set('shopMainFilter',main);
+  },
+  "click li.subCat": function(e, t){
+    var now = e.currentTarget;
+    var sub = now.innerHTML;
+    Session.set('shopMainFilter',undefined);
+    Session.set('shopSubFilter',sub);
+  }
+};
+
 Template.ShopProducts.shopname = function(){
 	return window.shopUsername;
 }
@@ -220,6 +260,7 @@ Template.ShopProducts.events = {
 	"click div.show-product" : function(e,t){
       e.preventDefault();
       var now = e.currentTarget;
+      var par = now.parentNode;
       var id = now.id.split('_');
       Session.set('shopId',id[1]);
       Session.set('newProducts',false);

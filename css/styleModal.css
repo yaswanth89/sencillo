@@ -30,6 +30,8 @@
 }
 .top-row{
 	border-bottom: 1px solid black;
+	overflow: hidden;
+	height: 48%;
 }
 #shopCloseModal, #closeModal{
 	position: absolute;
@@ -47,6 +49,7 @@
 #shopImageModal{
 	float: left;
 	width: 31%;
+	max-height: 95%;
 }
 #shopModal .tab-content{
 	height:265px;
@@ -54,6 +57,7 @@
 }
 #shopImageModal img{
 	max-width: 100%;
+	max-height: 100%;
 }
 #shopModalHeading{
 	float: left;

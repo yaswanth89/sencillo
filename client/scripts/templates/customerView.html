@@ -138,6 +138,21 @@
     </ul>
 </template>
 
+<template name='shopCategories'>
+  <ul id='shopMainCat'>
+    {{#each shopCat}}
+      <li data-content='{{this.Main}}' class='mainCat'>
+        <a class='main-click'>{{this.Main}}</a>
+        <ul class='shopSubCat'>
+          {{#each this.Sub}}
+            <li class='subCat'>{{this}}</li>
+          {{/each}}
+        </ul>
+      </li>
+    {{/each}}
+  </ul>
+</template>
+
 <template name="ShopBrand">
   <div class="brandFilter">
     <strong>Brands</strong>
@@ -150,9 +165,10 @@
             </label>
           </div>
         </div>
+      {{else}}
+        <br><span>Select any Sub Category!</span>
       {{/each}}
       {{/isolate}}
-    </ul>
   </div>
 </template>
 
@@ -209,9 +225,24 @@
 
 <template name="ShopProducts">
   <div class="products-list tab-pane" id='cvProductsList'>
-    <div class='cvShopFilters'>
-      {{> ShopBrand}}
-      {{> ShopPriceFilter}}
+    <div class="btn-group">
+      <a class="btn btn-inverse dropdown-toggle" id="filterButton" data-toggle="dropdown" href="#">
+        Categories
+        <span class="caret"></span>
+      </a>
+      <ul id="shopFilters" class="dropdown-menu">
+        {{> shopCategories}}
+      </ul>
+    </div>
+    <div class="btn-group" style='float:right;margin-right:30px;'>
+      <a class="btn btn-inverse dropdown-toggle" id="filterButton" data-toggle="dropdown" href="#">
+        More Filters
+        <span class="caret"></span>
+      </a>
+      <ul id="shopFilters" class="dropdown-menu">
+        {{> ShopBrand}}
+        {{> ShopPriceFilter}}
+      </ul>
     </div>
     <div class='cvProductsContent'>
     {{#isolate}}
