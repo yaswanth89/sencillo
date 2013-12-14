@@ -69,9 +69,9 @@
           <img src="{{Image.[0]}}">
         </div>
         <div id='shopModalHeading'>
-          <p class="lead">{{ProductName}}</p>
-          <p>Model ID: {{ModelID}}</p>
-          <p>Price: {{price}}</p>
+          <p class="lead modalName">{{ProductName}}</p>
+          <p class='modalID'>Model ID: {{ModelID}}</p>
+          <p class='modalPrice'><i class='fa fa-rupee'></i> {{price}}<br> <span class='tax-info'>Inclusive of all Taxes</span></p>
         </div>
       </div>
       {{/with}}
@@ -177,7 +177,7 @@
   </ul>
   <div class="tab-content">
       {{#isolate}}
-        {{> FeaturedProducts}}
+        {{> shopFeaturedProducts}}
       {{/isolate}}
       {{#isolate}}
         {{> ShopProducts}}
@@ -188,7 +188,7 @@
       </div>
 </template>
 
-<template name='FeaturedProducts'>
+<template name='shopFeaturedProducts'>
   <div class="products-list tab-pane active" id='cvFeaturedProducts'>
     {{#isolate}}
      {{#each featuredProductArr}}

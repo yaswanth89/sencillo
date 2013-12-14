@@ -25,6 +25,7 @@ Template.ShopMainCat.MainCatArr = function(){
 };
 
 Template.ShopInfo.shopDet = function(){
+  var shop;
 	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	shop = loop;
   	});
@@ -74,7 +75,24 @@ Template.ShopBrand.events = {
 	}
 };
 
-Template.FeaturedProducts.featuredProductArr = function(){
+Template.shopFeaturedProducts.featuredProductArr = function(){
+  var blah=[];
+  var id = '';
+  var shopName='';
+  Meteor.users.find({username:window.shopUsername},{fields: {'_id':1}}).forEach(function(e){
+    id = e._id;
+  });
+  x = Prices.find({shopId:id,"Featured":1},{limit:5}).forEach(function(e){
+    product = Products.find({_id:e.productId},{fields:{"ProductName":1,"ModelID":1,"Image":1}}).fetch();
+    product[0].price = e.price;
+    blah.push(product[0]);
+  });
+  console.log(blah);
+  return blah;
+};
+
+/*
+Template.shopFeaturedProducts.featuredProductArr = function(){
 	var productList = [];
   	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	productList = loop.productId;
@@ -85,7 +103,7 @@ Template.FeaturedProducts.featuredProductArr = function(){
   		return Products.find({_id:{$in:productList},'Sub':Session.get('shopSub')},{reactive:Session.get('newProducts')});
   	else	
 		return Products.find({_id:{$in:productList},'Sub':Session.get('shopSub'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')});
-};
+};*/
 
 Template.ShopProducts.ProductArr = function(){
 	var productList = [];
@@ -183,7 +201,7 @@ Template.ShopProducts.shopname = function(){
 	return window.shopUsername;
 }
 
-Template.FeaturedProducts.events = {
+Template.shopFeaturedProducts.events = {
   "click div.show-product" : function(e,t){
       e.preventDefault();
       var now = e.currentTarget;

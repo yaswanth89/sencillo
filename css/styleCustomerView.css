@@ -5,7 +5,7 @@
 }
 .cvProductsList {
 	width: 58%;
-	height: 570px;
+	height: 100%;
 	position: absolute;
 	left:20%;
 	overflow-y: scroll;
@@ -16,14 +16,14 @@
 .cvShopDisplay{
 	width: 32%;
 	position: relative;
-	height: 700px;
+	height: 100%;
 	z-index: 2;
 	background-color: #e8e8e8;
 	float: left;
 }
 .cvShopDisplay .shopHeading{
 	padding: 9px;
-	background-color: yellowgreen;
+	background-color: #ffc930;
 	font-family: 'Armata';
 	text-align: center;
 	text-transform: capitalize;
@@ -37,17 +37,21 @@
 	height: 50px;
 }
 .cvShopDisplay .shop-primary-info tr td:first-child{
-	width: 12%;
+	width: 14%;
 	text-align: center;
 }
 .shopFacilities table{
 	width: 100%;
 }
+.shopFacilities table tr{
+	border: 1px solid white;
+}
 .shopFacilities table tr td:first-child{
+	text-align: center;
 	background-color: #e8e8e8;
 }
 .cvShopDisplay .shopFacilities td{
-	padding: 11px;
+	padding: 8px;
 	font-size: 1.25em;
 	background-color: gray;
 	margin: 0.5px 0; 
@@ -83,6 +87,7 @@
 }
 .cvShopContent{
 	width: 68%;
+	height: 100%;
 	float: right;
 	overflow-y: auto;
 }

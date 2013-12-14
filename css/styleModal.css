@@ -11,7 +11,7 @@
 .cvShopContent #shopModal{
 	width: 89%;
 }
-#searchModal .tab-content , #shopModal .tab-content , #homeModal .tab-content{
+#searchModal .tab-content ,#homeModal .tab-content{
 	overflow-y:scroll;
 	height: 80%;
 }
@@ -40,9 +40,17 @@
 	color: black;
 	z-index: 10;
 }
+.column{
+	height: 100%;
+	float: left;
+}
 #shopImageModal{
 	float: left;
 	width: 31%;
+}
+#shopModal .tab-content{
+	height:265px;
+	overflow: auto;
 }
 #shopImageModal img{
 	max-width: 100%;
@@ -51,6 +59,16 @@
 	float: left;
 	width: 59%;
 	margin: 33px 25px;
+}
+#shopModalHeading .modalPrice{
+	max-width:50%;
+	font-size: 1.6em;
+	font-weight: bold;
+	float: left;
+}
+#shopModalHeading .modalPrice span{
+	font-weight: normal;
+	font-size: 0.5em;
 }
 .item-modal-brand{
 	padding: 4px;
