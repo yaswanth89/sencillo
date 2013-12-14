@@ -1,5 +1,8 @@
 <template name="shopEdit">
-  <div id="shopEdit" class="container" style="padding:0">
+  <div class="container">
+    <div class="row">
+    {{> shopEditCategories}}
+    <div id="shopEdit" class="span10" style="padding:0">
     <table class="table" id="editTable">
       <thead>
         <th>Brand</th>
@@ -53,4 +56,26 @@
     <div id="editButton">
     <button class='btn btn-primary' id='saveChanges'>Save changes</button>
     </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="shopEditCategories">
+  <div id="shopEditWrap" class="span2">
+    {{#each cat}}
+      <div class="accordion-heading">
+        <h4 style="cursor:pointer" data-toggle="collapse" data-target="#{{_id}}" data-parent="shopAddWrap">{{this.Sub}}</h4>
+      </div>
+        <div class="collapse" id="{{_id}}">
+          <div class="accordion-inner">
+            <ul>
+              {{#each list}}
+              <li class="filterLinks" style="cursor:pointer;list-style:none" data-filter="{{../Sub}}-{{this}}">{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+    {{/each}}
+  </div>
 </template>
