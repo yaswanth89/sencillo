@@ -131,7 +131,7 @@
         <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
         <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
         <li><a href="#availableShop" data-toggle="tab">Available At</a></li>
-        <li><a href="#availableShop" data-toggle="tab">Map View</a></li>
+        <li><a href="#homeMap" data-toggle="tab">Map View</a></li>
       </ul>
       <div class="tab-content">
       {{#isolate}}
@@ -143,6 +143,7 @@
       {{#isolate}}
         {{> homeModalAvailble}}
       {{/isolate}}
+        {{> homeMapView}}
       </div>
     </div>
 </div>
@@ -201,5 +202,11 @@
       </tr>
     {{/each}}
     </table>
+  </div>
+</template>
+
+<template name='homeMapView'>
+  <div class='tab-pane' id='homeMap'>
+    <div id="googleMapView" style="width:840px;height:450px;"></div>
   </div>
 </template>
