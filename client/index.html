@@ -14,6 +14,29 @@
 		    var d = Math.sqrt(x*x + y*y) * R;
 		    return Math.round(d*100) / 100;
 		}
+		function findBounds(lat,lng,distance){
+			var R = 6371; //Approximate Radius of Earth in km!!
+		    lat = lat*Math.PI/180;
+		    lng = lng*Math.PI/180;
+		  	x = distance/R;
+		    var lng2 = (x/Math.cos(lat))+lng;
+		    var lng1 = Math.abs((x/Math.cos(lat))-lng);
+		    var lat2 = x+lat;
+		    var lat1 = Math.abs(x-lat);
+		    return [lat1,lat2,lng1,lng2];	
+		}
+		function displaySuccess(string){
+			$("#informer").html(string).fadeIn();
+			setTimeout(function(){
+				$("#informer").fadeOut();
+			},5000);
+		}
+		function displayError(string){
+			$("#alerter").html(string).fadeIn();
+			setTimeout(function(){
+				$("#alerter").fadeOut();
+			},5000);
+		}
 	</script>
 	<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script>
 </head>

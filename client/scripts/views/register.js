@@ -17,6 +17,7 @@ Template.register.shop = function(){
 Template.register.events({
     'submit #register-form-shop' : function(e, t) {
       e.preventDefault();
+      console.log('register submitting....');
       var username = t.find('#shop-username').value;
       var shopname = t.find('#shop-shopname').value;
       var password = t.find('#shop-password').value;
@@ -27,10 +28,14 @@ Template.register.events({
       var address = t.find('#shop-shopaddress').value;
       var contactname = t.find('#shop-contactname').value;
       var contactnum = t.find('#shop-contactnum').value;
+      if (!(username && shopname && password && pincode && locality && landmark && city && address && contactname && contactnum)){
+        displayError('Please fill all the fields!');
+        return;
+      }
+      console.log('all values OK');
       var formatted_address = address+','+locality.split(',')[0]+','+locality.split(',')[1]+','+landmark.split(',')[0]+','+city+','+pincode;
-      $('#informer').html('Your address is going to be '+formatted_address);
+      $('#informer').html('Your address is going to be '+formatted_address).fadeIn();
       setTimeout(function(){ $('#informer').fadeOut(); },3000);
-      return;
       if(Session.get('shopLocation') != undefined)
         Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked',pincode: pincode,locality: locality,landmark: landmark,city: city ,address: address, contactname: contactname, contactnum: contactnum,shopLatitude:Session.get('shopLocation').lat, shopLongitude:Session.get('shopLocation').lng, usertype: 'shop'}, function(err){
             if (err) {

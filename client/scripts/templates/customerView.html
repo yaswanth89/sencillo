@@ -175,7 +175,9 @@
 <template name='ShopPriceFilter'>
   <div class='priceFilter'>
     <strong>PRICE RANGE</strong><br>
-    <div id='shopPriceSlider' class='span2'></div>
+    <div id='priceslider-wrapper'>
+      <div id='shopPriceSlider' class='span2'></div>
+    </div>
     <div class="slider-controls span2">
       {{#with priceRange}}
         <span class="pull-left">Rs. {{min}}</span>

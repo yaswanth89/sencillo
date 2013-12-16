@@ -14,6 +14,7 @@ this.Home = Backbone.View.extend({
     catch(e){
       Session.set('homeIdList','');
     }
+    Session.set('setPriceMinMax',true);
     console.log('initializing........');
     Session.set('newProducts',true);
     Session.set("homeSub",subCat);
@@ -64,6 +65,10 @@ Template.homeBrand.Brand = function(){
 
 
 Template.homeProducts.ProductArr = function(){
+  if(!this.rendered){
+    window.setPriceMinMax = 1;
+    this.rendered = 1;
+  }
   var withinProducts = [];
   window.shopList = [];
   if(Session.get('homeDistanceCenter') == undefined)
@@ -81,6 +86,8 @@ Template.homeProducts.ProductArr = function(){
     }
   });
     console.log(withinProducts);
+
+
   if(_.isEmpty(Session.get('homeBrand'))){
       return addLeastPrice(Products.find({"_id":{$in: withinProducts},"Sub":Session.get('homeSub')},{reactive:Session.get('newProducts')}).fetch());
   }else{
@@ -175,27 +182,13 @@ Template.homeDistanceFilter.rendered = function(){
   });
 };
 
-Template.homePriceFilter.rendered = function(){
-  $('#priceSlider').slider({
-    min: 0,
-    max: 10000,
-    step: 100,
-    orientation: 'horizontal',
-    value: [0,10000],
-    tooltip:'show'
-  });
-
-  $('#priceSlider').on('slideStop', function(e){
-    Session.set('priceRange',$(this).val());
-  });
-};
 
 Template.homeView.rendered = function(){
   console.log('home rendered!!');
   var center = new google.maps.places.Autocomplete(document.getElementById('homeDistanceCenter'));
   console.log('crossed');
   center.setComponentRestrictions({country: 'IN'});
-  center.setTypes(['establishment']);
+  center.setTypes(['(regions)']);
 
   google.maps.event.addListener(center, 'place_changed', function(){
       var place = center.getPlace();
@@ -240,6 +233,22 @@ Template.homeProducts.rendered = function(){
     effect : "fadeIn",
     container: $("#productList")
   });
+
+    console.log('pricefilter template');
+    if(!pricerange.find({}).count())
+      return;
+    $('#priceSlider').slider({
+      min: pricerange.find({}).fetch()[0].minPrice,
+      max: pricerange.find({}).fetch()[0].maxPrice,
+      step: 100,
+      orientation: 'horizontal',
+      value: [pricerange.find({}).fetch()[0].minPrice,pricerange.find({}).fetch()[0].maxPrice],
+      tooltip:'show'
+    });
+
+    $('#priceSlider').on('slideStop', function(e){
+      Session.set('homePriceRange',$(this).val());
+    });
 };
 
 
@@ -276,20 +285,21 @@ function addLeastPrice(x){
   var ret = [];
   _.each(x,function(e) {
     // console.log(e._id);
-    z = Prices.find({shopId:{$in:window.shopList},productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
+    if(Session.get('homePriceRange') != [] && Session.get('homePriceRange') != undefined)
+      z = Prices.find({shopId:{$in:window.shopList},productId:e._id,price:{$gte: Session.get('homePriceRange')[0], $lte: Session.get('homePriceRange')[1]}},{fields:{"price":1},sort:{"price":1},limit:1});
+    else
+      z = Prices.find({shopId:{$in:window.shopList},productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
     console.log('asdf '+z.count());
     if(z.count()>0){
       e.leastPrice =  z.fetch()[0].price;
-      if(Session.get('priceRange') != [] && Session.get('priceRange') != undefined){
-        if(!(e.leastPrice < Session.get('priceRange')[0] || e.leastPrice > Session.get('priceRange')[1])){
-          ret.push(e);
-        }
-      }
-      else{
-        ret.push(e);
-      }
+      ret.push(e);
     }
   });
+  var priceMin = _.min(ret, function(r){ return r.leastPrice; }).leastPrice;
+  var priceMax = _.max(ret, function(r){ return r.leastPrice; }).leastPrice;
+  console.log('min n max are '+priceMin+' '+priceMax);
+  //if(window.setPriceMinMax && priceMin && priceMax)
+  //  Session.set('priceMinMax',[priceMin,priceMax]);
   console.log(ret);
   return ret;
 }

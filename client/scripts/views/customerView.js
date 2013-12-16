@@ -4,6 +4,7 @@ this.CustomerView = Backbone.View.extend({
     Session.set("shopBrand",[]);
     Session.set('shopLimit',20);
 		Session.set('newProducts',true);
+    Session.set('setPriceRange',true);
 		return this.template = Meteor.render(function(){
 			return Template.customerView();
 		});
@@ -113,8 +114,7 @@ Template.shopFeaturedProducts.featuredProductArr = function(){
 
 Template.ShopProducts.ProductArr = function(){
 	var productList = [];
-  var priceMax = undefined;
-  var priceMin = undefined;
+  var prices = [];
 	var shopid;
   	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	shopid = loop._id;
@@ -144,79 +144,114 @@ Template.ShopProducts.ProductArr = function(){
       }
       console.log('docsssss');
       console.log(docs);
+      if(!_.isEmpty(Session.get('shopPriceRange')) && Session.get('shopPriceRange') != undefined){
+        console.log('called price filtering!!')
+        var prods = [];
         docs.forEach(function(obj){
-  			var p = Prices.findOne({'shopId':shopid,'productId':obj._id});
-        if(p != undefined){
-          if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined){
-            obj.price = p.price;
-            prods.push(obj);
-            if(priceMax == undefined){
-              priceMax = p.price;
-              priceMin = p.price;
-            }else{
-              if(priceMax < p.price)
-                priceMax = p.price;
-              if(priceMin > p.price)
-                priceMin = p.price;
+            var p = Prices.find({'shopId':shopid,'productId':obj._id,'price': {$gte: Session.get('shopPriceRange')[0], $lte: Session.get('shopPriceRange')[1]}}).fetch()[0];
+            console.log('price is');
+            if(p != undefined){
+                console.log(p.price);
+                console.log('passed price test!!');
+                obj.price = p.price;
+                prods.push(obj);
             }
-          }
-          else{
-            if(p.price > Session.get('shopPriceRange')[0] && p.price < Session.get('shopPriceRange')[1]){
-              obj.price = p.price;
-              prods.push(obj);
-              if(priceMax == undefined){
-                priceMax = p.price;
-                priceMin = p.price;
-              }else{
-                if(priceMax < p.price)
-                  priceMax = p.price;
-                if(priceMin > p.price)
-                  priceMin = p.price;
-              }
+        });
+      }
+      else{
+        console.log('no range to price filtering!!')
+        var prods = [];
+        docs.forEach(function(obj){
+            var p = Prices.find({'shopId':shopid,'productId':obj._id,'price': {$gt: 0}}).fetch()[0];
+            console.log('price is');
+            if(p != undefined){
+                console.log(p.price);
+                obj.price = p.price;
+                prods.push(obj);
             }
-          }
-          window.totalPriceRange = [priceMin,priceMax];
-        }
-  		});
+        });
+      }
+        //var pricedProds = Meteor.call('FilterByPrice',docs,0,0);
+      var priceMin = _.min(prods,function(prod){ return prod.price; }).price;
+      var priceMax = _.max(prods,function(prod){ return prod.price; }).price;
+      console.log('came here..');
+      console.log(Session.get('setPriceRange'));
+      if(Session.get('setPriceRange') && priceMin && priceMax){
+        console.log('setting price range...');
+        Session.set('priceRangeSet',{'min':priceMin, 'max': priceMax});
+        Session.set('setPriceRange',false);
+      }else{
+        console.log('unsetting price range...');
+        Session.set('priceRangeSet',undefined);
+      }
+      window.totalPriceRange = [priceMin,priceMax];
   	}
   	else{
   		var prods = [];
-  		Products.find({_id:{$in:productList},'Sub':Session.get('shopSub'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')}).forEach(function(obj){
-  			var p = Prices.findOne({'shopId':shopid,'productId':obj._id});
-    		if(p != undefined){
-    			if(Session.get('shopPriceRange') == [] || Session.get('shopPriceRange') == undefined){
-            obj.price = p.price;
-            prods.push(obj);
-            if(priceMax == undefined){
-              priceMax = p.price;
-              priceMin = p.price;
-            }else{
-              if(priceMax < p.price)
-                priceMax = p.price;
-              if(priceMin > p.price)
-                priceMin = p.price;
+  		if(Session.get('shopMainFilter') && Session.get('shopSubFilter')){
+        console.log('main n sub');
+        var docs = Products.find({_id:{$in:productList},'Main': Session.get('shopMainFilter'),'Sub':Session.get('shopSubFilter'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')});
+      }
+      else if(Session.get('shopMainFilter')) {
+        console.log('only main');
+        var docs = Products.find({_id:{$in:productList},'Main': Session.get('shopMainFilter'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')});
+      }
+      else if(Session.get('shopSubFilter')){
+        console.log('only sub');
+        var docs = Products.find({_id:{$in:productList},'Sub':Session.get('shopSubFilter'),'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')});
+      }
+      else{
+        console.log('nothing!!!');
+        var docs = Products.find({_id:{$in:productList},'Brand':{$in:Session.get("shopBrand")}},{reactive:Session.get('newProducts')});
+      }
+      
+      if(!_.isEmpty(Session.get('shopPriceRange')) && Session.get('shopPriceRange') != undefined){
+        console.log('called price filtering!!')
+        var prods = [];
+        docs.forEach(function(obj){
+            var p = Prices.find({'shopId':shopid,'productId':obj._id,'price': {$gte: Session.get('shopPriceRange')[0], $lte: Session.get('shopPriceRange')[1]}}).fetch()[0];
+            console.log('price is');
+            if(p != undefined){
+                console.log(p.price);
+                console.log('passed price test!!');
+                obj.price = p.price;
+                prods.push(obj);
             }
-          }else{
-            if(p.price > Session.get('shopPriceRange')[0] && p.price < Session.get('shopPriceRange')[1]){
-              obj.price = p.price;
-              prods.push(obj);
-              if(priceMax == undefined){
-                priceMax = p.price;
-                priceMin = p.price;
-              }else{
-                if(priceMax < p.price)
-                  priceMax = p.price;
-                if(priceMin > p.price)
-                  priceMin = p.price;
-              }
+        });
+      }
+      else{
+        console.log('no range to price filtering!!')
+        var prods = [];
+        docs.forEach(function(obj){
+            var p = Prices.find({'shopId':shopid,'productId':obj._id,'price': {$gt: 0}}).fetch()[0];
+            console.log('price is');
+            if(p != undefined){
+                console.log(p.price);
+                obj.price = p.price;
+                prods.push(obj);
             }
-          }
-          window.totalPriceRange = [priceMin,priceMax];
-        }
-  		});
-  	}
+        });
+      }
+      
+      var priceMin = _.min(prods,function(prod){ return prod.price; }).price;
+      var priceMax = _.max(prods,function(prod){ return prod.price; }).price;
+      console.log('came here..');
+      console.log(Session.get('setPriceRange'));
+      if(Session.get('setPriceRange') && priceMin && priceMax){
+        console.log('setting price range...');
+        Session.set('priceRangeSet',{'min':priceMin, 'max': priceMax});
+        Session.set('setPriceRange',false);
+      }else{
+        console.log('unsetting price range...');
+        Session.set('priceRangeSet',undefined);
+      }
+      window.totalPriceRange = [priceMin,priceMax];
+  	
+    }
 
     Template.ShopPriceFilter.priceRange = function(){
+      if(Session.get('priceRangeSet'))
+        return Session.get('priceRangeSet');
       return {'min':priceMin, 'max':priceMax};
     }
   return prods;
@@ -230,10 +265,15 @@ Template.shopCategories.events = {
     Session.set('shopMainFilter',main);
   },
   "click li.subCat": function(e, t){
+    console.log('clicked subcat!!!');
     var now = e.currentTarget;
     var sub = now.innerHTML;
     Session.set('shopMainFilter',undefined);
+    Session.set('shopPriceRange',[]);
     Session.set('shopSubFilter',sub);
+    Session.set('setPriceRange',true);
+    console.log('price range setting is '+Session.get('setPriceRange'));
+    Session.set('shopBrand',[]);
   }
 };
 
@@ -303,13 +343,19 @@ Template.shopModal.events = {
 
 
 Template.ShopProducts.rendered = function(){
-  if(window.totalPriceRange != undefined){
+  if(Session.get('priceRangeSet')){
+    console.log('rendered pricerange filter');
+    if($('.slider')){
+      $('.slider').remove();
+      $('#priceslider-wrapper').append('<div id="shopPriceSlider" class="span2"></div>');
+    }
+
     $('#shopPriceSlider').slider({
-      min: Math.floor(window.totalPriceRange[0]/100)*100,
-      max: Math.round(window.totalPriceRange[1]/100)*100,
+      min: Math.floor(Session.get('priceRangeSet').min/100)*100,
+      max: Math.round(Session.get('priceRangeSet').max/100)*100,
       step: 100,
       orientation: 'horizontal',
-      value: window.totalPriceRange,
+      value: [Session.get('priceRangeSet').min, Session.get('priceRangeSet').max],
       tooltip:'show'
     });
 
