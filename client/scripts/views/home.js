@@ -429,9 +429,6 @@ function mapLabel(opt_options) {
 
 
 
-
-
-
   if(window.here != undefined)
       var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);  
   else{
@@ -456,19 +453,48 @@ function mapLabel(opt_options) {
   var info;
 
   if(Session.get('homeDistanceCenter'))
-    findShopsWithin(new google.maps.LatLng(Session.get('homeDistanceCenter').latitude,Session.get('homeDistanceCenter').longitude), 5000);
+    findShopsWithin(new google.maps.LatLng(Session.get('homeDistanceCenter').latitude,Session.get('homeDistanceCenter').longitude), 5000, Session.get('homeId'));
   else if(Session.get('distanceCenter'))
-    findShopsWithin(new google.maps.LatLng(Session.get('distanceCenter').latitude,Session.get('distanceCenter').longitude), 5000);
+    findShopsWithin(new google.maps.LatLng(Session.get('distanceCenter').latitude,Session.get('distanceCenter').longitude), 5000, Session.get('homeId'));
   else if(myLatLng)
-    findShopsWithin(myLatLng,5000);
+    findShopsWithin(myLatLng,5000,Session.get('homeId'));
 
-  function findShopsWithin(center, radius){
+/****************************************************************************
+
+
+Template.homeModalAvailble.shopList = function(){
+  returnarr =[];
+  if(!Session.get('homeDistanceCenter'))
+    return;
+  Meteor.users.find({"productId":{$all:[Session.get('homeId')]}}).forEach(function(el){
+    price=undefined;
+    Prices.find({"productId":Session.get('homeId'),"shopId":el._id,"price":{$gt:0}}).forEach(function(e){
+      price = e.price;
+    });
+    if(price){
+      returnarr.push({
+        shopname:el.shopname,
+        distance:findDistance(el.shopLatitude,el.shopLongitude,Session.get('homeDistanceCenter').latitude, Session.get('homeDistanceCenter').longitude),
+        link:'/cv/'+el.username+'/'+Session.get('homeId'),
+        price:price
+      });
+    }
+  });
+  returnarr.sort(function(a,b) {return (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0);} );
+  return returnarr;
+}
+
+
+******************************************************/
+
+
+  function findShopsWithin(center, radius, productId){
     var shopsWithin = [];
     console.log(Meteor.users.find({'usertype':'shop'}).count());
     Meteor.users.find({'usertype':'shop'}).forEach(function(obj){
       console.log('error here???');
       if(center)
-        if(findDistance(center.lat(),center.lng(),obj.shopLatitude,obj.shopLongitude) < radius/1000){
+        if(Prices.find({'productId':productId, 'price': {$gt: 0}, 'shopId': obj._id},{fields: {'_id':1}}).count() && findDistance(center.lat(),center.lng(),obj.shopLatitude,obj.shopLongitude) < radius/1000){
           shopsWithin.push(obj);
           console.log(obj);
           placeCustomMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.usertype, obj.shopname, map, 13, false);
