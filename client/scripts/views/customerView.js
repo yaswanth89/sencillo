@@ -380,10 +380,6 @@ Template.ShopProducts.rendered = function(){
 		Session.set('shopId',window.shopProductId);
 		window.shopProductId = undefined;
 	}
-	$("img.item-image").lazyload({
-	    effect : "fadeIn",
-	    container: $("#content")
-  });
 }
 $(function(){
 	prevNav = {};

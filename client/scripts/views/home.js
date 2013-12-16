@@ -8,6 +8,56 @@ this.Home = Backbone.View.extend({
       else
         subCat+=val;
     });
+    if(localStorage.sencilloLat){
+      Session.set('homeDistanceCenter', {
+        'name': localStorage.sencilloPlaceName,
+        'latitude': localStorage.sencilloLat,
+        'longitude': localStorage.sencilloLng
+      });
+    }
+    else{
+        $('#myModal').modal("show");
+        var center = new google.maps.places.Autocomplete(document.getElementById('defaultDistanceCenter'));
+        console.log('crossed');
+        center.setComponentRestrictions({country: 'IN'});
+        center.setTypes(['(regions)']);
+        google.maps.event.addListener(center, 'place_changed', function(){
+              var place = center.getPlace();
+              console.log(place);
+              if(!place.geometry)
+                return;
+              localStorage.sencilloLat = place.geometry.location.lat();
+              localStorage.sencilloLng = place.geometry.location.lng();
+              localStorage.sencilloPlaceName = place.address_components[0].short_name+','+place.address_components[1].short_name+','+place.address_components[2].short_name;
+              Session.set('homeDistanceCenter', {'name': place.address_components[0].short_name+','+place.address_components[1].short_name+','+place.address_components[2].short_name,'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
+            $("#myModal").modal("hide");
+          });
+          $("#detectGeo").click(function(){
+            $(this).attr('disabled', '');
+            $(this).html('Give permission');
+            if (navigator.geolocation){
+              $("defaultDistanceCenter").attr('disabled', '');
+              $(this).html('Detecting');
+              $(this).prepend(' <i class="fa fa-refresh fa-spin"></i> ');
+                navigator.geolocation.getCurrentPosition(function(pos){
+                  localStorage.sencilloLat = pos.coords.latitude;
+                  localStorage.sencilloLng = pos.coords.longitude;
+                  $.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+localStorage.sencilloLat+","+localStorage.sencilloLng+"&sensor=false",function(data){
+                    localStorage.sencilloPlaceName = data.results[0].address_components[0].short_name+','+data.results[0].address_components[1].short_name+','+data.results[0].address_components[2].short_name;
+                    Session.set('homeDistanceCenter', {
+                      'name': localStorage.sencilloPlaceName,
+                        'latitude': localStorage.sencilloLat,
+                        'longitude': localStorage.sencilloLng
+                    });
+                  $("#myModal").modal("hide");
+                });
+                });
+            }
+            else{
+              alert("Geolocation is not supported by this browser. Please Manually enter a location");
+            }
+          });
+    }
     try{
       Session.set('homeIdList',HomeId.find({}).fetch()[0].idList);
     }
@@ -212,6 +262,9 @@ Template.homeView.rendered = function(){
       console.log(place);
       if(!place.geometry)
         return;
+      localStorage.sencilloLat = place.geometry.location.lat();
+      localStorage.sencilloLng = place.geometry.location.lng();
+      localStorage.sencilloPlaceName = place.address_components[0].short_name+','+place.address_components[1].short_name+','+place.address_components[2].short_name;
       Session.set('homeDistanceCenter', {'name': place.address_components[0].short_name+','+place.address_components[1].short_name+','+place.address_components[2].short_name,'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
   });
 
@@ -246,11 +299,6 @@ Template.homeProducts.rendered = function(){
   }
   if(window.loading)
     window.loading = false;
-  $("img.item-image").lazyload({
-    effect : "fadeIn",
-    container: $("#productList")
-  });
-
     console.log('pricefilter template');
     if(!pricerange.find({}).count())
       return;
