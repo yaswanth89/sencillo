@@ -180,7 +180,8 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
   if(!distance)
     distance = 5;
   var a = Prices.find({'productId':{$in: blah3}, 'shopId': {$in: shopList}, 'price':{$gt: 0}},{fields: {'price': 1}, sort: {price:1}}).fetch();
-  this.added('price_range','1234567',{ 'minPrice': a[0].price, 'maxPrice': a[a.length-1].price });
+  if(a)
+    this.added('price_range','1234567',{ 'minPrice': a[0].price, 'maxPrice': a[a.length-1].price });
   if(blah2.length>0)
     return [Products.find({_id:{$in:blah2}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1}}),Prices.find({_id:{$in:blah}},{fields:{"shopId":1,"productId":1,"price":1}})];
 });
