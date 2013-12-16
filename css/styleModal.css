@@ -1,3 +1,9 @@
+#myModal{
+	z-index: 100;
+}
+.modal-backdrop.fade.in{
+	z-index: 90;
+}
 #searchModal, #shopModal , #homeModal{
 	height: 0px;
 	opacity: 0;
