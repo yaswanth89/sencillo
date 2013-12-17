@@ -55,8 +55,14 @@ Template.shopAddProducts.ProductArr = function(){
     }
   }
   else{
-    console.log("empty");
-    return [];
+    if(_.isEmpty(Session.get('shopAddBrand'))){
+      console.log("Brand empty");
+      return Products.find({'Sub':Session.get('subForBrand')},{sort:{'ModelID':1}});
+    }
+    else{
+      console.log("Brand present");
+      return Products.find({'Sub':Session.get('subForBrand'),'Brand':{$in:Session.get('shopAddBrand')}}, {sort: {'ModelID':1}});
+    }
   }
 };
 Template.shopAddProducts.rendered = function (argument) {

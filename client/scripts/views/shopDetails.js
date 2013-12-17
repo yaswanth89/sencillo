@@ -3,7 +3,7 @@ var user;
 this.ShopDetails = Backbone.View.extend({
 	template:null,
 	initialize:function(page){
-		Meteor.call('getUser', function(error, result){ Session.set('user',result);});
+		Meteor.call('getUser', function(error, result){ console.log('user object for details'); console.log(result); Session.set('user',result);});
 		this.template = Meteor.render(function(){
 			return Template.shopDetails();
 		});
