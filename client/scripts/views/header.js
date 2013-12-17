@@ -9,9 +9,9 @@ this.HeaderView = Backbone.View.extend({
 				if(e.target.id=='logout')
 					Meteor.logout(function(err){
 						if(!err)
-							return App.router.navigate('login',{trigger:true});
+							return App.router.navigate('/',{trigger:true});
 						else
-							alert('error')
+							alert('error');
 					});
 				else if(e.target.id=="dashboard"){
 				}

@@ -1,86 +1,88 @@
 <template name="shopDetails">
-	<div id="editShopInfo">
-	{{#with details}}
-		<form id='edit-form-shop' class="form-horizontal">
-			<div class="control-group">
-				<label class="control-label">Shop Name</label>
-				<div class="controls">
-					<input type="text" id='edit-shopname' value='{{shopname}}' />
+	<div class='container' style='overflow:auto;width:100%;'>
+		<div id="editShopInfo">
+		{{#with details}}
+			<form id='edit-form-shop' class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label">Shop Name</label>
+					<div class="controls">
+						<input type="text" id='edit-shopname' name='edit-shopname' value='{{shopname}}' />
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Shop Address</label>
-				<div class="controls">
-					<textarea id='edit-address'>{{address}}</textarea>
+				<div class="control-group">
+					<label class="control-label">Shop Address</label>
+					<div class="controls">
+						<textarea id='edit-address' name='edit-address'>{{address}}</textarea>
+					</div>
 				</div>
-			</div>
-			<div class='control-group'>
-				<label class='control-label'>Locality/Area</label>
-				<div class='controls'>
-					<input type='text' id='edit-locality' value='{{locality}}' />
+				<div class='control-group'>
+					<label class='control-label'>Locality/Area</label>
+					<div class='controls'>
+						<input type='text' id='edit-locality' name='edit-locality' value='{{locality}}' />
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Landmark</label>
-				<div class="controls">
-					<input type='text' id='edit-landmark' value='{{landmark}}'/>
+				<div class="control-group">
+					<label class="control-label">Landmark</label>
+					<div class="controls">
+						<input type='text' id='edit-landmark' name='edit-landmark' value='{{landmark}}'/>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">City</label>
-				<div class="controls">
-					<select id='edit-city'><option value='Kolkata' selected>Kolkata</option></select>
+				<div class="control-group">
+					<label class="control-label">City</label>
+					<div class="controls">
+						<select id='edit-city' name='edit-city'><option value='Kolkata' selected>Kolkata</option></select>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Postal Code</label>
-				<div class="controls">
-					<input type='text' id='edit-pincode' value='{{pincode}}'/>
+				<div class="control-group">
+					<label class="control-label">Postal Code</label>
+					<div class="controls">
+						<input type='text' id='edit-pincode' name='edit-pincode' value='{{pincode}}'/>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Contact Name</label>
-				<div class="controls">
-					<input type="text" id='edit-contactname' value='{{contactname}}' />
+				<div class="control-group">
+					<label class="control-label">Contact Name</label>
+					<div class="controls">
+						<input type="text" id='edit-contactname' name='edit-contactname' value='{{contactname}}' />
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Mode of Payments available</label>
-				<div class="controls">
-					<input type="checkbox" name="edit-payments" value="debit" /> Debit Card
-					<input type="checkbox" name="edit-payments" value="credit" /> Credit Card
-					<input type="checkbox" name="edit-payments" value="cheque" /> Cheque
+				<div class="control-group">
+					<label class="control-label">Mode of Payments available</label>
+					<div class="controls">
+						<input type="checkbox" name="edit-payments" value="debit" /> Debit Card
+						<input type="checkbox" name="edit-payments" value="credit" /> Credit Card
+						<input type="checkbox" name="edit-payments" value="cheque" /> Cheque
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Emi Option</label>
-				<div class="controls">
-					<input type="radio" id="edit-emi" value="yes" /> Yes
-					<input type="radio" id="edit-emi" value="no" /> No
+				<div class="control-group">
+					<label class="control-label">Emi Option</label>
+					<div class="controls">
+						<input type="radio" name="edit-emi" id="edit-emi" value="yes" /> Yes
+						<input type="radio" name="edit-emi" id="edit-emi" value="no" /> No
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Shop Timings</label>
-				<div class="controls">
-					<input type="time" id="edit-openHour" value="{{openHour}}" /> <br /> to <br/> 
-					<input type="time" id="edit-closeHour" value="{{closeHour}}" />
+				<div class="control-group">
+					<label class="control-label">Shop Timings</label>
+					<div class="controls">
+						<input type="time" name="edit-openHour" id="edit-openHour" value="{{openHour}}" /> <br /> to <br/> 
+						<input type="time" name="edit-closeHour" id="edit-closeHour" value="{{closeHour}}" />
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Contact Number</label>
-				<div class="controls">
-					<input type="text" id='edit-contactnum' value='{{contactnum}}' /><br>
+				<div class="control-group">
+					<label class="control-label">Contact Number</label>
+					<div class="controls">
+						<input type="text" name='edit-contactnum' id='edit-contactnum' value='{{contactnum}}' /><br>
+					</div>
 				</div>
-			</div>
-			<input type='submit' class='btn btn-primary' value='Save Changes' />
-		</form>
-	{{/with}}
-	</div>
-	<div id="editMapInfo">
-	{{>mapTemplate}}<br>
+				<input type='submit' class='btn btn-primary' value='Save Changes' />
+			</form>
+		{{/with}}
+		</div>
+		<div id="editMapInfo">
+		{{>mapTemplate}}<br>
+		</div>
 	</div>
 </template>
 
 <template name='mapTemplate'>
-<div id="googleMap" style="width:1200px;height:700px;"></div>
+<div id="googleMap" style="width:1370px;height:700px;"></div>
 </template>
