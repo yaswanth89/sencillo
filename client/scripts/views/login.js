@@ -21,6 +21,7 @@ Template.login.events={
 						App.router.navigate('shopAdd',{trigger:true});
 					else
 						App.router.navigate('/',{trigger:true});
+					$("#homeModal").modal('hide');
 				}
 				catch(e){
 					alert('Wrong Username or password!');
