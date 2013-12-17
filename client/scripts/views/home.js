@@ -152,10 +152,10 @@ Template.homeProducts.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      $("#homeModal").css("top",$(now).position().top+260+'px').show().animate({
+      $("#homeModal").css("top",$(now).position().top+180+'px').show().animate({
         height: window.productHeight - 100,
         opacity: 1});
-      $("#productList").animate({ scrollTop: ($(now).position().top+250)+"px" });
+      $("#productList").animate({ scrollTop: ($(now).position().top+180)+"px" });
   }
 }
 

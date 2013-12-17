@@ -1,18 +1,20 @@
 <template name="default">
-	<div class="container" style="height: 100%;">
-		<div id="myCarousel" class="carousel slide">
-		  <ol class="carousel-indicators">
-		    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-		    <li data-target="#myCarousel" data-slide-to="1"></li>
-		    <li data-target="#myCarousel" data-slide-to="2"></li>
-		  </ol>
-		  <div class="carousel-inner">
-		    <div class="active item"><img src="image/slider.png" /></div>
-		  </div>
-		  <a class="carousel-control left" href="#myCarousel" data-slide="prev"><img src="image/arrow.png" /></a>
-		  <a class="carousel-control right" href="#myCarousel" data-slide="next"><img src="image/arrow2.png" /></a>
+	<div id='default-wrapper'>
+		<div class="container" style="height: 100%;width:1100px;">
+			<div id="myCarousel" class="carousel slide">
+			  <ol class="carousel-indicators">
+			    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			    <li data-target="#myCarousel" data-slide-to="1"></li>
+			    <li data-target="#myCarousel" data-slide-to="2"></li>
+			  </ol>
+			  <div class="carousel-inner">
+			    <div class="active item"><img src="image/slider.png" /></div>
+			  </div>
+			  <a class="carousel-control left" href="#myCarousel" data-slide="prev"><img src="image/arrow.png" /></a>
+			  <a class="carousel-control right" href="#myCarousel" data-slide="next"><img src="image/arrow2.png" /></a>
+			</div>
+			{{> featuredProducts}}
 		</div>
-		{{> featuredProducts}}
 	</div>
 </template>
 
@@ -20,7 +22,7 @@
 	{{#each shops}}
 		<div class="featuredProducts">
 			<p class="shop-name"><a href="{{link}}">{{shopName}}</a></p>
-			<p class="info">FEATURED PRODUCTS</p>
+			<p class="info">Featured Products</p>
 			<div class="featuredProductsList">
 				{{#each Product}}
 					<div class="show-product" id="featuredProduct_{{this._id}}" style="cursor:pointer">

@@ -71,6 +71,8 @@ Template.shopRegister.rendered = function(){
   regMap.id = 'registerMap';
   regMap.style.width = '1200px';
   regMap.style.height = '700px';
+  regMap.style.backgroundColor = 'rgba(184,184,184,0.701961)';
+  regMap.style.fontSize = '12px';
   document.getElementById('register-wrapper').appendChild(regMap);
   map = new google.maps.Map(regMap, mapOptions);
   console.log(map);
