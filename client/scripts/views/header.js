@@ -36,6 +36,10 @@ this.HeaderView = Backbone.View.extend({
 			'click div.bt-overlay':function(e){
 				e.preventDefault();
 				resetMenu(menu);
+			},
+			'click #login-click': function(e){
+				e.preventDefault();
+				$('#LoginModal').modal('show');
 			}
 		};
 

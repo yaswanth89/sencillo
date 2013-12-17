@@ -47,16 +47,22 @@ Template.shopAddProducts.ProductArr = function(){
     console.log("not Empty");
     if(_.isEmpty(Session.get('shopAddBrand'))){
       console.log("Brand empty");
-      return Products.find({_id:{$nin:productList},'Sub':Session.get('subForBrand')});
+      return Products.find({_id:{$nin:productList},'Sub':Session.get('subForBrand')},{sort:{'ModelID':1}});
     }
     else{
       console.log("Brand present");
-      return Products.find({_id:{$nin:productList},'Sub':Session.get('subForBrand'),'Brand':{$in:Session.get('shopAddBrand')}});
+      return Products.find({_id:{$nin:productList},'Sub':Session.get('subForBrand'),'Brand':{$in:Session.get('shopAddBrand')}}, {sort: {'ModelID':1}});
     }
   }
   else{
-    console.log("empty");
-    return [];
+    if(_.isEmpty(Session.get('shopAddBrand'))){
+      console.log("Brand empty");
+      return Products.find({'Sub':Session.get('subForBrand')},{sort:{'ModelID':1}});
+    }
+    else{
+      console.log("Brand present");
+      return Products.find({'Sub':Session.get('subForBrand'),'Brand':{$in:Session.get('shopAddBrand')}}, {sort: {'ModelID':1}});
+    }
   }
 };
 Template.shopAddProducts.rendered = function (argument) {
@@ -92,6 +98,11 @@ $(function(){
       return $(this).val()
     }).get();
     Session.set('shopAddBrand',brandSel);
+  });
+  $('.add-item .item-image').hover(function(){
+    $(this).parent().find('.addProduct').fadeIn();
+  }, function(){
+    $(this).parent().find('.addProduct').fadeOut();
   });
   $('.addProduct').live('click',function(e,t){
     var now = e.currentTarget;

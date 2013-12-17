@@ -9,17 +9,17 @@
 	position: relative;
 	margin-left: 0px;
 	background: #3598db;
-	font-size: 32px;
+	font-size: 26px;
 	color: white;
 	font-family: 'audiowide';
 	text-transform: uppercase;
 	text-shadow: none;
-	padding-left: 15px;
-	padding-right: 15px;
+	padding-left: 27px;
+	padding-right: 27px;
 }
 #headerTop span.caption{
 	position: absolute;
-	right: 15px;
+	right: 29px;
 	z-index: 10;
 	top: 33px;
 	color: white;
@@ -51,6 +51,7 @@
 	text-transform: uppercase;
 	margin-right: 2px;
 	padding: 6px 15px;
+	font-size: 0.85em;
 }
 #headerTop2 .nav .open a.dropdown-toggle{
 	color: #2a80b9;

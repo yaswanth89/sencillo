@@ -73,6 +73,8 @@ Meteor.publish("shopProductList",function(username,main,sub,limit){
   catch(e){
     return null; 
   }
+  if(_.isEmpty(idList))
+    return null;
   if(main && sub)
     return Products.find({_id:{$in:idList},Main: main,Sub:sub},{fields:{'Main':1,'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
   else if(main)
@@ -90,6 +92,8 @@ Meteor.publish("shopProducts",function(filter){
   catch(e){
     return null; 
   }
+  if(_.isEmpty(idList))
+    return null;
   q = {_id:{$in:idList}};
   if(filter){
     q.Sub = filter[0];
@@ -107,9 +111,15 @@ Meteor.publish('shopAddProducts',function(sub,brand,limit){
   }
 
   if(_.isEmpty(brand))
-    return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+    if(!_.isEmpty(idList))
+      return Products.find({_id:{$nin:idList},'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+    else
+      return Products.find({'Sub':sub},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
   else
-    return Products.find({_id:{$nin:idList},'Sub':sub,'Brand':{$in:brand}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+    if(!_.isEmpty(idList))
+      return Products.find({_id:{$nin:idList},'Sub':sub,'Brand':{$in:brand}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
+    else
+      return Products.find({'Sub':sub,'Brand':{$in:brand}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1,'searchIndex':1},limit:limit});
 });
 
 Meteor.publish('homeId',function(){

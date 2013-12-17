@@ -17,12 +17,14 @@ Meteor.methods({
 	getBrands:function(query,av){
 		if(av){
 			var idList = HomeId.find({}).fetch()[0].idList;
-			query._id={$in:idList};
+			if(!_.isEmpty(idList))
+				query._id={$in:idList};
 		}
 		else{
 			try{
 				idList = Meteor.user().productId;
-				query._id={$nin:idList};
+				if(!_.isEmpty(idList))
+					query._id={$nin:idList};
 			}catch(e){
 				return null;
 			}
@@ -44,6 +46,7 @@ Meteor.methods({
   	},
 	getUser: function(){
 		var details = Meteor.users.findOne({'_id': Meteor.userId()});
+		console.log(details.shopname);
 		return details;
 	},
 	addProduct: function(id){

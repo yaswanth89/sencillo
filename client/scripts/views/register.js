@@ -38,15 +38,9 @@ Template.register.events({
       setTimeout(function(){ $('#informer').fadeOut(); },3000);
       if(Session.get('shopLocation') != undefined)
         Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked',pincode: pincode,locality: locality,landmark: landmark,city: city ,address: address, contactname: contactname, contactnum: contactnum,shopLatitude:Session.get('shopLocation').lat, shopLongitude:Session.get('shopLocation').lng, usertype: 'shop'}, function(err){
-            if (err) {
-              alert('Could not create');
-              // Inform the user that account creation failed
-            } else {
               App.router.navigate('shopAdd',{trigger:true});
               // Success. Account has been created and the user
-              // has logged in successfully. 
-            }
-
+              // has logged in successfully.
           });
       else
         alert('Please Choose Your Location on the Map');
@@ -71,6 +65,8 @@ Template.shopRegister.rendered = function(){
   regMap.id = 'registerMap';
   regMap.style.width = '1200px';
   regMap.style.height = '700px';
+  regMap.style.backgroundColor = 'rgba(184,184,184,0.701961)';
+  regMap.style.fontSize = '12px';
   document.getElementById('register-wrapper').appendChild(regMap);
   map = new google.maps.Map(regMap, mapOptions);
   console.log(map);

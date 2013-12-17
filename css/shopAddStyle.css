@@ -68,6 +68,15 @@ font-size: 1.4em;
 line-height: 1.2em;
 margin-bottom: 5px;
 margin-top: -5px;
+overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
+}
+
+.add-item .item-image{
+	display: block;
+	position: relative;
+	margin:0px auto;
 }
 
 .addProduct {
@@ -81,6 +90,11 @@ text-decoration-color: white;
 color: white;
 font-weight: 500;
 font-size: 1.2em;
+/*
+position: relative;
+top: -89px;
+display: block;
+margin: 0px auto;*/
 }
 
 .addProduct:hover {
