@@ -33,7 +33,10 @@ Handlebars.registerHelper('shopRouter',function(shopname){
 	return linkReturn;
 });
 Handlebars.registerHelper('brandLogo', function(str) {
-  return "/image/logos/"+str.toLowerCase()+".png";
+	if(str)
+  		return "/image/logos/"+str.toLowerCase()+".png";
+  	else
+  		return "";
 });
 
 
