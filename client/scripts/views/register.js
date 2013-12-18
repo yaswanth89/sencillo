@@ -63,10 +63,8 @@ Template.shopRegister.rendered = function(){
     this.removeChild(document.getElementById('registerMap'));
   var regMap = document.createElement('div');
   regMap.id = 'registerMap';
-  regMap.style.width = '1200px';
+  regMap.style.width = '1370px';
   regMap.style.height = '700px';
-  regMap.style.backgroundColor = 'rgba(184,184,184,0.701961)';
-  regMap.style.fontSize = '12px';
   document.getElementById('register-wrapper').appendChild(regMap);
   map = new google.maps.Map(regMap, mapOptions);
   console.log(map);
@@ -80,10 +78,11 @@ Template.shopRegister.rendered = function(){
   var shopForm = document.getElementById('register-form-shop');
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
   console.log('controls pushed');
-  shopForm.style.backgroundColor = 'rgba(255,255,255,0.7)';
+  shopForm.style.backgroundColor = 'rgba(184,184,184,0.701961)';
   shopForm.style.fontWeight = 'bold';
   shopForm.style.padding = '10px 30px'; 
   shopForm.style.marginLeft = '30px';
+  shopForm.style.fontSize = '12px';
   //landmarkBox.setTypes(['establishment']);
   var myLatLng;
   myLatLng = new google.maps.LatLng(22.572646,88.36389500000001);

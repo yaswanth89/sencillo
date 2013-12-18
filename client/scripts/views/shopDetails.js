@@ -44,17 +44,18 @@ Template.shopDetails.events = {
 						break;
 				}
 			}
-			if(el.name=="emi"){
+			if(el.name=="edit-emi"){
 				if(el.value == "yes")
 					emi=true;
 				else
 					emi=false;
 			}
-			if(el.name=="openHour")
+			if(el.name=="edit-openHour")
 				openHour = el.value;
-			if(el.name=="closeHour")
+			if(el.name=="edit-closeHour")
 				closeHour = el.value;
 		});
+		
 		if(Session.get('selected') == undefined)
 			Session.set('selected', {'lat': Session.get('user').shopLatitude, 'lng': Session.get('user').shopLongitude });
 		var details = {
