@@ -202,3 +202,6 @@
 	overflow-x:hidden;
     overflow-y:scroll; 
 }
+.cvShopTabs .products-list{
+	width: 97%;
+}
