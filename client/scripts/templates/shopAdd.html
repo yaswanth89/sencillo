@@ -48,11 +48,13 @@
     <div class="products-row" id="productsWrap" style="overflow:hidden">
    {{#each ProductArr}}
       <div class="add-item" id="product_{{this._id}}" style="cursor:pointer;">
-        <img class="item-image" src="{{this.Image.[0]}}" />
-        <input type='button' class='addProduct' id="{{_id}}" value='Add'/>
-        <h4>{{this.Brand}}</h4>
-        <p class="lead">{{this.ProductName}} </p>
-        <p>{{this.ModelID}}</p>
+        <div class='mask'><input type='button' class='addProduct' id="{{_id}}" value='Add'/></div>
+        <div class='item-content'>
+          <img class="item-image" src="{{this.Image.[0]}}" />
+          <h4>{{this.Brand}}</h4>
+          <p class="lead">{{this.ProductName}} </p>
+          <p>{{this.ModelID}}</p>
+        </div>
       </div>
    {{/each}}
   </div>

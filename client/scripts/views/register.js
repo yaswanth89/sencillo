@@ -57,7 +57,8 @@ Template.shopRegister.rendered = function(){
   var mapOptions = {
     panControl: false,
     zoomControl: false,
-    scrollwheel: false
+    scrollwheel: false,
+    mapTypeId: google.maps.MapTypeId.HYBRID
   };
   if(document.getElementById('registerMap') != null)
     this.removeChild(document.getElementById('registerMap'));
@@ -89,13 +90,14 @@ Template.shopRegister.rendered = function(){
   map.setCenter(myLatLng);
   map.setZoom(13);
 
+  var b;
 
   $('#shop-pincode').blur(function(){
     $.get('http://maps.googleapis.com/maps/api/geocode/json', {'address':$(this).val()+'+india', 'sensor':'true'},function(data){
       var bounds = data.results[0].geometry.bounds;
       var ne = new google.maps.LatLng(bounds.northeast.lat, bounds.northeast.lng);
       var sw = new google.maps.LatLng(bounds.southwest.lat, bounds.southwest.lng);
-      var b = new google.maps.LatLngBounds(sw, ne);
+      b = new google.maps.LatLngBounds(sw, ne);
       map.fitBounds(b);
       console.log('midway!');
       localityBox.setBounds(b);
@@ -124,8 +126,12 @@ Template.shopRegister.rendered = function(){
     var place = localityBox.getPlace();
     if(!place.geometry)
       return;
-    if(!map.getBounds().contains(place.geometry.location)){
-      alert('Your Selected Locality is not in specified Pincode region!');
+    if(!b){
+      displayError('Please Enter Pincode!!');
+      return;
+    }
+    if(!b.contains(place.geometry.location)){
+      displayError('Your Selected Locality is not in specified Pincode region!');
       return;
     }
     if(place.geometry.viewport){
@@ -153,8 +159,12 @@ Template.shopRegister.rendered = function(){
     var place = landmarkBox.getPlace();
     if(!place.geometry)
       return;
-    if(!map.getBounds().contains(place.geometry.location)){
-      alert('Your Selected Landmark is not in specified Pincode region!');
+    if(!b){
+      displayError('Please Enter Pincode!!');
+      return;
+    }
+    if(!b.contains(place.geometry.location)){
+      displayError('Your Selected Landmark is not in specified Pincode region!');
       return;
     }
     if(place.geometry.viewport){

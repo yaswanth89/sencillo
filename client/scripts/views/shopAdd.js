@@ -99,11 +99,13 @@ $(function(){
     }).get();
     Session.set('shopAddBrand',brandSel);
   });
-  $('.add-item .item-image').hover(function(){
-    $(this).parent().find('.addProduct').fadeIn();
+  /*$('#shopAddProducts .add-item .mask').hover(function(){
+    $(this).css('opacity',1);
+    $(this).find('.addProduct').fadeIn();
   }, function(){
-    $(this).parent().find('.addProduct').fadeOut();
-  });
+    $(this).css('opacity',0);
+    $(this).find('.addProduct').fadeOut();
+  });*/
   $('.addProduct').live('click',function(e,t){
     var now = e.currentTarget;
     var id=now.id;

@@ -191,7 +191,7 @@ function mapLabel(opt_options) {
   var span = this.span_ = document.createElement('span');
   span.style.cssText = 'position: relative; left: -50%; top: -8px; ' +
   'white-space: nowrap; ' +
-  'padding: 2px; background-color: rgb(124,138,236);';
+  'padding: 4px; background-color: #E67914; text-transform:capitalize;';
 
 
   var div = this.div_ = document.createElement('div');
@@ -279,7 +279,7 @@ function mapLabel(opt_options) {
   if(!Session.get('homeId'))
     return;
 
-
+/*
   if(window.here != undefined)
       var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);  
   else{
@@ -287,14 +287,15 @@ function mapLabel(opt_options) {
       console.log('here');
         navigator.geolocation.getCurrentPosition(function(position){
             window.here = position;
-            Session.set('distanceCenter',window.here.coords);
+            Session.set('homeDistanceCenter',window.here.coords);
         });
       }else{
         alert('We are unable to locate where you are! Please select your location');
       }
       if(window.here != undefined)
         var myLatLng = new google.maps.LatLng(window.here.coords.latitude,window.here.coords.longitude);
-  }
+  }*/
+  var myLatLng = new google.maps.LatLng(Session.get('homeDistanceCenter').latitude, Session.get('homeDistanceCenter').longitude);
   var mapProp = {
     center: myLatLng,
     zoom:6,
@@ -304,7 +305,7 @@ function mapLabel(opt_options) {
     document.getElementById('homeMap').removeChild(document.getElementById('googleMapView'));
   var a = document.createElement('div');
   a.id = 'googleMapView';
-  a.style.width = '840px';
+  a.style.width = '885px';
   a.style.height = '450px';
   document.getElementById('homeMap').appendChild(a);
   console.log(mapProp);
