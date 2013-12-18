@@ -114,6 +114,7 @@
  	width:100%;
  	overflow:hidden;
  	position: relative;
+ 	padding: 2px;
  }
  div.show-product , .add-item {
 	width: 19%;
@@ -121,6 +122,10 @@
 	float: left;
 	background: white;
 	height: 250px;
+	margin-bottom: 2px;
+}
+div.show-product:hover{
+	box-shadow: 0px 0px 2px #115d8e;
 }
 .add-item{
 	width: 24%;
