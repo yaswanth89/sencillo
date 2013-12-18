@@ -5,21 +5,24 @@
 .shop-name{
 	padding: 10px 62px;
 	background: #ffc930;
-	width:14%;
+	float: left;
 	text-transform: uppercase;
 	box-shadow: 0 4px 4px rgba(0,0,0,0.3);
 	margin:0;
+	margin-right: 10px;
 }
 .info{
 	background: #424242;
 	color:white;
-	width: 16%;
 	padding: 2px 18px;
-	text-align: center;
 }
 .featuredProductsList{
-	left:0;
-	top:81px;
+	left: 0;
+	position: relative;
+	overflow: hidden;
+	display: block;
+	width: 100%;
+	top:10px;
 }
 .featuredProducts{
 	position: relative;
