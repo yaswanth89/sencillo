@@ -152,10 +152,10 @@ Template.homeProducts.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      $("#homeModal").css("top",$(now).position().top+180+'px').show().animate({
-        height: window.productHeight - 100,
+      $("#homeModal").css("top",$(now).position().top+10+'px').show().animate({
+        height: window.productHeight,
         opacity: 1});
-      $("#productList").animate({ scrollTop: ($(now).position().top+180)+"px" });
+      $("#productList").animate({ scrollTop: ($(now).position().top+10)+"px" });
   }
 }
 
@@ -305,8 +305,8 @@ function mapLabel(opt_options) {
     document.getElementById('homeMap').removeChild(document.getElementById('googleMapView'));
   var a = document.createElement('div');
   a.id = 'googleMapView';
-  a.style.width = '885px';
-  a.style.height = '450px';
+  a.style.width = '930px';
+  a.style.height = '511px';
   document.getElementById('homeMap').appendChild(a);
   console.log(mapProp);
   map = new google.maps.Map(a, mapProp);
@@ -328,7 +328,7 @@ function mapLabel(opt_options) {
           if(Prices.find({'productId':productId, 'price': {$gt: 0}, 'shopId': obj._id},{fields: {'_id':1}}).count() && findDistance(center.lat(),center.lng(),obj.shopLatitude,obj.shopLongitude) < radius/1000){
             shopsWithin.push(obj);
             console.log(obj);
-            placeCustomMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.usertype, obj.shopname, map, 13, false);
+            placeCustomMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.usertype, obj.shopname, 'cv/'+obj.username+'/'+productId, map, 13, false);
           }
     });
   }
@@ -379,7 +379,7 @@ function mapLabel(opt_options) {
       placeMarker(hereLatLng, map, map.getZoom());
     });*/
 
-  function placeCustomMarker(location, title, content, map, zoom, clean){
+  function placeCustomMarker(location, title, content, link, map, zoom, clean){
     if(clean)
       deleteCustomMarkers();
 
@@ -398,6 +398,9 @@ function mapLabel(opt_options) {
     });
     google.maps.event.addListener(label, 'mouseout', function(){
       label.set('text', title);
+    });
+    google.maps.event.addListener(label, 'click', function(){
+      App.router.navigate(link, {trigger: true});
     });
     try{
       labels.push(label);

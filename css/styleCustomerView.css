@@ -43,8 +43,8 @@
 	padding: 6px;
 }
 .shopFacilities table{
-	width: 91%;
-	margin:18px;
+	width: 96%;
+	margin:7px;
 }
 .shopFacilities table td{
 	width: 50%;
@@ -53,6 +53,8 @@
 .shopFacilities tr{
 	min-height: 43px;
 	font-style: italic;
+	border: solid rgba(0,0,0,0);
+	border-width: 20px 0;
 }
 .shopFacilities .fac-img-wrapper{
 	display: inline-block;
