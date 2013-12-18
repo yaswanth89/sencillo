@@ -289,8 +289,8 @@ Template.shopFeaturedProducts.events = {
       Session.set('shopId',id[1]);
       Session.set('newProducts',false);
       App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
-      $("#shopModal").css("top",6+'px').show().animate({
-        height: 550,
+      $("#shopModal").css("top",'-5px').show().animate({
+        height: '100%',
         opacity: 1});
       //$("#content").animate({ scrollTop: $(now).position().top+260+24+"px" });
   }
@@ -305,8 +305,8 @@ Template.ShopProducts.events = {
       Session.set('shopId',id[1]);
       Session.set('newProducts',false);
       App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
-      $("#shopModal").css("top",6+'px').show().animate({
-        height: 550,
+      $("#shopModal").css("top",'-5px').show().animate({
+        height: '100%',
         opacity: 1});
       //$("#content").animate({ scrollTop: $(now).position().top+260+24+"px" });
   }
@@ -374,8 +374,8 @@ Template.ShopProducts.rendered = function(){
 	if(!this.rendered)
 		this.rendered=1;
 	if(window.shopProductId != undefined){
-		$("#shopModal").css("top",'6px').show().animate({
-        height: 550,
+		$("#shopModal").css("top",'-5px').show().animate({
+        height: '100%',
         opacity: 1});
 		Session.set('shopId',window.shopProductId);
 		window.shopProductId = undefined;

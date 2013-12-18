@@ -50,6 +50,12 @@ Template.shopDetails.events = {
 				else
 					emi=false;
 			}
+			if(el.name=="edit-exchange"){
+				if(el.value == "yes")
+					exchange=true;
+				else
+					exchange=false;
+			}
 			if(el.name=="edit-openHour")
 				openHour = el.value;
 			if(el.name=="edit-closeHour")
@@ -70,6 +76,7 @@ Template.shopDetails.events = {
 			'shopLatitude': Session.get('selected').lat,
 			'shopLongitude': Session.get('selected').lng,
 			"emi":emi,
+			"exchange": exchange,
 			"payments":{'debit':debit,'credit':credit,'cheque':cheque},
 			"openHour":openHour,
 			"closeHour":closeHour

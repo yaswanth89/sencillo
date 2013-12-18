@@ -4,7 +4,7 @@
 .modal-backdrop.fade.in{
 	z-index: 90;
 }
-#searchModal, #shopModal , #homeModal{
+#searchModal, #shopModal{
 	height: 0px;
 	opacity: 0;
 	position: absolute;
@@ -19,23 +19,38 @@
 	opacity: 0;
 	position: absolute;
 	background: white;
-	width:97%;
+	width:99%;
 	overflow:hidden;
 	padding: 5px;
 	border: 5px solid rgba(0,0,0,0.6);
-	border-width: 5px 9px;
 	margin:0px;	
+}
+#homeModal .nav{
+	margin-bottom: 0px;
+}
+#homeModal .tab-pane{
+	margin-top: 20px;
+}
+#homeModal .tab-pane#homeMap{
+	margin-top: 0px;
 }
 #ImageModal img{
 	display: block;
 	margin:0px auto;
 }
 .cvShopContent #shopModal{
-	width: 89%;
+	width: 95%;
+	border:0px;
+	padding:0px;
+	overflow-y: auto;
 }
 #searchModal .tab-content ,#homeModal .tab-content{
-	overflow-y:scroll;
+	overflow-y:auto;
 	height: 80%;
+}
+#homeModal .tab-content{
+	overflow-y:auto;
+	height: 93%;
 }
 #myTab > li > a{
 	border-radius: 0;
@@ -53,7 +68,7 @@
 .top-row{
 	border-bottom: 1px solid black;
 	overflow: hidden;
-	height: 48%;
+	height: 36%;
 }
 #shopCloseModal, #closeModal{
 	position: absolute;
@@ -74,8 +89,7 @@
 	max-height: 95%;
 }
 #shopModal .tab-content{
-	height:265px;
-	overflow: auto;
+	overflow: hidden;
 }
 #shopImageModal img{
 	max-width: 100%;

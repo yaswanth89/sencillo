@@ -20,20 +20,18 @@
 
 <template name="ShopInfo">
   {{#with shopDet}}
-    <div class='shopHeading'><h3>{{shopname}}</h3></div>
+    <div class='shopHeading'>{{shopname}}</div>
     <table class='shop-primary-info'>
-      <tr><td><i class="fa fa-map-marker" style='color:#3598db;font-size:1.7em;'></i></td><td>{{address}}</td></p>
-      <tr><td><i class="fa fa-phone-square" style='color:#3598db;font-size:1.7em;'></i></td><td>{{contactnum}}</td></p>
+      <tr><td><i class="fa fa-map-marker" style='color:#3598db;font-size:1.3em;'></i></td><td>{{address}}</td></p>
+      <tr><td><i class="fa fa-phone-square" style='color:#3598db;font-size:1.3em;'></i></td><td>{{contactnum}}</td></p>
     </table>
     <div class='shopFacilities'>
       <table>
-        {{#if emi}}
-          <tr><td><img src='/image/12.png' class='facility-icon'/></td><td>EMI Available</td></tr>
-        {{else}}
-          <tr><td><img src='/image/12.png' class='facility-icon'/></td><td>EMI Not Available</td></tr>
-        {{/if}}
-        <tr><td><img src='/image/13.png' class='facility-icon'/></td><td>Shop Timings: {{openHour}} - {{closeHour}}</td></tr>
-        <tr><td><img src='/image/14.png' class='facility-icon'/></td><td>Payment Modes: {{#with payments}} {{#if debit}}Debit Card{{/if}} {{#if credit}},Credit Card{{/if}} {{#if cheque}}Cheque{{/if}} {{/with}}</td></tr>
+        <tr>
+          <td><div class='fac-img-wrapper'>{{#if emi}}<img src='/image/36.png' class='facility-icon'/>{{else}}<img src='/image/31.png' class='facility-icon'/>{{/if}}</div> EMI</td>
+          <td><div class='fac-img-wrapper'><img src='/image/39.png' class='facility-icon'/></div>Weekdays: {{openHour}} - {{closeHour}}<br>Weekends: {{openHour}} - {{closeHour}}</td></tr>
+          <tr><td><div class='fac-img-wrapper'><img src='/image/14.png' class='facility-icon'/></div>{{#with payments}} {{#if debit}}Debit {{/if}} {{#if credit}}Credit {{/if}} {{#if cheque}}Cheque {{/if}} {{/with}}</td>
+          <td><div class='fac-img-wrapper'>{{#if homeDelivery}}<img src="/image/37.png" class='facility-icon'/>{{else}}<img src="/image/34.png" class='facility-icon'/>{{/if}}</div> Home Delivery</td></tr>
       </table>
     </div>
   {{/with}}
@@ -56,7 +54,7 @@
 </template>
 
 <template name='mapCanvas'>
-  <img class='gmap-static' id='small-map' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=15&size=450x350&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
+  <img class='gmap-static' id='small-map' src="http://maps.googleapis.com/maps/api/staticmap?center={{latlng}}&zoom=15&size=450x300&maptype=roadmap&markers=color:red%7C{{latlng}}&sensor=false" />
 </template>
 
 <template name='shopModal'>
