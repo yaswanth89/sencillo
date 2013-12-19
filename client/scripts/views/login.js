@@ -25,6 +25,7 @@ Template.login.events={
 						App.router.navigate('shopAdd',{trigger:true});
 					else
 						App.router.navigate('/',{trigger:true});
+					$("#loginRegisterChoice input").val('');
 					button.html("login");
 					$('#LoginModal').modal('hide');
 				}
