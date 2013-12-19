@@ -516,7 +516,7 @@ Template.homeDistanceFilter.rendered = function(){
   });
 };
 
-
+var $priceslider;
 Template.homeView.rendered = function(){
   console.log('home rendered!!');
   var center = new google.maps.places.Autocomplete(document.getElementById('homeDistanceCenter'));
@@ -569,7 +569,18 @@ Template.homeProducts.rendered = function(){
     console.log('pricefilter template');
     if(!pricerange.find({}).count())
       return;
-    $('#priceSlider').slider({
+
+    /*if($('.slider')){
+      $('.slider').remove();
+      $('#homepriceslider-wrapper').append('<div id="priceSlider" class="span2"></div>');
+    }*/
+
+    /*if($priceslider != undefined){
+      console.log('detaching........');
+      $priceslider.detach();
+    }*/
+
+    $priceslider = $('#priceSlider').slider({
       min: pricerange.find({}).fetch()[0].minPrice,
       max: pricerange.find({}).fetch()[0].maxPrice,
       step: 100,
@@ -577,6 +588,8 @@ Template.homeProducts.rendered = function(){
       value: [pricerange.find({}).fetch()[0].minPrice,pricerange.find({}).fetch()[0].maxPrice],
       tooltip:'show'
     });
+
+    //$('#homepriceslider-wrapper').append($priceslider);
 
     $('#priceSlider').on('slideStop', function(e){
       Session.set('homePriceRange',$(this).val());
@@ -623,8 +636,12 @@ function addLeastPrice(x){
       z = Prices.find({shopId:{$in:window.shopList},productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
     console.log('asdf '+z.count());
     if(z.count()>0){
-      e.leastPrice =  z.fetch()[0].price;
-      ret.push(e);
+      console.log('in the if');
+      var pr = z.fetch()[0].price;
+      if(pr != ''){
+        e.leastPrice =  pr;
+        ret.push(e);
+      }
     }
   });
   var priceMin = _.min(ret, function(r){ return r.leastPrice; }).leastPrice;
@@ -637,11 +654,3 @@ function addLeastPrice(x){
 }
 
 
-
-Template.homeMapView.rendered = function(){
-
-
-
-
-
-};
