@@ -18,6 +18,9 @@ body,#body {
 	top: 0;
 	background: white;
 }
+#body{
+	overflow-x:hidden;
+}
 #content{
 	overflow: hidden;
 	position: relative;
