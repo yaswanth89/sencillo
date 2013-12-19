@@ -81,7 +81,7 @@ white-space: nowrap;
 }
 .add-item .item-content{
 	position: relative;
-	top: -100%;
+	top: -60%;
 	z-index: 2;
 	padding: 12px;
 }
@@ -89,17 +89,19 @@ white-space: nowrap;
 	position: relative;
 	top: 0px;
 	left: 0px;
-	width: 100%;
-	height: 100%;
+	width: 85%;
+	height: 60%;
 	z-index: 5;
 	background-color: rgba(0,0,0,0.5);
 	opacity: 0;
+	margin: 0px auto;
 }
 .add-item .mask .addProduct{
 	position: relative;
 	display: none;
 	margin: 0px auto;
-	top: 26%;
+	top: 84%;
+	width: 100%;
 }
 #shopAddProducts .add-item:hover .mask{
 	opacity: 1;
@@ -108,23 +110,23 @@ white-space: nowrap;
 	display: block;
 }
 .addProduct {
-padding-left: 1em;
-padding-right: 1em;
-padding-top: 0.5em;
-padding-bottom: 0.5em;
-background-color: cornflowerblue;
-border: none;
-text-decoration-color: white;
-color: white;
-font-weight: 500;
-font-size: 1.2em;
-/*
-position: relative;
-top: -89px;
-display: block;
-margin: 0px auto;*/
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	background-color: #ffa139;
+	border: none;
+	text-decoration-color: white;
+	color: white;
+	font-weight: 500;
+	font-size: 1.2em;
+	/*
+	position: relative;
+	top: -89px;
+	display: block;
+	margin: 0px auto;*/
 }
 
 .addProduct:hover {
-background-color: crimson;
+	background-color: #3499db;
 }
