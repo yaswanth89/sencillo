@@ -57,8 +57,7 @@ Template.shopRegister.rendered = function(){
   var mapOptions = {
     panControl: false,
     zoomControl: false,
-    scrollwheel: false,
-    mapTypeId: google.maps.MapTypeId.HYBRID
+    scrollwheel: false
   };
   if(document.getElementById('registerMap') != null)
     this.removeChild(document.getElementById('registerMap'));

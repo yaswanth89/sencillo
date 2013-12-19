@@ -10,7 +10,7 @@
 }
 
 #shopAddProducts{
-	width:78%%;
+	width:78%;
 	overflow-y:scroll;
 	overflow-x:hidden; 
 	float:right;
@@ -18,17 +18,18 @@
 }
 
 #shopAddWrap{
-	width:16.5%%;
+	width:16.5%;
 	float:left;
 	margin-left: 1.5%;
 	margin-right: 2.5%;
-	margin-top: 1%;
+	margin-top: 0%;
 	font-family: armata;
+	height: 100%;
+	background-color: #eee;
 }
 #shopAddBrandSelect{
-	width:78%%;
+	width:78%;
 	float:right;
-	height:15%;
 }
 #shopAddHeading{
 
@@ -57,6 +58,17 @@ div.collapse li:hover{
 #shopAddWrap .accordion-inner{
 	border-top:none;
 }
+#shopAddBrandSelect #brandLabel{
+	float: left;
+	font-size: 1.2em;
+	padding: 4px;
+	margin-bottom: 10px;
+}
+#shopAddBrandSelect .control-group{
+	float: left;
+	margin-left: 11px;
+	margin-bottom: 10px;
+}
 li#shopAddSub {
 font-weight: 500;
 padding-left: 10px;
@@ -65,25 +77,28 @@ div.products-row p {
 font-size: 1.2em;
 }
 .products-row .lead {
-font-size: 1.4em;
-line-height: 1.2em;
-margin-bottom: 5px;
-margin-top: -5px;
-overflow: hidden;
-text-overflow:ellipsis;
-white-space: nowrap;
+	font-size: 1.4em;
+	line-height: 1.2em;
+	margin-bottom: 5px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	border-top: 1px solid rgba(0,0,0,0.2);
+	padding-top: 6px;
 }
 
 #shopAddProducts .add-item .item-image{
 	display: block;
 	position: relative;
 	margin:0px auto;
+	margin-bottom: 12px;
 }
 .add-item .item-content{
 	position: relative;
 	top: -60%;
 	z-index: 2;
 	padding: 12px;
+	font-family: helvetica;
 }
 .add-item .mask{
 	position: relative;

@@ -1,11 +1,9 @@
 <template name="shopAdd">
   
   <div id="shopAddTemplate">
-    <div id="shopAddFilter">
-      {{#isolate}}
+    {{#isolate}}
       {{> shopAddFilter}}
-      {{/isolate}}
-    </div>
+    {{/isolate}}
     <div id="shopAddProducts">
       {{#isolate}}
       {{> shopAddProducts}}
@@ -34,10 +32,16 @@
   </div>
   <div id="shopAddBrandSelect">
     <p>
-      <span>Brands : </span>
-    {{#each Brand}}
-    <input type="checkbox" value="{{this}}">{{this}}
-    {{/each}}
+      <label class="control-label" id='brandLabel'>Brands : </label>
+      {{#each Brand}}
+      <div class="control-group">
+        <div class="controls">
+          <label class='checkbox'>  
+            <input type="checkbox" value="{{this}}">{{this}}
+          </label>
+        </div>
+      </div>
+      {{/each}}
     </p>
   </div>
 
@@ -51,8 +55,8 @@
         <div class='mask'><input type='button' class='addProduct' id="{{_id}}" value='Add to Shop'/></div>
         <div class='item-content'>
           <img class="item-image" src="{{this.Image.[0]}}" />
-          <h4>{{this.Brand}}</h4>
           <p class="lead">{{this.ProductName}} </p>
+          <span class="pull-right"><img src="{{brandLogo this.Brand}}" style="height:24px" /></span>
           <p>{{this.ModelID}}</p>
         </div>
       </div>

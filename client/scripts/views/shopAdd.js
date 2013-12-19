@@ -109,7 +109,7 @@ $(function(){
   $('.addProduct').live('click',function(e,t){
     var now = e.currentTarget;
     var id=now.id;
-    Meteor.call('addProduct', id, function(error){ if(error) alert(error); else $('div#product_'+id).fadeOut(); });
+    Meteor.call('addProduct', id, function(error){ if(error) displayError(error); else{ $('div#product_'+id).fadeOut(); displaySuccess('Item has been added to the shop') } });
   });
 });
 /*
