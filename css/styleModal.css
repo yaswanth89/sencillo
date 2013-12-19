@@ -124,10 +124,19 @@
 .item-modal-rest{
 	width: 99%;
 	padding: 0.2%;
+	height: 90%;
 	border-right: 1px solid gray;
 }
 .item-modal-name{
 	color: #2a80b9;
+}
+#imageModal img{
+	height: 100%;
+	display: block;
+	margin: auto;
+}
+#imageModal{
+	height: 55%;
 }
 #myTab{
 	border-bottom: none;

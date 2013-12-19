@@ -32,6 +32,12 @@ Handlebars.registerHelper('shopRouter',function(shopname){
 	
 	return linkReturn;
 });
+Handlebars.registerHelper('brandLogo', function(str) {
+	if(str)
+  		return "/image/logos/"+str.toLowerCase()+".png";
+  	else
+  		return "";
+});
 
 
 Handlebars.registerHelper('key_value', function(context, options) {
