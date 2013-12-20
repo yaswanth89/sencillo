@@ -211,3 +211,67 @@
 .spec-section tr td:last-child{
 	background-color: #e6e6e6;
 }
+#LoginModal{
+	display: block;
+	position: absolute;
+	right: -25%;
+	left: auto;
+	width: 25%;
+	top:0;
+	border-radius: 0;
+	border: 0;
+	height: 100%;
+	opacity: 1;
+	-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+	-moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+	-o-transition: opacity 0.3s linear, right 0.3s ease-out;
+	transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+#LoginModal.in{
+	right: 0;
+}
+#LoginModal .control-label{
+	width:70px;
+	text-align: left;
+}
+#LoginModal .controls {
+	margin-left: 80px;
+}
+#LoginModal .controls input{
+	border-radius: 0;
+	box-shadow: none;
+	border: 1px solid black;
+}
+#LoginModal .controls .btn{
+	background: none;
+	background-color: #3498db;
+	box-shadow: none;
+	text-shadow: none;
+	border-radius: 0;
+	padding: 1px 14px;
+	text-transform: uppercase;
+	font-family: armata;
+	color: white;
+}
+#LoginModal .modal-header .login-modal-title{
+	font-family: armata;
+	font-size: 15px;
+	text-transform: uppercase;
+	display: inline-block;
+	background-color: #3498db;
+	padding: 2px 10px;
+	margin-left: -15px;
+	color: white;
+}
+#LoginModal .modal-header .close{
+	font-size: 26px;
+	text-shadow: none;
+	font-weight: normal;
+	text-transform: uppercase;
+	color: white;
+	background-color: #3498db;
+	padding: 2px 10px;
+	opacity: 1;
+	margin-top: 10px;
+	margin-right: -15px;
+}

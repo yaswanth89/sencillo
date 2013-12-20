@@ -13,6 +13,10 @@ this.Login = Backbone.View.extend({
 Template.login.events={
 	'submit':function(e){
 		e.preventDefault();
+		console.log('asd');
+		var button = $("#loginBtn");
+		button.html('Loging in');
+		button.prepend(' <i class="fa fa-refresh fa-spin"></i> ');
 		var allInputs = $(':input').serializeArray();
 		Meteor.loginWithPassword(allInputs[0].value,allInputs[1].value,
 			function(Err){
@@ -21,6 +25,8 @@ Template.login.events={
 						App.router.navigate('shopAdd',{trigger:true});
 					else
 						App.router.navigate('/',{trigger:true});
+					$("#loginRegisterChoice input").val('');
+					button.html("login");
 					$('#LoginModal').modal('hide');
 				}
 				catch(e){

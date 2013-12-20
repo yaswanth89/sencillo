@@ -6,13 +6,20 @@ this.HeaderView = Backbone.View.extend({
 		Template.header.events = {
 			"click a":function(e){
 				e.preventDefault();
-				if(e.target.id=='logout')
+				if(e.target.id=='logout'){
+					var button = $(e.target);
+					button.attr('disabled', '');
+					button.html('Loging out');
+					button.prepend(' <i class="fa fa-refresh fa-spin"></i> ');
 					Meteor.logout(function(err){
-						if(!err)
+						if(!err){
+							button.html("logout");
 							return App.router.navigate('/',{trigger:true});
+						}
 						else
 							alert('error');
 					});
+				}
 				else if(e.target.id=="dashboard"){
 				}
 				else

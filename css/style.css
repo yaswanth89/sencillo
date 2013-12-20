@@ -11,6 +11,9 @@ body,#body {
 	background: white;
 	font-family: helveticaLight;
 }
+#body{
+	overflow-x:hidden;
+}
 #content{
 	overflow: hidden;
 	position: relative;
