@@ -9,7 +9,7 @@ body,#body {
 	left: 0;
 	top: 0;
 	background: white;
-	font-family: helveticaLight;
+	/*font-family: helveticaLight;*/
 }
 #body{
 	overflow-x:hidden;

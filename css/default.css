@@ -33,8 +33,8 @@
 }
 #myCarousel{
 	border:1px solid black;
-	width: 59%;
-	float: left;
+	/*width: 59%;
+	float: left;*/
 }
 #myCarousel .carousel-control{
 	background: none;
