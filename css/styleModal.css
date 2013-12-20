@@ -42,7 +42,10 @@
 	width: 95%;
 	border:0px;
 	padding:0px;
-	overflow-y: auto;
+	padding-top: 6px;
+}
+.cvShopContent #shopModal .bottom-row{
+	height: 100%;
 }
 #searchModal .tab-content ,#homeModal .tab-content{
 	overflow-y:auto;
@@ -83,13 +86,13 @@
 	height: 100%;
 	float: left;
 }
+#shopModal .tab-content{
+	overflow-y: auto; 
+}
 #shopImageModal{
 	float: left;
 	width: 31%;
 	max-height: 95%;
-}
-#shopModal .tab-content{
-	overflow: hidden;
 }
 #shopImageModal img{
 	max-width: 100%;

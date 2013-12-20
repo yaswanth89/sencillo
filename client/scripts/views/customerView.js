@@ -21,6 +21,7 @@ Deps.autorun(function(){
     Meteor.subscribe('shopDetail',window.shopUsername);
     Meteor.subscribe("shopBrand",window.shopUsername,Session.get('shopMainFilter'),Session.get('shopSubFilter'));
     Meteor.subscribe('FrameAll');
+    //Meteor.subscribe('shopSubs',window.shopUsername);
 });
 Template.ShopMainCat.MainCatArr = function(){
 	return FrameDetail.find({});
@@ -116,6 +117,7 @@ Template.ShopProducts.ProductArr = function(){
 	var productList = [];
   var prices = [];
 	var shopid;
+  var setPriceRange = false;
   	Meteor.users.find({username:window.shopUsername}).forEach(function(loop){
     	shopid = loop._id;
     	productList = loop.productId;
@@ -129,23 +131,28 @@ Template.ShopProducts.ProductArr = function(){
   		if(Session.get('shopMainFilter') && Session.get('shopSubFilter')){
         console.log('main n sub');
         var docs = Products.find({_id:{$in:productList},'Main': Session.get('shopMainFilter'),'Sub':Session.get('shopSubFilter')},{reactive:Session.get('newProducts')});
+        setPriceRange = true;
       }
       else if(Session.get('shopMainFilter')) {
         console.log('only main');
         var docs = Products.find({_id:{$in:productList},'Main': Session.get('shopMainFilter')},{reactive:Session.get('newProducts')});
+        setPriceRange = true;
       }
       else if(Session.get('shopSubFilter')){
         console.log('only sub');
         var docs = Products.find({_id:{$in:productList},'Sub':Session.get('shopSubFilter')},{reactive:Session.get('newProducts')});
+        setPriceRange = true;
       }
       else{
         console.log('nothing!!!');
         var docs = Products.find({_id:{$in:productList}},{reactive:Session.get('newProducts')});
+        setPriceRange = true;
       }
       console.log('docsssss');
       console.log(docs);
       if(!_.isEmpty(Session.get('shopPriceRange')) && Session.get('shopPriceRange') != undefined){
-        console.log('called price filtering!!')
+        setPriceRange = false;
+        console.log('called price filtering!!');
         var prods = [];
         docs.forEach(function(obj){
             var p = Prices.find({'shopId':shopid,'productId':obj._id,'price': {$gte: Session.get('shopPriceRange')[0], $lte: Session.get('shopPriceRange')[1]}}).fetch()[0];
@@ -159,30 +166,28 @@ Template.ShopProducts.ProductArr = function(){
         });
       }
       else{
-        console.log('no range to price filtering!!')
+        setPriceRange = true;
+        console.log('no range to price filtering!!');
         var prods = [];
         docs.forEach(function(obj){
             var p = Prices.find({'shopId':shopid,'productId':obj._id,'price': {$gt: 0}}).fetch()[0];
             console.log('price is');
             if(p != undefined){
                 console.log(p.price);
-                obj.price = p.price;
-                prods.push(obj);
+                if(p.price != ''){
+                  obj.price = p.price;
+                  prods.push(obj);
+                }
             }
         });
       }
         //var pricedProds = Meteor.call('FilterByPrice',docs,0,0);
       var priceMin = _.min(prods,function(prod){ return prod.price; }).price;
       var priceMax = _.max(prods,function(prod){ return prod.price; }).price;
-      console.log('came here..');
-      console.log(Session.get('setPriceRange'));
-      if(Session.get('setPriceRange') && priceMin && priceMax){
+      
+      if(priceMin && priceMax && setPriceRange){
         console.log('setting price range...');
         Session.set('priceRangeSet',{'min':priceMin, 'max': priceMax});
-        Session.set('setPriceRange',false);
-      }else{
-        console.log('unsetting price range...');
-        Session.set('priceRangeSet',undefined);
       }
       window.totalPriceRange = [priceMin,priceMax];
   	}
@@ -227,8 +232,10 @@ Template.ShopProducts.ProductArr = function(){
             console.log('price is');
             if(p != undefined){
                 console.log(p.price);
-                obj.price = p.price;
-                prods.push(obj);
+                if(p.price != ''){
+                  obj.price = p.price;
+                  prods.push(obj);
+                }
             }
         });
       }
@@ -236,11 +243,10 @@ Template.ShopProducts.ProductArr = function(){
       var priceMin = _.min(prods,function(prod){ return prod.price; }).price;
       var priceMax = _.max(prods,function(prod){ return prod.price; }).price;
       console.log('came here..');
-      console.log(Session.get('setPriceRange'));
-      if(Session.get('setPriceRange') && priceMin && priceMax){
+
+      if(priceMin && priceMax){
         console.log('setting price range...');
         Session.set('priceRangeSet',{'min':priceMin, 'max': priceMax});
-        Session.set('setPriceRange',false);
       }else{
         console.log('unsetting price range...');
         Session.set('priceRangeSet',undefined);
@@ -263,6 +269,8 @@ Template.shopCategories.events = {
     var main = now.getAttribute('data-content');
     Session.set('shopSubFilter',undefined);
     Session.set('shopMainFilter',main);
+    Session.set('shopPriceRange',[]);
+    Session.set('shopBrand',[]);
   },
   "click li.subCat": function(e, t){
     console.log('clicked subcat!!!');
@@ -271,8 +279,6 @@ Template.shopCategories.events = {
     Session.set('shopMainFilter',undefined);
     Session.set('shopPriceRange',[]);
     Session.set('shopSubFilter',sub);
-    Session.set('setPriceRange',true);
-    console.log('price range setting is '+Session.get('setPriceRange'));
     Session.set('shopBrand',[]);
   }
 };
@@ -312,7 +318,7 @@ Template.ShopProducts.events = {
   }
 }
 
-Template.shopModal.product = function(){
+Template.shopModalOverview.product = function(){
   console.log('entered shopmodal '+window.shopUsername );
   if(Session.get('shopId') && window.shopUsername){
     var shop = Meteor.users.find({'username': window.shopUsername,'usertype':'shop'},{fields: {'_id':1}}).fetch()[0]._id;

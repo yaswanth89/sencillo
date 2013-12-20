@@ -327,3 +327,12 @@ Meteor.publish("shopCategories",function(){
   }
 });
 
+Meteor.publish("shopSubs", function(username){
+  if(username){
+    var userid = Meteor.users.findOne({'username':username},{fields: {'_id':1}})._id;
+    var subs = Brands.find({'shopid':userid},{fields: {'Sub':1}});
+    return subs;
+  }else
+    return null;
+});
+

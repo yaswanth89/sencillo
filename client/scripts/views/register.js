@@ -64,7 +64,7 @@ Template.shopRegister.rendered = function(){
   var regMap = document.createElement('div');
   regMap.id = 'registerMap';
   regMap.style.width = '1370px';
-  regMap.style.height = '700px';
+  regMap.style.height = '583px';
   document.getElementById('register-wrapper').appendChild(regMap);
   map = new google.maps.Map(regMap, mapOptions);
   console.log(map);
@@ -80,9 +80,11 @@ Template.shopRegister.rendered = function(){
   console.log('controls pushed');
   shopForm.style.backgroundColor = 'rgba(184,184,184,0.701961)';
   shopForm.style.fontWeight = 'bold';
-  shopForm.style.padding = '10px 30px'; 
+  shopForm.style.padding = '16px 30px'; 
   shopForm.style.marginLeft = '30px';
   shopForm.style.fontSize = '12px';
+  shopForm.style.overflow = 'auto';
+  shopForm.style.height = '94%';
   //landmarkBox.setTypes(['establishment']);
   var myLatLng;
   myLatLng = new google.maps.LatLng(22.572646,88.36389500000001);
@@ -150,7 +152,7 @@ Template.shopRegister.rendered = function(){
       draggable: true,
       position: place.geometry.location
     });
-
+    displaySuccess('Move the marker around to point your location!');
     Session.set('shopLocation',place.geometry.location);
   });
 
@@ -184,7 +186,7 @@ Template.shopRegister.rendered = function(){
       position: place.geometry.location,
       crossOnDrag: false
     });
-
+    displaySuccess('Move the marker around to point your location!');
     Session.set('shopLocation',place.geometry.location);
   });
 

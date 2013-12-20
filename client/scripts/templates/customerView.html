@@ -60,20 +60,6 @@
 <template name='shopModal'>
   <div id="shopModal">
       <a id="shopCloseModal" href="#">X</a>
-      {{#isolate}}
-      {{#with product}}
-      <div class="top-row" style="width:100%;">
-        <div id="shopImageModal">
-          <img src="{{Image.[0]}}">
-        </div>
-        <div id='shopModalHeading'>
-          <p class="lead modalName">{{ProductName}}</p>
-          <p class='modalID'>Model ID: {{ModelID}}</p>
-          <p class='modalPrice'><i class='fa fa-rupee'></i> {{price}}<br> <span class='tax-info'>Inclusive of all Taxes</span></p>
-        </div>
-      </div>
-      {{/with}}
-      {{/isolate}}
       <div class="bottom-row" style="width:100%">
         <ul class="nav nav-tabs" id="myTab">
           <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
@@ -92,6 +78,20 @@
 </template>
 <template name="shopModalOverview">
   <div class="tab-pane active" id="overview">
+    {{#isolate}}
+      {{#with product}}
+      <div class="top-row" style="width:100%;">
+        <div id="shopImageModal">
+          <img src="{{Image.[0]}}">
+        </div>
+        <div id='shopModalHeading'>
+          <p class="lead modalName">{{ProductName}}</p>
+          <p class='modalID'>Model ID: {{ModelID}}</p>
+          <p class='modalPrice'><i class='fa fa-rupee'></i> {{price}}<br> <span class='tax-info'>Inclusive of all Taxes</span></p>
+        </div>
+      </div>
+      {{/with}}
+    {{/isolate}}
   {{#each productOverview}} 
     <p class="lead">{{overviewPara}}</p>
     <ul>

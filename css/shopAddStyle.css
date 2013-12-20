@@ -40,13 +40,10 @@ background-color: #3498db;
 font-size: 0.9em;
 margin-bottom: -5px;
 padding: 5px;
+font-weight: normal;
 }
 #shopAddWrap h4:hover{
-	font-weight: 500;
-}
-
-#shopAddWrap h4:hover{
-
+	font-weight: bold;
 }
 div.collapse ul {
 margin-left: 5px;
