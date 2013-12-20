@@ -13,6 +13,7 @@
 	overflow:hidden;
 	padding: 5px;
 	border: 5px solid #ababab;
+	font-family: helveticaLight;
 }
 .modal-wrapper{
 	width: 100%;
