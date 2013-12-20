@@ -111,7 +111,7 @@
  }*/
  .products-list{
  	width:100%;
- 	margin: 20px;
+ 	margin: 11px;
  	overflow:hidden;
  	position: relative;
  	padding: 2px;
@@ -187,6 +187,7 @@ body{
 }
 .galleryImage{
 	border: 1px gray solid;
+	width: 26.5%;
 }
 .shopNav{
 	background: #3598db;

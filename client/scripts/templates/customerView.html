@@ -58,6 +58,7 @@
 </template>
 
 <template name='shopModal'>
+  <div class='modal-wrapper'>
   <div id="shopModal">
       <a id="shopCloseModal" href="#">X</a>
       <div class="bottom-row" style="width:100%">
@@ -74,6 +75,7 @@
         {{/isolate}}
         </div>
       </div>
+  </div>
   </div>
 </template>
 <template name="shopModalOverview">
@@ -108,27 +110,26 @@
 </template>
 <template name="shopModalSpec">
   <div class="tab-pane" id="techSpec">
-    <table class="table">
     {{#each productSpec}}
-    {{#each spec}}
-      {{#labelCheck name}}
-      <th>
-        <u><strong>{{value}}</strong></u>
-      </th>
-      {{else}}  
-      <tr>
-        <td><strong>{{name}}:</strong></td>
-        <td>{{value}}</td>
-      </tr> 
-      {{/labelCheck}}
+        <table class='table spec-section'>
+        {{#each this}}
+            {{#labelCheck name}}
+            <th>
+              {{value}}
+            </th><th></th>
+            {{else}}  
+            <tr>
+              <td><strong>{{name}}:</strong></td>
+              <td>{{value}}</td>
+            </tr> 
+            {{/labelCheck}}
+        {{/each}}
+        </table>
     {{/each}}
-    {{/each}}
-    </table>
   </div>
 </template>
 
 <template name="ShopSubCat">
-    
     <ul id="subcat_list">
     {{#each SubCatArr}}
       <li class="subcat" id="{{Name}}">{{Name}}</li>

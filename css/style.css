@@ -1,14 +1,6 @@
 @font-face{
-	font-family: 'mplus 1c med';
-	src: url('fonts/mplus-1c-medium.ttf');
-}
-@font-face{
-	font-family: 'mplus 1c heavy';
-	src: url('fonts/mplus-1c-heavy.ttf');
-}
-@font-face{
-	font-family: 'mplus 1c thin';
-	src: url('fonts/mplus-1c-thin.ttf');
+	src: url('../fonts/HelveticaNeueLight.ttf');
+	font-family: helveticaLight;
 }
 body,#body {
 	height: 100%;
@@ -17,6 +9,7 @@ body,#body {
 	left: 0;
 	top: 0;
 	background: white;
+	font-family: helveticaLight;
 }
 #content{
 	overflow: hidden;

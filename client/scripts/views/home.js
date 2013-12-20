@@ -152,7 +152,8 @@ Template.homeProducts.events = {
       var now = e.currentTarget;
       var id = now.id.split('_');
       Session.set('homeId',id[1]);
-      $("#homeModal").css("top",$(now).position().top+10+'px').show().animate({
+      $('.modal-wrapper').css('display','block');
+      $("#homeModal").css("top",'0px').show().animate({
         height: window.productHeight,
         opacity: 1});
       $("#productList").animate({ scrollTop: ($(now).position().top+10)+"px" });
@@ -454,10 +455,36 @@ Template.homeModalOverview.productOverview = function(){
 
 
 Template.homeModalSpec.productSpec = function(){
-  return Products.find({_id:Session.get('homeId')},{fields:{spec:1}});
+  var res = Products.find({_id:Session.get('homeId')},{fields:{spec:1}});
+  if(res.count() > 0)
+    res = res.fetch()[0].spec;
+  else
+    return null;
+  var ret = [];
+  var obj = [];
+  for(var i=0; i<res.length; i++){
+    if(res[i].name == 'label'){
+      if(obj.length != 0)
+        ret.push(obj);
+      obj = [];
+    }
+    obj.push(res[i]);
+  }
+  ret.push(obj);
+  console.log(ret);
+  return ret;
 };
 
-
+Template.homeModalSpec.rendered = function(){
+  var i = 0;
+  $('#techSpec .spec-section').each(function(){
+    if(i%2)
+      $(this).css('float','right');
+    else
+      $(this).css('float','left');
+    i++;
+  });
+}
 Template.homeModalAvailble.shopList = function(){
   returnarr =[];
   if(!Session.get('homeDistanceCenter'))
@@ -487,7 +514,12 @@ Template.homeModal.events = {
     $("#homeModal").animate({
         height: 0,
         opacity: 0},function(){
-          $(this).hide()
+          $(this).parent().css('display','none');
+          $(this).hide();
+          $(this).find('.nav-tabs li.active').removeClass('active');
+          $(this).find('.nav-tabs li:first').addClass('active');
+          $(this).find('.tab-content .tab-pane.active').removeClass('active');
+          $(this).find('.tab-content .tab-pane#overview').addClass('active');
         });
     App.router.navigate(Session.get('homeSub'),{trigger:false});
   },
@@ -551,6 +583,7 @@ Template.homeProducts.rendered = function(){
     window.productHeight = $(window).height() - 133;
     if(window.homeProductId != undefined){
       Session.set("homeId",window.homeProductId);
+      $('.modal-wrapper').css('display','block');
       $("#homeModal").css("top",'0px').show().animate({
         height: window.productHeight - 100,
         opacity: 1});

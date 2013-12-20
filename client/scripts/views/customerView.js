@@ -295,6 +295,7 @@ Template.shopFeaturedProducts.events = {
       Session.set('shopId',id[1]);
       Session.set('newProducts',false);
       App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
+      $('.cvShopContent .modal-wrapper').css('display','block');
       $("#shopModal").css("top",'-5px').show().animate({
         height: '100%',
         opacity: 1});
@@ -311,6 +312,7 @@ Template.ShopProducts.events = {
       Session.set('shopId',id[1]);
       Session.set('newProducts',false);
       App.router.navigate('cv/'+window.shopUsername+'/'+id[1], {trigger:false});
+      $('.cvShopContent .modal-wrapper').css('display','block');
       $("#shopModal").css("top",'-5px').show().animate({
         height: '100%',
         opacity: 1});
@@ -333,12 +335,46 @@ Template.shopModalOverview.productOverview = function(){
   return Products.find({_id:Session.get('shopId')},{fields:{overViewList:1,overviewPara:1,feature:1}});
 };
 Template.shopModalSpec.productSpec = function(){
-  return Products.find({_id:Session.get('shopId')},{fields:{spec:1}});
+  var res = Products.find({_id:Session.get('shopId')},{fields:{spec:1}});
+  if(res.count() > 0)
+    res = res.fetch()[0].spec;
+  else
+    return null;
+  var ret = [];
+  var obj = [];
+  for(var i=0; i<res.length; i++){
+    if(res[i].name == 'label'){
+      if(obj.length != 0)
+        ret.push(obj);
+      obj = [];
+    }
+    obj.push(res[i]);
+  }
+  ret.push(obj);
+  console.log(ret);
+  return ret;
+  //return Products.find({_id:Session.get('shopId')},{fields:{spec:1}});
 };
+
+Template.shopModalSpec.rendered = function(){
+  var i = 0;
+  $('#techSpec .spec-section').each(function(){
+    if(i%2)
+      $(this).css('float','right');
+    else
+      $(this).css('float','left');
+    i++;
+  });
+};
+
 Template.shopModal.events = {
   "click a#shopCloseModal":function(e,t){
     e.preventDefault();
-    $("#shopModal").fadeOut();
+    $("#shopModal").fadeOut('slow',function(){ $(this).parent().css('display','none'); });
+    $('#shopModal').find('.nav-tabs li.active').removeClass('active');
+    $('#shopModal').find('.nav-tabs li:first').addClass('active');
+    $('#shopModal').find('.tab-content .tab-pane.active').removeClass('active');
+    $('#shopModal').find('.tab-content .tab-pane#overview').addClass('active');
     App.router.navigate('cv/'+window.shopUsername, {trigger: false});
   },
   "click a.shopNav" : function(e,t){
@@ -380,8 +416,9 @@ Template.ShopProducts.rendered = function(){
 	if(!this.rendered)
 		this.rendered=1;
 	if(window.shopProductId != undefined){
+    $('.cvShopContent .modal-wrapper').css('display','block');
 		$("#shopModal").css("top",'-5px').show().animate({
-        height: '100%',
+        height: '580px',
         opacity: 1});
 		Session.set('shopId',window.shopProductId);
 		window.shopProductId = undefined;

@@ -25,9 +25,9 @@
     </div>
   </div>
   <div id="homeContainer">
+    {{> homeModal}}
     <div id="productList">
       {{> homeProducts}}
-      {{> homeModal}}
     </div>    
   </div>    
 </template>
@@ -100,6 +100,7 @@
 </template>
 
 <template name='homeModal'>
+<div class='modal-wrapper'>
 <div id="homeModal" class="hide">
     <a id="closeModal" href="#">X</a>
     {{#isolate}}
@@ -126,7 +127,7 @@
 
     {{/each}}
     {{/isolate}}
-    <div class="column" style="width:70%; background-color:#f6f6f6">
+    <div class="column" style="width:70%;">
       <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
         <li><a href="#techSpec" data-toggle="tab">Technical Specification</a></li>
@@ -149,6 +150,7 @@
       </div>
     </div>
 </div>
+</div>
 </template>
 <template name="homeModalOverview">
   <div class="tab-pane active" id="overview">
@@ -170,18 +172,20 @@
   <div class="tab-pane" id="techSpec">
     <table class="table">
     {{#each productSpec}}
-    {{#each spec}}
-      {{#labelCheck name}}
-      <th>
-        <u><strong>{{value}}</strong></u>
-      </th>
-      {{else}}  
-      <tr>
-        <td><strong>{{name}}:</strong></td>
-        <td>{{value}}</td>
-      </tr> 
-      {{/labelCheck}}
-    {{/each}}
+        <table class='table spec-section'>
+        {{#each this}}
+            {{#labelCheck name}}
+            <th>
+              {{value}}
+            </th><th></th>
+            {{else}}  
+            <tr>
+              <td><strong>{{name}}:</strong></td>
+              <td>{{value}}</td>
+            </tr> 
+            {{/labelCheck}}
+        {{/each}}
+        </table>
     {{/each}}
     </table>
   </div>

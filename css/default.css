@@ -29,13 +29,26 @@
 	position: relative;
 	overflow: hidden;
 	border: 1px solid rgba(0,0,0,0.4);
+	clear:both;
 }
 #myCarousel{
 	border:1px solid black;
+	width: 59%;
+	float: left;
 }
 #myCarousel .carousel-control{
 	background: none;
 	border: 0;
+}
+.newArrivals{
+	width: 40%;
+	float: right;
+	height: 150px;
+}
+.trendingProducts{
+	width: 40%;
+	height: 150px;
+	float: right;
 }
 .defaultHolder {
 height: 30%;

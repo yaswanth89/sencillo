@@ -54,7 +54,7 @@ Handlebars.registerHelper("stripes", function(array,options) {
     var buffer = "";
     for (var i = 0, j = array.length; i < j; i++) {
       var item = array[i];
-      if((i+1) % 4 == 0)
+      if((i+1) % 2 == 0)
       	item.odd = true;
       buffer += fn(item);
     }
