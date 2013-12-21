@@ -225,7 +225,22 @@ Meteor.methods({
 		}
 		else
 			return false;
-
+	},
+	connectFb:function (data) {
+		var appData = ApiKeys.findOne({"name":"facebook"});
+		var decoded = data[0].value.split(" ");
+		var url = "https://graph.facebook.com/oauth/access_token?client_id=" + appData.appId
+			+ "&client_secret=" + appData.appSecret
+			+"&grant_type=fb_exchange_token"
+			+"&fb_exchange_token="+decoded[1];
+		var result = HTTP.call("GET",url);
+		var prmarr = result.content.split ("&");
+		var params = {};
+		for ( var i = 0; i < prmarr.length; i++) {
+		    var tmparr = prmarr[i].split("=");
+		    params[tmparr[0]] = tmparr[1];
+		}
+		Meteor.users.update({_id:Meteor.userId()},{$set:{"shopFbPage":decoded[0],"fbAccessToken":params.access_token}})
 	}
 });
 function showPosition(position){

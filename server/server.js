@@ -1,7 +1,10 @@
 
 Accounts.onCreateUser(function(options, user) {
   if(user.services.facebook != undefined){
-    return user;
+    if(Meteor.userId())
+      Meteor.users.update({"_id":Meteor.userId()},{$set:{"services":{"facebook":user.services.facebook}}});
+    else
+      return user;
   }else{
     if(options.shopname != undefined)
       user.shopname = options.shopname;
@@ -29,10 +32,11 @@ Meteor.startup(function(){
   Accounts.loginServiceConfiguration.remove({
     service: "facebook"
   });
+  var appData = ApiKeys.findOne({"name":"facebook"});
   Accounts.loginServiceConfiguration.insert({
       service: "facebook",
-      appId: "235209203307648",
-      secret: "f63f6828077adcbc8d2bc6dea5df89e7"
+      appId: appData.appId,
+      secret: appData.appSecret
   });
 
   Accounts.loginServiceConfiguration.remove({
@@ -60,6 +64,9 @@ function findDistance(lat1,lng1,lat2,lng2){
 
 Meteor.publish("allUsers",function(){
   return Meteor.users.find({"usertype": "shop"},{fields:{"username":1,"productId":1,"shopname":1,"shopLatitude":1,"shopLongitude":1,"usertype":1}});
+});
+Meteor.publish("userData", function () {
+  return Meteor.users.find({_id: this.userId},{fields: {'usertype': 1,'shopFbPage':1}});
 });
 
 Meteor.publish("frameDetail",function(){
@@ -301,9 +308,6 @@ Meteor.publish("shopProductPrices",function(username){
   }
   else
     return null
-});
-Meteor.publish("userData", function () {
-  return Meteor.users.find({_id: this.userId},{fields: {'usertype': 1}});
 });
 Meteor.publish("featuredProducts",function(){
   var blah=[];
