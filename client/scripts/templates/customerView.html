@@ -94,18 +94,20 @@
       </div>
       {{/with}}
     {{/isolate}}
-  {{#each productOverview}} 
-    <p class="lead">{{overviewPara}}</p>
-    <ul>
-      {{#each overViewList}}
-      <li>{{this}}</li>
+    <div class='overview-content'>
+      {{#each productOverview}} 
+        <h4>{{overviewPara}}</h4>
+        <ul>
+          {{#each overViewList}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+        {{#each feature}}
+          <h4>{{name}}</h4>
+          <p>{{value}}</p>
+        {{/each}}
       {{/each}}
-    </ul>
-    {{#each feature}}
-      <h4>{{name}}</h4>
-      <p>{{value}}</p>
-    {{/each}}
-  {{/each}}
+    </div>
   </div>
 </template>
 <template name="shopModalSpec">
@@ -119,7 +121,7 @@
             </th><th></th>
             {{else}}  
             <tr>
-              <td><strong>{{name}}:</strong></td>
+              <td>{{name}}:</td>
               <td>{{value}}</td>
             </tr> 
             {{/labelCheck}}

@@ -154,7 +154,7 @@ Template.homeProducts.events = {
       Session.set('homeId',id[1]);
       $('.modal-wrapper').css('display','block');
       $("#homeModal").css("top",'0px').show().animate({
-        height: window.productHeight,
+        height: window.productHeight - 50,
         opacity: 1});
       $("#productList").animate({ scrollTop: ($(now).position().top+10)+"px" });
   }

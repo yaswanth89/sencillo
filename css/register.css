@@ -1,12 +1,53 @@
-#register-form-shop{
-	background-color: rgba(184,184,184,0.701961);
+.register-wrapper{
+	position: relative;
+	overflow: hidden;
+	height: 100%;
+}
+.register-map{
+	position: relative;
+	overflow: hidden;
+}
+#registerMap{
+	float: right;
+}
+#register-form-head{
 	font-weight: bold;
-	padding: 5px 30px;
+	text-align: center;
+	position: relative;
+	background-color: #ffc930;
+	padding: 4px;
+	margin: 0px;
+	font-size: 1.3em;
+	width: 38%;
+}
+#register-form-shop{
+	padding: 0;
 	font-size: 12px;
+	float: left;
+	width: 300px;
+	height: 100%;
+	text-align: center;
+	background-color: #e6e6e6;
+	margin: 0 0 0 23px;
+	border: 5px solid gray;
+	border-width:0 5px;
+	overflow-y: auto; 
 }
 
+#register-form-shop input, #register-form-shop textarea{
+	width: 84%;
+	margin: 10px 0;
+	border-radius: 2px;
+}
+#register-form-shop select{
+	width: 88.5%;
+	margin: 10px 0;
+	border-radius: 2px;
+}
 #register-form-shop #create-account{
-	margin: 8px 0;
+	float: right;
+	margin: 8px 10px 0 0;
+	max-width: 53%;
 }
 
 #register-wrapper{
