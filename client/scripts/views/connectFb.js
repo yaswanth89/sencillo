@@ -39,7 +39,12 @@ Template.connectFb.events = {
 		FB.login(function(response) {
 			console.log(response);
    			if (response.authResponse) {
-	    		console.log('Welcome!  Fetching your information.... ');
+	    		FB.ui({
+	    		  method: 'pagetab',
+	    		  display:'popup'
+	    		}, function(response){
+	    			console.log(response);
+	    		});
 			    FB.api('/me/accounts', function(response) {
 			    	$("#connectFbLogin").hide();
 		       		_.each(response.data,function(e){

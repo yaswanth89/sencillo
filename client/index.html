@@ -37,6 +37,33 @@
 				$("#alerter").fadeOut();
 			},5000);
 		}
+		function processAddress(a){
+			var rl = a.length;
+	      	for(var i=0;i<rl;i++){
+		        if(a[i].types[0]=="administrative_area_level_2")
+		        	var aal = a[i].short_name;
+		        if(a[i].types[0]=="locality")
+		          	var locality = a[i].short_name;
+		        if(a[i].types[0]=="sublocality"){
+		        	if(!sublocality)
+		        		var firstSublocality = a[i].short_name;
+		        	var sublocality = a[i].short_name;
+		        }
+		    }
+		    aal += ",";
+		   	locality += ",";
+		    sublocality += ",";
+		    firstSublocality += ",";
+		    if(aal == locality)
+		    	aal="";
+		    if(sublocality==locality)
+		    	locality="";
+		    if(firstSublocality==sublocality)
+		    	sublocality="";
+		    addressString = firstSublocality+sublocality+locality+aal;
+		    addressString = addressString.substr(0,addressString.length - 1);
+		    return addressString;
+		}
 	</script>
 	<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script>
 </head>

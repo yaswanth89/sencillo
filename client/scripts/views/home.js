@@ -20,7 +20,7 @@ this.Home = Backbone.View.extend({
         var center = new google.maps.places.Autocomplete(document.getElementById('defaultDistanceCenter'));
         console.log('crossed');
         center.setComponentRestrictions({country: 'IN'});
-        center.setTypes(['(regions)']);
+        center.setTypes(['geocode']);
         google.maps.event.addListener(center, 'place_changed', function(){
               var place = center.getPlace();
               console.log(place);
@@ -43,7 +43,7 @@ this.Home = Backbone.View.extend({
                   localStorage.sencilloLat = pos.coords.latitude;
                   localStorage.sencilloLng = pos.coords.longitude;
                   $.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+localStorage.sencilloLat+","+localStorage.sencilloLng+"&sensor=false",function(data){
-                    localStorage.sencilloPlaceName = data.results[0].address_components[0].short_name+','+data.results[0].address_components[1].short_name+','+data.results[0].address_components[2].short_name;
+                    localStorage.sencilloPlaceName = processAddress(data.results[0].address_components);
                     Session.set('homeDistanceCenter', {
                       'name': localStorage.sencilloPlaceName,
                         'latitude': localStorage.sencilloLat,
@@ -567,7 +567,7 @@ Template.homeView.rendered = function(){
   var center = new google.maps.places.Autocomplete(document.getElementById('homeDistanceCenter'));
   console.log('crossed');
   center.setComponentRestrictions({country: 'IN'});
-  center.setTypes(['(regions)']);
+  center.setTypes(['geocode']);
 
   google.maps.event.addListener(center, 'place_changed', function(){
       var place = center.getPlace();
@@ -576,8 +576,8 @@ Template.homeView.rendered = function(){
         return;
       localStorage.sencilloLat = place.geometry.location.lat();
       localStorage.sencilloLng = place.geometry.location.lng();
-      localStorage.sencilloPlaceName = place.address_components[0].short_name+','+place.address_components[1].short_name+','+place.address_components[2].short_name;
-      Session.set('homeDistanceCenter', {'name': place.address_components[0].short_name+','+place.address_components[1].short_name+','+place.address_components[2].short_name,'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
+      localStorage.sencilloPlaceName = processAddress(place.address_components);
+      Session.set('homeDistanceCenter', {'name': localStorage.sencilloPlaceName,'latitude': place.geometry.location.lat(),'longitude': place.geometry.location.lng()});
   });
 
   $('.change-center').click(function(){
