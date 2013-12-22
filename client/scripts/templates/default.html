@@ -1,6 +1,6 @@
 <template name="default">
 	<div id='default-wrapper'>
-		<div class="container" style="height: 100%;width:1100px;">
+		<div class="container" style="height: 100%;width:1300px;">
 			<div id="myCarousel" class="carousel slide">
 			  <ol class="carousel-indicators">
 			    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -13,8 +13,10 @@
 			  <a class="carousel-control left" href="#myCarousel" data-slide="prev"><img src="image/arrow.png" /></a>
 			  <a class="carousel-control right" href="#myCarousel" data-slide="next"><img src="image/arrow2.png" /></a>
 			</div>
-			{{> newArrivals}}
-			{{> trendingProducts}}
+			<div class='newtrend-wrapper'>
+				{{> newArrivals}}
+				{{> trendingProducts}}
+			</div>
 			{{> featuredProducts}}
 		</div>
 	</div>
@@ -22,13 +24,13 @@
 
 <template name='newArrivals'>
 	<div class='newArrivals'>
-
+		<div class='home-section-head'>NEW ARRIVALS</div>
 	</div>
 </template>
 
 <template name='trendingProducts'>
 	<div class='trendingProducts'>
-		
+		<div class='home-section-head'>TRENDING PRODUCTS</div>
 	</div>
 </template>
 

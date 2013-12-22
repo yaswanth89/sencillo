@@ -106,7 +106,6 @@
     {{#isolate}}
     {{#each product}}
       <div class="column" style="width:30%">
-        <p class="item-modal-brand">{{Brand}}</p>
         <div class="item-modal-rest">
           <p class="item-modal-name">{{ProductName}}</p>
           <p class="item-modal-model">{{ModelID}}</p>
@@ -154,18 +153,20 @@
 </template>
 <template name="homeModalOverview">
   <div class="tab-pane active" id="overview">
-  {{#each productOverview}} 
-    <p>{{overviewPara}}</p>
-    <ul style="list-style:circle">
-      {{#each overViewList}}
-      <li>{{this}}</li>
+    <div class='overview-content'>
+      {{#each productOverview}} 
+        <h4>{{overviewPara}}</h4>
+        <ul style="list-style:circle">
+          {{#each overViewList}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+        {{#each feature}}
+          <h4>{{name}}</h4>
+          <p>{{value}}</p>
+        {{/each}}
       {{/each}}
-    </ul>
-    {{#each feature}}
-      <h4>{{name}}</h4>
-      <p>{{value}}</p>
-    {{/each}}
-  {{/each}}
+    </div>
   </div>
 </template>
 <template name="homeModalSpec">
@@ -180,7 +181,7 @@
             </th><th></th>
             {{else}}  
             <tr>
-              <td><strong>{{name}}:</strong></td>
+              <td>{{name}}:</td>
               <td>{{value}}</td>
             </tr> 
             {{/labelCheck}}

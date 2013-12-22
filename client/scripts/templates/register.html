@@ -7,41 +7,23 @@
 <template name="shopRegister">
   <div id='register-wrapper'>
     <form id="register-form-shop" action="action" class="form-horizontal" role="form">
+      <div id='register-form-head'>REGISTER</div>
       <fieldset>
-        <div class='form-group'><label>User Name</label>
-       <input type="text" id="shop-username" class="form-control"/>
-     </div>
-        <div class='form-group'><label>Shop Name</label>
-       <input type="text" id="shop-shopname" />
-     </div>
-       <div class='form-group'><label>Password</label>
-       <input type="password" id="shop-password" />
-     </div>
-       <div class='form-group'><label>Postal Code</label>
-       <input type='text' id='shop-pincode' class='map-render'/>
-     </div>
-       <div class='form-group'><label>City</label>
-       <select id='shop-city' class='map-render'>
+       <input type="text" id="shop-username" class="form-control" placeholder="Username"/>
+       <input type="text" id="shop-shopname" placeholder="Name of the Shop"/>
+       <input type="password" id="shop-password" placeholder="Password"/>
+       <input type='text' id='shop-pincode' class='map-render' placeholder="Postal Code"/>
+       <select id='shop-city' class='map-render' placeholder="City">
         <option value='kolkata' selected>Kolkata</option>
        </select>
-       </div>
-       <div class='form-group'><label>Locality/Street Name</label>
-       <input type='text' id='shop-locality' class='map-render' />
-     </div>
-       <div class='form-group'><label>Landmark</label>
-       <input type='text' id='shop-landmark' class='map-render'/>
-     </div>
-       <div class='form-group'><label>Shop Address</label>
-       <textarea id='shop-shopaddress' class='map-render'></textarea>
-     </div>
-       <div class='form-group'><label>Contact Name</label>
-       <input type="text" id="shop-contactname" />
-     </div>
-       <div class='form-group'><label>Contact Number</label>
-       <input type="text" id="shop-contactnum" />
-     </div>
+       <input type='text' id='shop-locality' class='map-render' placeholder="Locality/Street Name"/>
+       <input type='text' id='shop-landmark' class='map-render' placeholder="Landmark"/>
+       <textarea id='shop-shopaddress' class='map-render' placeholder="Shop Address"></textarea>
+       <input type="text" id="shop-contactname" placeholder="Contact Name"/>
+       <input type="text" id="shop-contactnum" placeholder="Contact Number"/>
        <input type="submit" class='btn btn-primary' id="create-account" value="Create an Account" />
      </fieldset>
    </form>
+   <div id='register-map'></div>
   </div>
   </template>

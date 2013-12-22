@@ -54,18 +54,28 @@ var geocoder;
 Template.shopRegister.rendered = function(){
   console.log('rendered register!!');
   geocoder = new google.maps.Geocoder();
+  
+  var mapStyles = [
+    {"featureType":"landscape","stylers":[{"hue":"#F1FF00"},{"saturation":-27.4},{"lightness":9.4},{"gamma":1}]}
+    ,{"featureType":"road.highway","stylers":[{"hue":"#0099FF"},{"saturation":-20},{"lightness":36.4},{"gamma":1}]}
+    ,{"featureType":"road.arterial","stylers":[{"hue":"#00FF4F"},{"saturation":0},{"lightness":0},{"gamma":1}]}
+    ,{"featureType":"road.local","stylers":[{"hue":"#FFB300"},{"saturation":-38},{"lightness":11.2},{"gamma":1}]}
+    ,{"featureType":"water","stylers":[{"hue":"#00B6FF"},{"saturation":4.2},{"lightness":-10.4},{"gamma":1}]}
+    ,{"featureType":"poi","stylers":[{"hue":"#9FFF00"},{"saturation":0},{"lightness":0},{"gamma":1}]}];
+
   var mapOptions = {
     panControl: false,
     zoomControl: false,
-    scrollwheel: false
+    scrollwheel: false,
+    styles: mapStyles
   };
   if(document.getElementById('registerMap') != null)
     this.removeChild(document.getElementById('registerMap'));
   var regMap = document.createElement('div');
   regMap.id = 'registerMap';
-  regMap.style.width = '1370px';
+  regMap.style.width = '1030px';
   regMap.style.height = '583px';
-  document.getElementById('register-wrapper').appendChild(regMap);
+  document.getElementById('register-map').appendChild(regMap);
   map = new google.maps.Map(regMap, mapOptions);
   console.log(map);
   //map.panBy(-300,0);
@@ -75,16 +85,16 @@ Template.shopRegister.rendered = function(){
   landmarkBox.setComponentRestrictions({country: 'IN'});
   localityBox.setTypes(['geocode']);
 
-  var shopForm = document.getElementById('register-form-shop');
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
-  console.log('controls pushed');
-  shopForm.style.backgroundColor = 'rgba(184,184,184,0.701961)';
-  shopForm.style.fontWeight = 'bold';
-  shopForm.style.padding = '16px 30px'; 
-  shopForm.style.marginLeft = '30px';
-  shopForm.style.fontSize = '12px';
-  shopForm.style.overflow = 'auto';
-  shopForm.style.height = '94%';
+  // var shopForm = document.getElementById('register-form-shop');
+  // map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
+  // console.log('controls pushed');
+  // shopForm.style.backgroundColor = 'rgba(184,184,184,0.701961)';
+  // shopForm.style.fontWeight = 'bold';
+  // shopForm.style.padding = '16px 30px'; 
+  // shopForm.style.marginLeft = '30px';
+  // shopForm.style.fontSize = '12px';
+  // shopForm.style.overflow = 'auto';
+  // shopForm.style.height = '94%';
   //landmarkBox.setTypes(['establishment']);
   var myLatLng;
   myLatLng = new google.maps.LatLng(22.572646,88.36389500000001);
