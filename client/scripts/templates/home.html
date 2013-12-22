@@ -75,27 +75,36 @@
 <template name="homeProducts">
   <div class="products-list">
   {{#isolate}}
-   {{#stripes ProductArr}}
-     <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
-      <img class="item-image" src="{{this.Image.[0]}}"/>
-      <div class="item-desc">
-        <p class="item-name">{{this.ProductName}}</p>
-        <p class="item-model">{{this.ModelID}}</p>
-        <div class="item-price-brand">
-          {{#isolate}}
-          <span class="pull-left"><i class="fa fa-rupee"></i>{{this.leastPrice}}/-</span>
-          {{/isolate}}
-          <span class="pull-right"><img src="{{brandLogo this.Brand}}" style="height:24px" /></span>
-        </div>
+    {{#if loaded}}
+      {{#if ProductArr.length}}
+        {{#stripes ProductArr}}
+          <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
+            <img class="item-image" src="{{this.Image.[0]}}"/>
+            <div class="item-desc">
+              <p class="item-name">{{this.ProductName}}</p>
+              <p class="item-model">{{this.ModelID}}</p>
+              <div class="item-price-brand">
+                {{#isolate}}
+                  <span class="pull-left"><i class="fa fa-rupee"></i>{{this.leastPrice}}/-</span>
+                {{/isolate}}
+                <span class="pull-right"><img src="{{brandLogo this.Brand}}" style="height:24px" /></span>
+              </div>
+            </div>
+          </div>
+          {{#if this.odd}}
+            <div class="divider">
+            </div>
+          {{/if}}
+        {{/stripes}}
+      {{else}}
+        <i>No Products to display</i>
+      {{/if}}
+    {{else}}
+      <div class="loading">
+        <p><i class="fa fa-refresh fa-spin"></i> Loading</p>
       </div>
-     </div>
-     {{#if this.odd}}
-     <div class="divider">
-     </div>
-     {{/if}}
-   {{/stripes}}
+    {{/if}}
   {{/isolate}}
-   
   </div>
 </template>
 
@@ -154,40 +163,52 @@
 <template name="homeModalOverview">
   <div class="tab-pane active" id="overview">
     <div class='overview-content'>
-      {{#each productOverview}}
-        <h4>{{overviewPara}}</h4>
-        <ul style="list-style:circle">
-          {{#each overViewList}}
-          <li>{{this}}</li>
+      {{#if loaded}}
+        {{#each productOverview}}
+          <h4>{{overviewPara}}</h4>
+          <ul style="list-style:circle">
+            {{#each overViewList}}
+            <li>{{this}}</li>
+            {{/each}}
+          </ul>
+          {{#each feature}}
+            <h4>{{name}}</h4>
+            <p>{{value}}</p>
           {{/each}}
-        </ul>
-        {{#each feature}}
-          <h4>{{name}}</h4>
-          <p>{{value}}</p>
         {{/each}}
-      {{/each}}
+      {{else}}
+        <div class="loading">
+          <p><i class="fa fa-refresh fa-spin"></i> Loading</p>
+        </div>
+      {{/if}}
     </div>
   </div>
 </template>
 <template name="homeModalSpec">
   <div class="tab-pane" id="techSpec">
     <table class="table">
-    {{#each productSpec}}
-        <table class='table spec-section'>
-        {{#each this}}
-            {{#labelCheck name}}
-            <th>
-              {{value}}
-            </th><th></th>
-            {{else}}  
-            <tr>
-              <td>{{name}}:</td>
-              <td>{{value}}</td>
-            </tr> 
-            {{/labelCheck}}
+      {{#if loaded}}
+        {{#each productSpec}}
+            <table class='table spec-section'>
+            {{#each this}}
+                {{#labelCheck name}}
+                <th>
+                  {{value}}
+                </th><th></th>
+                {{else}}  
+                <tr>
+                  <td>{{name}}:</td>
+                  <td>{{value}}</td>
+                </tr> 
+                {{/labelCheck}}
+            {{/each}}
+            </table>
         {{/each}}
-        </table>
-    {{/each}}
+      {{else}}
+        <div class="loading">
+          <p><i class="fa fa-refresh fa-spin"></i> Loading</p>
+        </div>
+      {{/if}}
     </table>
   </div>
 </template>

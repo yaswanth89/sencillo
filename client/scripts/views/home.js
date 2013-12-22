@@ -79,7 +79,8 @@ this.Home = Backbone.View.extend({
     if(Session.get('priceRange') == undefined)
       Session.set('priceRange', []);
     Session.set('homeLimit',prod_inc);
-
+    Session.set('detail_loaded',false);
+    Session.set('homeProducts_loaded',false);
     return this.template = Meteor.render(function(){
       return Template.home();
     });
@@ -90,8 +91,13 @@ this.Home = Backbone.View.extend({
 	}
 });
 Deps.autorun(function(){
-    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'),Session.get('distanceFilter'),Session.get('homeDistanceCenter'),Session.get('priceRange'));
-    Meteor.subscribe('homeProductDetail',Session.get('homeId'));
+    Meteor.subscribe('homeProductList',Session.get('homeSub'),Session.get('homeLimit'),Session.get('distanceFilter'),Session.get('homeDistanceCenter'),Session.get('priceRange'),function(){
+      console.log("LOOK AT ME!!");
+      Session.set('homeProducts_loaded',true);
+    });
+    Meteor.subscribe('homeProductDetail',Session.get('homeId'),function(){
+      Session.set('detail_loaded', true); 
+    });
     Meteor.subscribe('homePrices',Session.get('homeId'));
     Meteor.subscribe('homeId');
     Meteor.subscribe('homeBrand', Session.get('homeSub'));
@@ -151,13 +157,17 @@ Template.homeProducts.events = {
       e.preventDefault();
       var now = e.currentTarget;
       var id = now.id.split('_');
-      Session.set('homeId',id[1]);
+      Session.set('homeId',id[1]); 
       $('.modal-wrapper').css('display','block');
       $("#homeModal").css("top",'0px').show().animate({
         height: window.productHeight - 50,
         opacity: 1});
       $("#productList").animate({ scrollTop: ($(now).position().top+10)+"px" });
   }
+}
+
+Template.homeProducts.loaded = function(){
+  return Session.get("homeProducts_loaded");
 }
 
 var map;
@@ -452,8 +462,10 @@ Template.homeModal.product = function(){
 Template.homeModalOverview.productOverview = function(){
   return Products.find({_id:Session.get('homeId')},{fields:{overViewList:1,overviewPara:1,feature:1}}).fetch();
 };
-
-
+Template.homeModalOverview.loaded = function(){
+  return Session.get('detail_loaded'); 
+}
+Template.homeModalSpec.loaded = Template.homeModalOverview.loaded;
 Template.homeModalSpec.productSpec = function(){
   var res = Products.find({_id:Session.get('homeId')},{fields:{spec:1}});
   if(res.count() > 0)
@@ -511,6 +523,7 @@ Template.homeModalAvailble.shopList = function(){
 Template.homeModal.events = {
   "click a#closeModal":function(e,t){
     e.preventDefault();
+    Session.set('detail_loaded', false);
     $("#homeModal").animate({
         height: 0,
         opacity: 0},function(){
@@ -667,7 +680,6 @@ function addLeastPrice(x){
       z = Prices.find({shopId:{$in:window.shopList},productId:e._id,price:{$gte: Session.get('homePriceRange')[0], $lte: Session.get('homePriceRange')[1]}},{fields:{"price":1},sort:{"price":1},limit:1});
     else
       z = Prices.find({shopId:{$in:window.shopList},productId:e._id,price:{$gt:0}},{fields:{"price":1},sort:{"price":1},limit:1});
-    console.log('asdf '+z.count());
     if(z.count()>0){
       console.log('in the if');
       var pr = z.fetch()[0].price;
@@ -685,5 +697,3 @@ function addLeastPrice(x){
   console.log(ret);
   return ret;
 }
-
-

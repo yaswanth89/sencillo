@@ -197,14 +197,23 @@ Meteor.publish('homeProductList',function(sub,limit,distance,loc,priceRange){
   if(!distance)
     distance = 5;
   var a = Prices.find({'productId':{$in: blah3}, 'shopId': {$in: shopList}, 'price':{$gt: 0}},{fields: {'price': 1}, sort: {price:1}}).fetch();
-  if(a)
+  if(a.length)
     this.added('price_range','1234567',{ 'minPrice': a[0].price, 'maxPrice': a[a.length-1].price });
-  if(blah2.length>0)
+  if(blah2.length>0){
+    this.ready();
     return [Products.find({_id:{$in:blah2}},{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'Image':1}}),Prices.find({_id:{$in:blah}},{fields:{"shopId":1,"productId":1,"price":1}})];
+  }
+  else{
+    this.ready();
+    return [];
+  }
 });
 
 Meteor.publish('homeProductDetail',function(id){
-  return Products.find({_id:id}, {fields:{'Sub':0,'Brand':0,'ProductName':0,'ModelID':0,"Image":0,'searchIndex':0}});
+  if(id){
+    this.ready();
+    return Products.find({_id:id}, {fields:{'Sub':0,'Brand':0,'ProductName':0,'ModelID':0,"Image":0,'searchIndex':0}});
+  }
 });
 
 Meteor.publish("shopDetail",function(name){
