@@ -63,5 +63,4 @@ Handlebars.registerHelper("stripes", function(array,options) {
   else {
     return elseFn();
   }
-
 });

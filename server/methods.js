@@ -75,11 +75,24 @@ Meteor.methods({
 		return type;
 	},
 	editProducts: function(set){
+		var Fbpost = "";
 		_.each(set,function(e){
-			// console.log(e.productId);
-			// console.log(Meteor.userId());
+			if(e.inStock){
+				var addedProduct = Products.findOne({"_id":e.productId},{fields:{"ProductName":1,"ModelID":1}});
+				Fbpost += addedProduct.ProductName+" "+ addedProduct.ModelID+" is now avaible at Rs."+e.price+"/-\n";
+			}
 			Prices.upsert({"productId":e.productId,"shopId":Meteor.userId()},{$set:{'price': e.price,'inStock': e.inStock,'onDisplay': e.onDisplay,'Featured':e.Featured}});
 		});
+		if(Meteor.user().shopFbPage){
+			access = Meteor.users.findOne({"_id":Meteor.userId()},{fields:{"fbAccessToken":1}});
+			var appData = ApiKeys.findOne({"name":"facebook"});
+			var url = 'https://graph.facebook.com/'+Meteor.user().shopFbPage+'/feed?'+encodeURI('access_token='+access.fbAccessToken+'&message='+Fbpost);
+			console.log(url);
+			HTTP.post(url, function(er,result){
+				console.log(er);
+				console.log(result);
+			});
+		}
 	},
 	editDetails: function(details){
 		Meteor.users.update({'_id': Meteor.userId()}, {$set : details});

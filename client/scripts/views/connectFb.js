@@ -31,7 +31,7 @@ Template.connectFb.rendered = function(){
 		});
 	}
 	else{
-		console.log(Meteor.user())
+		console.log(Meteor.user());
 	}
 }
 Template.connectFb.events = {
@@ -43,7 +43,7 @@ Template.connectFb.events = {
 			    FB.api('/me/accounts', function(response) {
 			    	$("#connectFbLogin").hide();
 		       		_.each(response.data,function(e){
-		       			$("#connectFbPagesList").append('<li><input type="radio" name="shopPage" value="'+e.id +' '+ e.access_token +'"/ >'+e.name+'</li>')
+		       			$("#connectFbPagesList").append('<li><input type="radio" name="shopPage" value="'+e.id +' '+ e.access_token +'"/ ><span class="pageName">'+e.name+'</span></li>')
 		       		});
 		       		$("#connectFbPages").show();
     			});
@@ -56,8 +56,11 @@ Template.connectFb.events = {
 		e.preventDefault();
 		var data = $("#chooseFbPage").serializeArray();
 		Meteor.call("connectFb",data,function(err,response){
-			if(!err)
-				console.log('connected!');
+			if(!err){
+				$("#connectFbPages").hide();
+				var data = $("#connectFbPagesList input:checked")[0].nextElementSibling.innerHTML;
+				$("#connectedPage").html("Connected to "+data);
+			}
 		});
 	}
 }

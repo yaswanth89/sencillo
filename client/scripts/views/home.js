@@ -450,7 +450,7 @@ Template.homeModal.product = function(){
 
 
 Template.homeModalOverview.productOverview = function(){
-  return Products.find({_id:Session.get('homeId')},{fields:{overViewList:1,overviewPara:1,feature:1}});
+  return Products.find({_id:Session.get('homeId')},{fields:{overViewList:1,overviewPara:1,feature:1}}).fetch();
 };
 
 
