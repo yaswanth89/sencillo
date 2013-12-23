@@ -1,5 +1,5 @@
 <template name="shopEdit">
-  <div class="container" style="height:100%" >
+  <div class="container" style="height:100%;width:1235px;" >
     <div class="row" style="height:100%" >
     {{> shopEditCategories}}
     <div id="shopEdit" class="span10" style="padding:0">
@@ -22,7 +22,7 @@
           <td>
             <div class="input-prepend">
               <span class="add-on"><i class="fa fa-rupee fa-fw"></i></span>
-              <input class="span1" id="price_{{_id}}" type="text" value="{{price}}">
+              <input class="span1 edit-price" id="price_{{_id}}" type="text" value="{{price}}" >
             </div>
           </td>
           <td>

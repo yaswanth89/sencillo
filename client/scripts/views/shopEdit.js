@@ -59,7 +59,7 @@ Template.shopEdit.events={
       }
       productSet.push({
         'productId': id,
-        'price': price,
+        'price': price.replace(/,/g, ''),
         'inStock': instock,
         'onDisplay':onDisplay,
         'Featured':featured
@@ -103,7 +103,7 @@ Template.shopEdit.allProducts = function(){
           if(pricetag)
             allproducts.push({
               "_id":e._id,
-              'price': pricetag.price,
+              'price': commaNumber(pricetag.price),
               'inStock': pricetag.inStock,
               'onDisplay': pricetag.onDisplay,
               'Brand': e.Brand,
@@ -127,6 +127,18 @@ Template.shopEdit.allProducts = function(){
   });
   return allproducts;
 };
+Template.shopEdit.rendered = function(){
+  $('input.edit-price').keyup(function(event){
+      if(event.which >= 37 && event.which <= 40){
+          event.preventDefault();
+          return;
+      }
+      console.log('price keypress!!'+event.which);
+      var num = $(this).val();
+      $(this).val(commaNumber(num));
+  });
+};
+
 Template.shopEditCategories.cat = function(){
   return Brands.find({"shopid":Meteor.user().username});
 }
