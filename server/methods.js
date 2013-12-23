@@ -51,6 +51,8 @@ Meteor.methods({
 	},
 	addProduct: function(id){
 		var current = [];
+		product = Products.findOne({"_id":id},{"fields":{"Sub":1,"Brand":1}});
+		Brands.upsert({"shopid":Meteor.user().username,"Sub":product.Sub},{$addToSet:{"list":product.Brand}});
 		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'productId':id}});
 	},
 	readProducts: function(username){
@@ -87,10 +89,8 @@ Meteor.methods({
 			access = Meteor.users.findOne({"_id":Meteor.userId()},{fields:{"fbAccessToken":1}});
 			var appData = ApiKeys.findOne({"name":"facebook"});
 			var url = 'https://graph.facebook.com/'+Meteor.user().shopFbPage+'/feed?'+encodeURI('access_token='+access.fbAccessToken+'&message='+Fbpost);
-			console.log(url);
 			HTTP.post(url, function(er,result){
-				console.log(er);
-				console.log(result);
+				console.log("result");
 			});
 		}
 	},
@@ -98,7 +98,6 @@ Meteor.methods({
 		Meteor.users.update({'_id': Meteor.userId()}, {$set : details});
 	},
 	categories:function(){
-		console.log("calling FrameDetail");
 		return FrameDetail.find({});
 		
 	},
@@ -115,7 +114,6 @@ Meteor.methods({
 	},
 	findProductfromId:function(id){
 		var ret = Products.findOne({'_id': id});
-		console.log(ret);
 		return ret;
 	},
 	findBrandProducts:function(){
