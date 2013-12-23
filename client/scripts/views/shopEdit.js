@@ -115,7 +115,7 @@ Template.shopEdit.allProducts = function(){
             allproducts.push({
               "_id":e._id,
               'price': '',
-              'inStock': 0,
+              'inStock': 1,
               'onDisplay': 0,
               'Featured':0,
               'Brand': e.Brand,
