@@ -26,24 +26,22 @@ Template.register.events({
       var landmark = t.find('#shop-landmark').value;
       var city = t.find('#shop-city').value;
       var address = t.find('#shop-shopaddress').value;
-      var contactname = t.find('#shop-contactname').value;
       var contactnum = t.find('#shop-contactnum').value;
-      if (!(username && shopname && password && pincode && locality && landmark && city && address && contactname && contactnum)){
+      if (!(username && shopname && password && pincode && locality && landmark && city && address && contactnum)){
         displayError('Please fill all the fields!');
         return;
       }
       console.log('all values OK');
       var formatted_address = address+','+locality.split(',')[0]+','+locality.split(',')[1]+','+landmark.split(',')[0]+','+city+','+pincode;
-      $('#informer').html('Your address is going to be '+formatted_address).fadeIn();
-      setTimeout(function(){ $('#informer').fadeOut(); },3000);
+      displaySuccess('Your address is going to be '+formatted_address);
       if(Session.get('shopLocation') != undefined)
-        Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked',pincode: pincode,locality: locality,landmark: landmark,city: city ,address: address, contactname: contactname, contactnum: contactnum,shopLatitude:Session.get('shopLocation').lat, shopLongitude:Session.get('shopLocation').lng, usertype: 'shop'}, function(err){
+        Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked',pincode: pincode,locality: locality,landmark: landmark,city: city ,address: address,formatted_address: formatted_address,contactnum: contactnum,shopLatitude:Session.get('shopLocation').lat, shopLongitude:Session.get('shopLocation').lng, usertype: 'shop'}, function(err){
               App.router.navigate('shopAdd',{trigger:true});
               // Success. Account has been created and the user
               // has logged in successfully.
           });
       else
-        alert('Please Choose Your Location on the Map');
+        displayError('Please Choose Your Location on the Map');
       return false;
     }
  });

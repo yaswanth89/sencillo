@@ -217,7 +217,7 @@ Meteor.publish('homeProductDetail',function(id){
 });
 
 Meteor.publish("shopDetail",function(name){
-  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"address":1,"contactnum":1,'shopLatitude':1,'shopLongitude':1,'emi':1,'payments':1,'openHour':1,'closeHour':1}});
+  return Meteor.users.find({"username": name,"usertype":"shop"},{fields:{"formatted_address":1,"contactnum":1,'shopLatitude':1,'shopLongitude':1,'emi':1,'payments':1,'openHour':1,'closeHour':1}});
 });
 
 Meteor.publish("searchQuery",function(query,sub,limit,distance,loc,priceRange){
