@@ -139,7 +139,13 @@ Template.shopEdit.rendered = function(){
 };
 
 Template.shopEditCategories.cat = function(){
-  return Brands.find({"shopid":Meteor.user().username});
+  if(Meteor.user())
+    if(Brands.find({"shopid":Meteor.user().username}).count() > 0)
+      return Brands.find({"shopid":Meteor.user().username});
+    else if(Brands.find({"shopid":Meteor.userId()}).count() > 0){
+      console.log(Meteor.userId());
+      return Brands.find({"shopid":Meteor.userId()});
+    }
 }
 Template.shopEditCategories.events={
   "click .filterLinks":function(e){

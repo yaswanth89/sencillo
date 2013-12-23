@@ -337,8 +337,10 @@ Meteor.publish("FrameAll", function(){
 
 Meteor.publish("shopCategories",function(){
   if(this.userId){
-    var username = Meteor.users.findOne({"_id":this.userId},{fields:{"username":1}}).username;
-    return Brands.find({"shopid":username},{fields:{"list":1, "shopid":1, "Sub":1}});
+    var doc = Meteor.users.findOne({"_id":this.userId},{fields:{"username":1}});
+    var username = doc.username;
+    console.log(Brands.find({"shopid":this.userId},{fields:{"list":1, "shopid":1, "Sub":1}}).fetch());
+    return ((Brands.find({"shopid":username},{fields:{"list":1, "shopid":1, "Sub":1}}).count() > 0) ? Brands.find({"shopid":username},{fields:{"list":1, "shopid":1, "Sub":1}}) : Brands.find({"shopid":this.userId},{fields:{"list":1, "shopid":1, "Sub":1}}));
   }
 });
 

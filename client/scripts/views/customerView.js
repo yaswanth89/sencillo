@@ -57,8 +57,9 @@ Template.mapCanvas.latlng = function(){
 	    	console.log(loop);
 	    	shop = loop;
 	  	});
+    console.log(shop);
 	  	if(shop != undefined)
-			return shop.shopLatitude+','+shop.shopLongitude; 
+			  return shop.shopLatitude+','+shop.shopLongitude; 
 	}
 }
 
@@ -351,7 +352,6 @@ Template.shopModalOverview.product = function(){
     var price = Prices.find({'productId':Session.get('shopId'), 'shopId': shop},{fields: {'price':1}}).fetch()[0].price;
     var prod = Products.find({_id:Session.get('shopId')}).fetch()[0];
     prod.price = price;
-    Session.set('shopSubFilter',prod.Sub);
     return prod;
   }
 };
@@ -450,6 +450,10 @@ Template.ShopProducts.rendered = function(){
         height: '580px',
         opacity: 1});
 		Session.set('shopId',window.shopProductId);
+    var prod = Products.find({_id:window.shopProductId},{fields: {'Sub':1}});
+    if(prod.count() > 0)
+      Session.set('shopSubFilter',prod.fetch()[0].Sub);
+
     Session.set('featured',false);
 		window.shopProductId = undefined;
 	}

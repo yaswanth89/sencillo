@@ -160,7 +160,7 @@ Template.homeProducts.events = {
       Session.set('homeId',id[1]); 
       $('.modal-wrapper').css('display','block');
       $("#homeModal").css("top",'0px').show().animate({
-        height: window.productHeight - 50,
+        height: window.productHeight-60,
         opacity: 1});
       $("#productList").animate({ scrollTop: ($(now).position().top+10)+"px" });
   }
@@ -200,7 +200,7 @@ function mapLabel(opt_options) {
 
   // Label specific
   var span = this.span_ = document.createElement('span');
-  span.style.cssText = 'position: relative; left: 0%; top: 4px; ' +
+  span.style.cssText = 'position: relative; left: 0%; top: 0px; ' +
   'white-space: nowrap; ' +
   'padding: 4px; background-color: #ffc930; text-transform:capitalize;';
 
@@ -450,7 +450,6 @@ function mapLabel(opt_options) {
     var markerOptions = {
         position: location,
         map: map, 
-        title: title,
         draggable: draggable
     };
     if(iconurl != undefined)
@@ -625,7 +624,7 @@ Template.homeProducts.rendered = function(){
       Session.set("homeId",window.homeProductId);
       $('.modal-wrapper').css('display','block');
       $("#homeModal").css("top",'0px').show().animate({
-        height: window.productHeight - 100,
+        height: window.productHeight - 60,
         opacity: 1});
       window.homeProductId = undefined;
     }

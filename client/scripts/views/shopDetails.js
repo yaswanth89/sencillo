@@ -62,8 +62,6 @@ Template.shopDetails.events = {
 				closeHour = el.value;
 		});
 		
-		if(Session.get('selected') == undefined)
-			Session.set('selected', {'lat': Session.get('user').shopLatitude, 'lng': Session.get('user').shopLongitude });
 		var details = {
 			'shopname': t.find('#edit-shopname').value,
 			'address': t.find('#edit-address').value,
@@ -72,21 +70,20 @@ Template.shopDetails.events = {
 			'city': t.find('#edit-city').value,
 			'pincode': t.find('#edit-pincode').value,
 			'contactnum': t.find('#edit-contactnum').value,
-			'shopLatitude': Session.get('selected').lat,
-			'shopLongitude': Session.get('selected').lng,
 			"emi":emi,
 			"exchange": exchange,
 			"payments":{'debit':debit,'credit':credit,'cheque':cheque},
 			"openHour":openHour,
 			"closeHour":closeHour
 		};
+		if(Session.get('selected') != undefined){
+			details.shopLatitude = Session.get('selected').lat;
+			details.shopLongitude = Session.get('selected').lng;
+		}
 		var formatted_address = details.address+','+details.locality.split(',').slice(0,-3).join(',')+', Near '+details.landmark.split(',')[0]+','+details.city+','+details.pincode;
 		details.formatted_address = formatted_address;
-		
-	    $('#informer').html('Your address is going to be '+formatted_address);
-	    setTimeout(function(){ $('#informer').fadeOut(); },3000);
 
-		Meteor.call('editDetails', details,function(err){ if(err) alert('Sorry..could not edit!!'); });
+		Meteor.call('editDetails', details,function(err){ if(err) displayError('Sorry..could not edit!!'); else displaySuccess('Your details are saved!'); });
 		return false;
 	}
 };
@@ -126,13 +123,15 @@ Template.shopDetails.events = {
 			//map.setCenter(b.getCenter());
 		});
 
-		var shopForm = document.getElementById('edit-form-shop');
-		map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
-		console.log('controls pushed');
-		shopForm.style.backgroundColor = 'rgba(255,255,255,0.7)';
-		shopForm.style.fontWeight = 'bold';
-		shopForm.style.padding = '10px 30px';
-		shopForm.style.marginLeft = '30px';
+		// var shopForm = document.getElementById('edit-form-shop');
+		// map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
+		// console.log('controls pushed');
+		// shopForm.style.backgroundColor = 'rgba(255,255,255,0.7)';
+		// shopForm.style.fontWeight = 'bold';
+		// shopForm.style.padding = '10px 30px';
+		// shopForm.style.marginLeft = '30px';
+		// shopForm.style.overflow = 'auto';
+		// shopForm.style.height = '100%';
 
 		$('#edit-pincode').blur(function(){
 		    $.get('http://maps.googleapis.com/maps/api/geocode/json', {'address':$(this).val()+'+india', 'sensor':'true'},function(data){
@@ -172,10 +171,11 @@ Template.shopDetails.events = {
 		      map: map,
 		      visible: true,
 		      draggable: true,
-		      position: place.geometry.location
+		      position: place.geometry.location,
+		      crossOnDrag: false
 		    });
 
-		    Session.set('selected',place.geometry.location);
+		    Session.set('selected',{'lat':place.geometry.location.nb, 'lng':place.geometry.location.ob});
 		  });
 
 		google.maps.event.addListener(landmarkBox, 'place_changed', function(){
@@ -205,7 +205,7 @@ Template.shopDetails.events = {
 		      crossOnDrag: false
 		    });
 
-		    Session.set('selected',place.geometry.location);
+		    Session.set('selected',{'lat':place.geometry.location.nb, 'lng':place.geometry.location.ob});
 		  });
 
 		  google.maps.event.addListener(marker, 'dragend',function(e){

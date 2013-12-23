@@ -1,5 +1,5 @@
 <template name="shopDetails">
-	<div class='container' style='overflow:auto;width:100%;height:100%;'>
+	<div class='container' style='overflow:hidden;width:100%;height:100%;'>
 		<div id="editShopInfo">
 		{{#with details}}
 			<form id='edit-form-shop' class="form-horizontal">
@@ -10,9 +10,15 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">Shop Address</label>
+					<label class="control-label">Postal Code</label>
 					<div class="controls">
-						<textarea id='edit-address' name='edit-address'>{{address}}</textarea>
+						<input type='text' id='edit-pincode' name='edit-pincode' value='{{pincode}}'/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">City</label>
+					<div class="controls">
+						<select id='edit-city' name='edit-city'><option value='Kolkata' selected>Kolkata</option></select>
 					</div>
 				</div>
 				<div class='control-group'>
@@ -28,15 +34,9 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">City</label>
+					<label class="control-label">Shop Address</label>
 					<div class="controls">
-						<select id='edit-city' name='edit-city'><option value='Kolkata' selected>Kolkata</option></select>
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label">Postal Code</label>
-					<div class="controls">
-						<input type='text' id='edit-pincode' name='edit-pincode' value='{{pincode}}'/>
+						<textarea id='edit-address' name='edit-address'>{{address}}</textarea>
 					</div>
 				</div>
 				<div class="control-group">
@@ -85,5 +85,5 @@
 </template>
 
 <template name='mapTemplate'>
-<div id="googleMap" style="width:1370px;height:700px;"></div>
+<div id="googleMap" style="width:1370px;height:588px;"></div>
 </template>
