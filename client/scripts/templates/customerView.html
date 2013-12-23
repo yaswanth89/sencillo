@@ -253,7 +253,9 @@
        <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
         <img class="item-image" src="{{this.Image.[0]}}"/>
         <div class="item-desc">
-          <p class="item-name">{{this.ProductName}} {{this.ModelID}}</p>
+          <div class='ellipsis'><div>
+            <p class="item-name">{{this.ProductName}} {{this.ModelID}}</p>
+          </div></div>
           <div class="item-price-brand">
             <span class="pull-left"><i class="fa fa-rupee"></i>{{this.price}}/-</span>
             <span class="pull-right"><img  src="{{brandLogo this.Brand}}" style="height:24px" /></span>

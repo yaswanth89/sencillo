@@ -190,9 +190,9 @@ function mapLabel(opt_options) {
 
   // Label specific
   var span = this.span_ = document.createElement('span');
-  span.style.cssText = 'position: relative; left: -50%; top: -8px; ' +
+  span.style.cssText = 'position: relative; left: 0%; top: 4px; ' +
   'white-space: nowrap; ' +
-  'padding: 4px; background-color: #E67914; text-transform:capitalize;';
+  'padding: 4px; background-color: #ffc930; text-transform:capitalize;';
 
 
   var div = this.div_ = document.createElement('div');
@@ -300,7 +300,8 @@ function mapLabel(opt_options) {
   var mapProp = {
     center: myLatLng,
     zoom:6,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    minZoom: 12
   };
   if(document.getElementById('googleMapView') != null)
     document.getElementById('homeMap').removeChild(document.getElementById('googleMapView'));
@@ -329,7 +330,17 @@ function mapLabel(opt_options) {
           if(Prices.find({'productId':productId, 'price': {$gt: 0}, 'shopId': obj._id},{fields: {'_id':1}}).count() && findDistance(center.lat(),center.lng(),obj.shopLatitude,obj.shopLongitude) < radius/1000){
             shopsWithin.push(obj);
             console.log(obj);
-            placeCustomMarker(new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.usertype, obj.shopname, 'cv/'+obj.username+'/'+productId, map, 13, false);
+            var shopMarker = placeMarker(map, 'image/mapicon.png', new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), obj.shopname,'/cv/'+obj.username+'/'+productId, 13,false, false);
+            var price = Prices.find({'productId':productId, 'price': {$gt: 0}, 'shopId': obj._id},{fields: {'price':1}}).fetch()[0].price;
+            var shopInfo = placeCustomMarker(map, new google.maps.LatLng(obj.shopLatitude,obj.shopLongitude), '', obj.shopname+'&nbsp;&nbsp;&nbsp;Rs.'+price, '/cv/'+obj.username+'/'+productId, false);
+            google.maps.event.addListener(shopMarker, 'mouseover', function(e){
+              console.log(shopInfo);
+              shopInfo.set('visible',true);
+            }); 
+            google.maps.event.addListener(shopMarker, 'mouseout', function(e){
+              console.log('left the marker!!!');
+              shopInfo.set('visible',false);
+            });
           }
     });
   }
@@ -348,22 +359,30 @@ function mapLabel(opt_options) {
   };
 
   ProximityCircle = new google.maps.Circle(shopProximity);
-  var circleCenter = placeMarker(ProximityCircle.getCenter(), 'Drag to Change Center', map, 13, true, false);
+  //var circleCenter = placeMarker(map, undefined, ProximityCircle.getCenter(), 'Drag to Change Center', 13, true, false);
 
-  google.maps.event.addListener(circleCenter, 'dragend', function(event){
-    deleteCustomMarkers();
+  /*google.maps.event.addListener(circleCenter, 'dragend', function(event){
+    deleteMarkers();
     ProximityCircle.setCenter(circleCenter.getPosition());
+    map.fitBounds(ProximityCircle.getBounds());
+    findShopsWithin(ProximityCircle.getCenter(), ProximityCircle.getRadius(), Session.get('homeId'));
+  });*/
+  
+  
+  google.maps.event.addListener(ProximityCircle, 'radius_changed', function(event) {
+    deleteMarkers();
+    map.fitBounds(ProximityCircle.getBounds());
+    //console.log(ProximityCircle.getCenter());
     findShopsWithin(ProximityCircle.getCenter(), ProximityCircle.getRadius(), Session.get('homeId'));
   });
-  
-  
-    google.maps.event.addListener(ProximityCircle, 'radius_changed', function(event) {
-      deleteCustomMarkers();
-      //console.log(ProximityCircle.getCenter());
+  google.maps.event.addListener(ProximityCircle, 'center_changed', function(event){
+    deleteMarkers();
+    map.fitBounds(ProximityCircle.getBounds());
     findShopsWithin(ProximityCircle.getCenter(), ProximityCircle.getRadius(), Session.get('homeId'));
   });
   google.maps.event.addListener(ProximityCircle, 'dragend', function(event) {
-    deleteCustomMarkers();
+    deleteMarkers();
+    map.fitBounds(ProximityCircle.getBounds());
       //console.log(ProximityCircle.getCenter());
     setTimeout(findShopsWithin(ProximityCircle.getCenter(), ProximityCircle.getRadius()), 1000, Session.get('homeId'));
   });
@@ -380,26 +399,26 @@ function mapLabel(opt_options) {
       placeMarker(hereLatLng, map, map.getZoom());
     });*/
 
-  function placeCustomMarker(location, title, content, link, map, zoom, clean){
+  function placeCustomMarker(map, location, title, content, link, clean){
     if(clean)
       deleteCustomMarkers();
 
     var label = new mapLabel({
       map:map,
       position: location,
-      text: title,
+      text: content,
       zIndex: 3,
-      visible: true,
+      visible: false,
       clickable: true
     });
     console.log(label);
 
-    google.maps.event.addListener(label, 'mouseover', function(){
+    /*google.maps.event.addListener(label, 'mouseover', function(){
       label.set('text', title+' '+content );
     });
     google.maps.event.addListener(label, 'mouseout', function(){
       label.set('text', title);
-    });
+    });*/
     google.maps.event.addListener(label, 'click', function(){
       App.router.navigate(link, {trigger: true});
     });
@@ -408,6 +427,7 @@ function mapLabel(opt_options) {
     }catch(e){
       alert(e);
     }
+    return label;
   }
   function deleteCustomMarkers(){
     for(var i=0; i<labels.length; i++){
@@ -416,19 +436,26 @@ function mapLabel(opt_options) {
       labels = [];
   }
 
-  function placeMarker(location, title ,map, zoom, draggable, clean) {
-      marker = new google.maps.Marker({
+  function placeMarker(map, iconurl, location, title, link, zoom, draggable, clean) {
+    var markerOptions = {
         position: location,
         map: map, 
         title: title,
         draggable: draggable
-    });
+    };
+    if(iconurl != undefined)
+      markerOptions.icon = iconurl;
+    marker = new google.maps.Marker(markerOptions);
     console.log('zooming to '+zoom);
     if(clean)
       deleteMarkers();
     markers.push(marker);
     if(zoom != undefined)
       map.setZoom(zoom);
+    google.maps.event.addListener(marker, 'click', function(event){
+      App.router.navigate(link,{trigger: true});
+    });
+
     return marker;
   }
   function deleteMarkers(){
@@ -639,7 +666,7 @@ $(function(){
     Session.set('homeBrand',brandSel);
   });
 
-  $('#homeModal .column img').live('click',function(){
+  $('#homeModal .column img.galleryImage').live('click',function(){
     var src = $(this).attr('src');
     var html = "<img src='"+src+"'/>";
     $('div#imageModal').html(html);

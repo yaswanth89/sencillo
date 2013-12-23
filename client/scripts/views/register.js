@@ -73,12 +73,14 @@ Template.shopRegister.rendered = function(){
     this.removeChild(document.getElementById('registerMap'));
   var regMap = document.createElement('div');
   regMap.id = 'registerMap';
-  regMap.style.width = '1030px';
+  regMap.style.width = '1363px';
   regMap.style.height = '583px';
   document.getElementById('register-map').appendChild(regMap);
   map = new google.maps.Map(regMap, mapOptions);
   console.log(map);
-  //map.panBy(-300,0);
+  try{
+    map.panBy(-300,0);
+  }catch(e){console.log(e);}
   var localityBox = new google.maps.places.Autocomplete(document.getElementById('shop-locality'));
   var landmarkBox = new google.maps.places.Autocomplete(document.getElementById('shop-landmark'));
   localityBox.setComponentRestrictions({country: 'IN'});
@@ -104,17 +106,19 @@ Template.shopRegister.rendered = function(){
   var b;
 
   $('#shop-pincode').blur(function(){
-    $.get('http://maps.googleapis.com/maps/api/geocode/json', {'address':$(this).val()+'+india', 'sensor':'true'},function(data){
-      var bounds = data.results[0].geometry.bounds;
-      var ne = new google.maps.LatLng(bounds.northeast.lat, bounds.northeast.lng);
-      var sw = new google.maps.LatLng(bounds.southwest.lat, bounds.southwest.lng);
-      b = new google.maps.LatLngBounds(sw, ne);
-      map.fitBounds(b);
-      console.log('midway!');
-      localityBox.setBounds(b);
-      landmarkBox.setBounds(b);
-      console.log('bounded!');
-    });
+    if($(this).val())
+      $.get('http://maps.googleapis.com/maps/api/geocode/json', {'address':$(this).val()+'+india', 'sensor':'true'},function(data){
+        var bounds = data.results[0].geometry.bounds;
+        var ne = new google.maps.LatLng(bounds.northeast.lat, bounds.northeast.lng);
+        var sw = new google.maps.LatLng(bounds.southwest.lat, bounds.southwest.lng);
+        b = new google.maps.LatLngBounds(sw, ne);
+        map.fitBounds(b);
+        map.panBy(-300,0);
+        console.log('midway!');
+        localityBox.setBounds(b);
+        landmarkBox.setBounds(b);
+        console.log('bounded!');
+      });
   });
   
   var marker;

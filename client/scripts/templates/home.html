@@ -79,7 +79,9 @@
      <div class="show-product" id="product_{{_id}}" style="cursor:pointer">
       <img class="item-image" src="{{this.Image.[0]}}"/>
       <div class="item-desc">
-        <p class="item-name">{{this.ProductName}}</p>
+        <div class='ellipsis'><div>
+          <p class="item-name">{{this.ProductName}}</p>
+        </div></div>
         <p class="item-model">{{this.ModelID}}</p>
         <div class="item-price-brand">
           {{#isolate}}

@@ -1,5 +1,5 @@
 .register-wrapper{
-	position: relative;
+	position: absolute;
 	overflow: hidden;
 	height: 100%;
 }
@@ -15,37 +15,62 @@
 	text-align: center;
 	position: relative;
 	background-color: #ffc930;
-	padding: 4px;
+	padding: 6px;
 	margin: 0px;
 	font-size: 1.3em;
-	width: 38%;
+	width: 102%;
+	margin-left: -9px;
+	font-family: Armata;
+	letter-spacing: 2px;
 }
 #register-form-shop{
-	padding: 0;
+	padding: 0 9px;
 	font-size: 12px;
-	float: left;
-	width: 300px;
+	width: 507px;
 	height: 100%;
-	text-align: center;
-	background-color: #e6e6e6;
+	background-color: rgba(0,0,0,0.3);
 	margin: 0 0 0 23px;
 	border: 5px solid gray;
-	border-width:0 5px;
-	overflow-y: auto; 
+	border-width: 0 5px;
+	overflow-y: auto;
+	z-index: 5;
+	position: absolute; 
 }
-
+#register-form-shop .input-prepend{
+	width: 49%;
+}
+#register-form-shop .add-on{
+	margin: 23px 0px;
+}
 #register-form-shop input, #register-form-shop textarea{
-	width: 84%;
-	margin: 10px 0;
+	width: 82%;
+	margin: 23px 2px;
 	border-radius: 2px;
+	margin-right: 0px;
 }
 #register-form-shop select{
-	width: 88.5%;
-	margin: 10px 0;
+	width: 48.5%;
+	margin: 23px 2px;
 	border-radius: 2px;
 }
+#register-form-shop #shop-shopname{
+	width: 96%;
+}
+#register-form-shop #shop-contactnum{
+	width: 36%;
+}
 #register-form-shop #create-account{
+	width: 100%;
+	background-color: rgb(16, 16, 179);
+	color: white;
+	padding: 5px;
+	border: 0px;
+	margin-bottom: 0px;
+	bottom: 0px;
+	position: absolute;
+	margin-left: -11px;
+}
+
+.input-icon{
 	float: right;
-	margin: 8px 10px 0 0;
-	max-width: 53%;
 }

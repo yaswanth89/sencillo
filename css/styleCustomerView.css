@@ -187,8 +187,11 @@
 	height: 100%;
 }
 .cvShopTabs .show-product{
-	width: 31%;
-	margin: 0.9%;
+	width: 23%;
+	margin: 1%;
+}
+.cvShopTabs .show-product p{
+	font-size: 1.4em;
 }
 .cvProductsContent{
 	width: 97%;
@@ -197,6 +200,9 @@
 	position: relative;
 	float: right;
 	overflow-y: auto; 
+}
+.cvProductsContent .show-product .item-image{
+	height: 125px;
 }
 #cvmap-ribbon{
 	width:14px;

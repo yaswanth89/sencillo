@@ -9,19 +9,44 @@
     <form id="register-form-shop" action="action" class="form-horizontal" role="form">
       <div id='register-form-head'>REGISTER</div>
       <fieldset>
-       <input type="text" id="shop-username" class="form-control" placeholder="Username"/>
-       <input type="text" id="shop-shopname" placeholder="Name of the Shop"/>
-       <input type="password" id="shop-password" placeholder="Password"/>
-       <input type='text' id='shop-pincode' class='map-render' placeholder="Postal Code"/>
-       <select id='shop-city' class='map-render' placeholder="City">
-        <option value='kolkata' selected>Kolkata</option>
-       </select>
-       <input type='text' id='shop-locality' class='map-render' placeholder="Locality/Street Name"/>
-       <input type='text' id='shop-landmark' class='map-render' placeholder="Landmark"/>
-       <textarea id='shop-shopaddress' class='map-render' placeholder="Shop Address"></textarea>
-       <input type="text" id="shop-contactname" placeholder="Contact Name"/>
-       <input type="text" id="shop-contactnum" placeholder="Contact Number"/>
-       <input type="submit" class='btn btn-primary' id="create-account" value="Create an Account" />
+        <div class="input-prepend">
+          <input class='span1' type="text" id="shop-username" class="form-control" placeholder="Username"/>
+          <span class='add-on'><i class="fa fa-user"></i></span>
+        </div>
+        <div class="input-prepend">
+          <input class='span1' type="password" id="shop-password" placeholder="Password"/>
+          <span class='add-on'><i class="fa fa-key"></i></span>
+        </div>
+        <div class="input-prepend" style="width:93.5%;">
+          <input class='span1' type="text" id="shop-shopname" placeholder="Name of the Shop"/>
+          <span class='add-on'><i class="fa fa-home"></i></span>
+        </div>
+        <div class="input-prepend" style="display:block;">
+          <input class='span1' id='shop-numcode' type='text' value='033' style='width:10%;' disabled />-<input class='span1' type="text" id="shop-contactnum" placeholder="Contact Number" style="width:66%;"/>
+          <span class='add-on'><i class="fa fa-phone"></i></span>
+        </div>
+        <div class="input-prepend">
+          <select id='shop-city' class='map-render span1' placeholder="City" style="width:99.5%;">
+            <option value='kolkata' selected>Kolkata</option>
+          </select>
+        </div>
+        <div class="input-prepend">
+          <input class='span1' type='text' id='shop-pincode' placeholder="Postal Code" style="width:93%;"/>
+        </div>
+        <div class="input-prepend">
+          <input class='span1' type='text' id='shop-locality' placeholder="Locality/Street Name"/>
+          <span class='add-on'><i class="fa fa-road"></i></span>
+        </div>
+        <div class="input-prepend">
+          <input class='span1' type='text' id='shop-landmark' placeholder="Landmark"/>
+          <span class='add-on'><i class="fa fa-building-o"></i></span>
+        </div>
+        <div class="input-prepend">
+          <textarea class='span1' id='shop-shopaddress' placeholder="Shop Address"></textarea><br>
+        </div>
+        <div class="input-prepend" style="display:block;">
+          <input class='span1' type="submit" id="create-account" value="Create an Account" />
+        </div>
      </fieldset>
    </form>
    <div id='register-map'></div>
