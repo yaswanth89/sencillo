@@ -40,7 +40,7 @@ Template.shopEdit.events={
           $("#price_"+id).addClass('error');
           return;
         }
-        var price = Number($("#price_"+id).val())
+        var price = Number($("#price_"+id).val().replace(/,/g,''));
         if(price==NaN){
           $("#price_"+id).addClass('error');
           return;
@@ -59,7 +59,7 @@ Template.shopEdit.events={
       }
       productSet.push({
         'productId': id,
-        'price': price.replace(/,/g, ''),
+        'price': price,
         'inStock': instock,
         'onDisplay':onDisplay,
         'Featured':featured
@@ -133,7 +133,6 @@ Template.shopEdit.rendered = function(){
           event.preventDefault();
           return;
       }
-      console.log('price keypress!!'+event.which);
       var num = $(this).val();
       $(this).val(commaNumber(num));
   });

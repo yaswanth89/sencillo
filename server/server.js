@@ -8,15 +8,17 @@ Accounts.onCreateUser(function(options, user) {
   }else{
     if(options.shopname != undefined)
       user.shopname = options.shopname;
-    if(options.brandname != undefined)
-      user.brandname = options.brandname;
     if(options.address != undefined)
       user.address = options.address;
     if(options.shopLatitude != undefined)
       user.shopLatitude = options.shopLatitude;
     if(options.shopLongitude != undefined)
       user.shopLongitude = options.shopLongitude;
-    user.contactname = options.contactname;
+    user.formatted_address = options.formatted_address;
+    user.pincode = options.pincode;
+    user.locality = options.locality;
+    user.landmark = options.landmark;
+    user.city = options.city;
     user.contactnum = options.contactnum;
     user.usertype = options.usertype;
     if (options.profile)

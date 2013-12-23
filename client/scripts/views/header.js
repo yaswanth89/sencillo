@@ -9,7 +9,7 @@ this.HeaderView = Backbone.View.extend({
 				if(e.target.id=='logout'){
 					var button = $(e.target);
 					button.attr('disabled', '');
-					button.html('Loging out');
+					button.html('Logging out');
 					button.prepend(' <i class="fa fa-refresh fa-spin"></i> ');
 					Meteor.logout(function(err){
 						if(!err){

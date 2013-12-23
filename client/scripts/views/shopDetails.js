@@ -71,7 +71,6 @@ Template.shopDetails.events = {
 			'locality': t.find('#edit-locality').value, 
 			'city': t.find('#edit-city').value,
 			'pincode': t.find('#edit-pincode').value,
-			'contactname': t.find('#edit-contactname').value,
 			'contactnum': t.find('#edit-contactnum').value,
 			'shopLatitude': Session.get('selected').lat,
 			'shopLongitude': Session.get('selected').lng,

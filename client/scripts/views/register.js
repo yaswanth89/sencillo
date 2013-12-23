@@ -32,7 +32,7 @@ Template.register.events({
         return;
       }
       console.log('all values OK');
-      var formatted_address = address+','+locality.split(',')[0]+','+locality.split(',')[1]+','+landmark.split(',')[0]+','+city+','+pincode;
+      var formatted_address = address+','+locality.split(',')[0]+','+locality.split(',')[1]+',Near '+landmark.split(',')[0]+','+city+','+pincode;
       displaySuccess('Your address is going to be '+formatted_address);
       if(Session.get('shopLocation') != undefined)
         Accounts.createUser({username: username,shopname: shopname, password : password,check: 'checked',pincode: pincode,locality: locality,landmark: landmark,city: city ,address: address,formatted_address: formatted_address,contactnum: contactnum,shopLatitude:Session.get('shopLocation').lat, shopLongitude:Session.get('shopLocation').lng, usertype: 'shop'}, function(err){
