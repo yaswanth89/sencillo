@@ -28,6 +28,7 @@
 	text-align: center;
 	text-transform: capitalize;
 	font-size: 1.5em;
+	cursor: pointer;
 }
 .cvShopDisplay .shop-primary-info{
 	font-size: 1.2em;

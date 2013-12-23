@@ -15,7 +15,7 @@ Template.login.events={
 		e.preventDefault();
 		console.log('asd');
 		var button = $("#loginBtn");
-		button.html('Loging in');
+		button.html('Logging in');
 		button.prepend(' <i class="fa fa-refresh fa-spin"></i> ');
 		var allInputs = $(':input').serializeArray();
 		Meteor.loginWithPassword(allInputs[0].value,allInputs[1].value,

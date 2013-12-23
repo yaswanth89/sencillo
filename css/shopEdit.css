@@ -1,4 +1,29 @@
 
+#shopEditWrap{
+	width:16.5%;
+	float:left;
+	margin-left: 1.5%;
+	margin-right: 2.5%;
+	margin-top: 0%;
+	font-family: armata;
+	height: 100%;
+	background-color: #eee;
+}
+#shopEditWrap h4 {
+	color: white;
+	background-color: #3498db;
+	font-size: 0.9em;
+	margin-bottom: -5px;
+	padding: 5px;
+	font-weight: normal;
+}
+#shopEditWrap h4:hover{
+	font-weight: bold;
+}
+#shopEditWrap .accordion-inner{
+	border-top:none;
+}
+
 #shopEdit{
 	height:90%;
 	overflow-y:scroll;

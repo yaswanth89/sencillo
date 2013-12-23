@@ -22,7 +22,7 @@
   {{#with shopDet}}
     <div class='shopHeading'>{{shopname}}</div>
     <table class='shop-primary-info'>
-      <tr><td><i class="fa fa-map-marker" style='color:#3598db;font-size:1.3em;'></i></td><td>{{address}}</td></p>
+      <tr><td><i class="fa fa-map-marker" style='color:#3598db;font-size:1.3em;'></i></td><td>{{formatted_address}}</td></p>
       <tr><td><i class="fa fa-phone-square" style='color:#3598db;font-size:1.3em;'></i></td><td>{{contactnum}}</td></p>
     </table>
     <div class='shopFacilities'>
@@ -189,22 +189,13 @@
 </template>
 
 <template name='ShopContentTabs'>
-  <ul class="nav nav-tabs" id="myTab">
+  <!--<ul class="nav nav-tabs" id="myTab">
     <li class="active"><a href="#cvFeaturedProducts" data-toggle="tab">Featured Products</a></li>
     <li><a href="#cvProductsList" data-toggle="tab">Products Available</a></li>
-    <li><a href="#cvShopReviews" data-toggle="tab">Reviews & Ratings</a></li>
-  </ul>
-  <div class="tab-content">
-      {{#isolate}}
-        {{> shopFeaturedProducts}}
-      {{/isolate}}
-      {{#isolate}}
-        {{> ShopProducts}}
-      {{/isolate}}
-      {{#isolate}}
-        {{> ShopReviews}}
-      {{/isolate}}
-      </div>
+  </ul>-->
+    {{#isolate}}
+      {{> ShopProducts}}
+    {{/isolate}}
 </template>
 
 <template name='shopFeaturedProducts'>
@@ -238,7 +229,7 @@
       </ul>
     </div>
     <div class="btn-group" style='float:right;margin-right:30px;'>
-      <a class="btn btn-inverse dropdown-toggle" id="filterButton" data-toggle="dropdown" href="#">
+      <a class="btn btn-inverse dropdown-toggle hide-feat" id="filterButton" data-toggle="dropdown" href="#">
         More Filters
         <span class="caret"></span>
       </a>

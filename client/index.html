@@ -64,6 +64,16 @@
 		    addressString = addressString.substr(0,addressString.length - 1);
 		    return addressString;
 		}
+		function commaNumber(x){
+			x=x.toString();
+			x = x.replace(/,/g,'');
+			var lastThree = x.substring(x.length-3);
+			var otherNumbers = x.substring(0,x.length-3);
+			if(otherNumbers != '')
+			    lastThree = ',' + lastThree;
+			var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+			return res;
+		}
 	</script>
 	<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBoZj_NWxZTB-rKDEKGShhV1xlvn5UwYVc&sensor=false"></script>
 </head>

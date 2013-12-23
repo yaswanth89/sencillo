@@ -5,6 +5,7 @@ this.CustomerView = Backbone.View.extend({
     Session.set('shopLimit',20);
 		Session.set('newProducts',true);
     Session.set('setPriceRange',true);
+    Session.set('featured',true);
 		return this.template = Meteor.render(function(){
 			return Template.customerView();
 		});
@@ -114,6 +115,22 @@ Template.shopFeaturedProducts.featuredProductArr = function(){
 };*/
 
 Template.ShopProducts.ProductArr = function(){
+  if(Session.get('featured')){
+    var blah=[];
+    var id = '';
+    var shopName='';
+    Meteor.users.find({username:window.shopUsername},{fields: {'_id':1}}).forEach(function(e){
+      id = e._id;
+    });
+    x = Prices.find({shopId:id,"Featured":1},{limit:5}).forEach(function(e){
+      product = Products.find({_id:e.productId},{fields:{"ProductName":1,"ModelID":1,"Image":1}}).fetch();
+      product[0].price = e.price;
+      blah.push(product[0]);
+    });
+    console.log('feaaaaaatured!!!');
+    console.log(blah);
+    return blah;
+  }
 	var productList = [];
   var prices = [];
 	var shopid;
@@ -267,6 +284,7 @@ Template.shopCategories.events = {
   "click li.mainCat a.main-click": function(e, t){
     var now = e.currentTarget;
     var main = now.getAttribute('data-content');
+    Session.set('featured',false);
     Session.set('shopSubFilter',undefined);
     Session.set('shopMainFilter',main);
     Session.set('shopPriceRange',[]);
@@ -276,6 +294,7 @@ Template.shopCategories.events = {
     console.log('clicked subcat!!!');
     var now = e.currentTarget;
     var sub = now.innerHTML;
+    Session.set('featured',false);
     Session.set('shopMainFilter',undefined);
     Session.set('shopPriceRange',[]);
     Session.set('shopSubFilter',sub);
@@ -323,11 +342,16 @@ Template.ShopProducts.events = {
 Template.shopModalOverview.product = function(){
   console.log('entered shopmodal '+window.shopUsername );
   if(Session.get('shopId') && window.shopUsername){
-    var shop = Meteor.users.find({'username': window.shopUsername,'usertype':'shop'},{fields: {'_id':1}}).fetch()[0]._id;
+    var user = Meteor.users.find({'username': window.shopUsername,'usertype':'shop'},{fields: {'_id':1}}).fetch();
+    if(user && user.length > 0)
+      var shop = user[0]._id;
+    else
+      return null;
     console.log('entered shopmodal if condition '+Session.get('shopId')+' '+shop);
     var price = Prices.find({'productId':Session.get('shopId'), 'shopId': shop},{fields: {'price':1}}).fetch()[0].price;
     var prod = Products.find({_id:Session.get('shopId')}).fetch()[0];
     prod.price = price;
+    Session.set('shopSubFilter',prod.Sub);
     return prod;
   }
 };
@@ -383,6 +407,11 @@ Template.shopModal.events = {
   }
 };
 
+Template.ShopInfo.rendered = function(){
+  $('.shopHeading').click(function(){
+    Session.set('featured',true);
+  });
+};
 
 Template.ShopProducts.rendered = function(){
   if(Session.get('priceRangeSet')){
@@ -421,8 +450,14 @@ Template.ShopProducts.rendered = function(){
         height: '580px',
         opacity: 1});
 		Session.set('shopId',window.shopProductId);
+    Session.set('featured',false);
 		window.shopProductId = undefined;
 	}
+
+  if(Session.get('featured'))
+    $('.hide-feat').css('display','none');
+  else
+    $('.hide-feat').css('display','block');
 }
 $(function(){
 	prevNav = {};
