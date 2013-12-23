@@ -18,6 +18,7 @@ this.Router = Backbone.Router.extend({
 		"search/:query":"search",
 		"shop/p:page":"shopForm",
 		"loggedin": "loggedin",
+		"connectFb":"connectFb",
 		":page/:product":"home",
 		":page":"home",
 	},
@@ -170,6 +171,9 @@ this.Router = Backbone.Router.extend({
 		} else{
 			return this.getHref(elt.parentElement);
 		}
+	},
+
+	connectFb:function () {
+		return this.go(ConnectFb);
 	}
-	
 });

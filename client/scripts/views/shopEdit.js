@@ -25,6 +25,7 @@ Template.shopEdit.events={
   "click #saveChanges" : function(e){
     e.preventDefault();
     var productSet = [];
+
     $('.productId').each(function(){
       var id = $(this).val();
       console.log(id);
@@ -64,13 +65,26 @@ Template.shopEdit.events={
         'Featured':featured
       });
     });
-console.log(productSet);
-    Meteor.call('editProducts', productSet,function(e){
-      $("#informer").html("The preferences were saved!").fadeIn();
-          setTimeout(function(){
-            $("#informer").fadeOut();
-          },5000);
+    productSet = _.filter(productSet,function(e){
+      var oldData = Prices.findOne({productId:e.productId,shopId:Meteor.userId()},{fields:{"_id":0,"productId":1,"price":1,"inStock":1,"onDisplay":1,"Featured":1}});
+      if(!oldData)
+        return true;
+      else{
+        if(oldData.productId != e.productId || oldData.price != e.price || oldData.inStock != e.inStock || oldData.onDisplay != e.onDisplay || oldData.Featured != e.Featured)
+          return true;
+        else
+          return false;
+      }
     });
+    if(productSet.length != 0)
+      Meteor.call('editProducts', productSet,function(e){
+        $("#informer").html("The preferences were saved!").fadeIn();
+            setTimeout(function(){
+              $("#informer").fadeOut();
+            },5000);
+      });
+    else
+      displaySuccess("No changes were made");
   }
 }
 Template.shopEdit.allProducts = function(){
@@ -111,7 +125,6 @@ Template.shopEdit.allProducts = function(){
         });
       }
   });
-console.log(allproducts);
   return allproducts;
 };
 Template.shopEditCategories.cat = function(){

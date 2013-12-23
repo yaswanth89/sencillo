@@ -74,3 +74,8 @@
 .input-icon{
 	float: right;
 }
+
+#register-wrapper{
+	height: 100%;
+	overflow: hidden;
+}

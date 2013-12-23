@@ -75,11 +75,24 @@ Meteor.methods({
 		return type;
 	},
 	editProducts: function(set){
+		var Fbpost = "";
 		_.each(set,function(e){
-			// console.log(e.productId);
-			// console.log(Meteor.userId());
+			if(e.inStock){
+				var addedProduct = Products.findOne({"_id":e.productId},{fields:{"ProductName":1,"ModelID":1}});
+				Fbpost += addedProduct.ProductName+" "+ addedProduct.ModelID+" is now avaible at Rs."+e.price+"/-\n";
+			}
 			Prices.upsert({"productId":e.productId,"shopId":Meteor.userId()},{$set:{'price': e.price,'inStock': e.inStock,'onDisplay': e.onDisplay,'Featured':e.Featured}});
 		});
+		if(Meteor.user().shopFbPage){
+			access = Meteor.users.findOne({"_id":Meteor.userId()},{fields:{"fbAccessToken":1}});
+			var appData = ApiKeys.findOne({"name":"facebook"});
+			var url = 'https://graph.facebook.com/'+Meteor.user().shopFbPage+'/feed?'+encodeURI('access_token='+access.fbAccessToken+'&message='+Fbpost);
+			console.log(url);
+			HTTP.post(url, function(er,result){
+				console.log(er);
+				console.log(result);
+			});
+		}
 	},
 	editDetails: function(details){
 		Meteor.users.update({'_id': Meteor.userId()}, {$set : details});
@@ -225,7 +238,22 @@ Meteor.methods({
 		}
 		else
 			return false;
-
+	},
+	connectFb:function (data) {
+		var appData = ApiKeys.findOne({"name":"facebook"});
+		var decoded = data[0].value.split(" ");
+		var url = "https://graph.facebook.com/oauth/access_token?client_id=" + appData.appId
+			+ "&client_secret=" + appData.appSecret
+			+"&grant_type=fb_exchange_token"
+			+"&fb_exchange_token="+decoded[1];
+		var result = HTTP.call("GET",url);
+		var prmarr = result.content.split ("&");
+		var params = {};
+		for ( var i = 0; i < prmarr.length; i++) {
+		    var tmparr = prmarr[i].split("=");
+		    params[tmparr[0]] = tmparr[1];
+		}
+		Meteor.users.update({_id:Meteor.userId()},{$set:{"shopFbPage":decoded[0],"fbAccessToken":params.access_token}})
 	}
 });
 function showPosition(position){
