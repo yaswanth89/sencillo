@@ -78,8 +78,8 @@ Meteor.methods({
 		var Fbpost = "";
 		_.each(set,function(e){
 			if(e.inStock){
-				var addedProduct = Products.findOne({"_id":e.productId},{fields:{"ProductName":1,"ModelID":1}});
-				Fbpost += addedProduct.ProductName+" "+ addedProduct.ModelID+" is now avaible at Rs."+e.price+"/-\n";
+				var addedProduct = Products.findOne({"_id":e.productId},{fields:{"_id":1,"ProductName":1,"ModelID":1}});
+				Fbpost += addedProduct.ProductName+" "+ addedProduct.ModelID+" is now avaible at Rs."+e.price+"/-\n http://sencillo.co.in/cv/"+Meteor.user().username+"/"+addedProduct._id;
 			}
 			Prices.upsert({"productId":e.productId,"shopId":Meteor.userId()},{$set:{'price': e.price,'inStock': e.inStock,'onDisplay': e.onDisplay,'Featured':e.Featured}});
 		});
@@ -241,11 +241,10 @@ Meteor.methods({
 	},
 	connectFb:function (data) {
 		var appData = ApiKeys.findOne({"name":"facebook"});
-		var decoded = data[0].value.split(" ");
 		var url = "https://graph.facebook.com/oauth/access_token?client_id=" + appData.appId
 			+ "&client_secret=" + appData.appSecret
 			+"&grant_type=fb_exchange_token"
-			+"&fb_exchange_token="+decoded[1];
+			+"&fb_exchange_token="+data.access_token;
 		var result = HTTP.call("GET",url);
 		var prmarr = result.content.split ("&");
 		var params = {};
@@ -253,7 +252,7 @@ Meteor.methods({
 		    var tmparr = prmarr[i].split("=");
 		    params[tmparr[0]] = tmparr[1];
 		}
-		Meteor.users.update({_id:Meteor.userId()},{$set:{"shopFbPage":decoded[0],"fbAccessToken":params.access_token}})
+		Meteor.users.update({_id:Meteor.userId()},{$set:{"shopFbPage":data.id,"fbAccessToken":params.access_token}})
 	}
 });
 function showPosition(position){
