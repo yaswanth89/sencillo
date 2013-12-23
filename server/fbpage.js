@@ -33,11 +33,11 @@ app
             return null;
         }
         Fiber(function(){
-          var str = "<html><head><link src='https://"+req.headers.host+"/style/canvas.css' type='text/css' rel='stylesheet' /></head><body>";
+          var str = "<html><head><link href='https://"+req.headers.host+"/style/canvas.css' type='text/css' rel='stylesheet' /></head><body>";
           var shop = Meteor.users.findOne({"shopFbPage":data.page.id},{"fields":{"_id":1}});
           Prices.find({"shopId":shop._id,"Featured":1}).forEach(function(e){
             var product = Products.findOne({"_id":e.productId},{fields:{"Image":1,"ProductName":1,"ModelID":1,"Brand":1}});
-            str += "<div class='product'> <img src='"+ product.Image[0] +"' /> <span class='name'>"+product.ProductName+"</span> <span class='model'>"+product.ModelID+"</span><span class='brand'>"+product.Brand+"</span> <span class='price'>"+e.price+"</span></div>";
+          str += '<div class="show-product" id="product_{{_id}}" style="cursor:pointer"> <img class="item-image" src="'+product.Image[0]+'"/><div class="item-desc"><div class="ellipsis"><div><p class="item-name">'+product.ProductName+'</p></div></div><p class="item-model">'+product.ModelID+'</p><div class="item-price-brand"><span class="pull-left">Rs'+e.price+'/-</span><span class="pull-right">'+product.Brand+'</span></div></div></div>';
           });
           str += "</body></html>";
           res.writeHead(200, {'Content-Type': 'text/html'});
