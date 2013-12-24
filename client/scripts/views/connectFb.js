@@ -43,29 +43,31 @@ Template.connectFb.events = {
 	    		  method: 'pagetab',
 	    		  display:'popup'
 	    		}, function(response){
-	    			console.log(response);
+	    			var pageId = undefined;
+	    			_.each(response.tabs_added,function(e,t){
+	    				if(!pageId)
+	    					pageId = t;
+	    			});
+	    			console.log(pageId);
+	    			FB.api('/me/accounts', function(response) {
+			    		$("#connectFbLogin").hide();
+			       		_.each(response.data,function(e){
+			       			if(pageId == e.id){
+			       				var data = {"id":e.id,"access_token":e.access_token};
+			       				var name = e.name;
+			       				console.log(data);
+			       				Meteor.call("connectFb",data,function(err,response){
+									if(!err){
+										$("#connectedPage").html("Connected to "+name);
+									}
+								});
+			       			}
+			       		});
+	    			});
 	    		});
-			    FB.api('/me/accounts', function(response) {
-			    	$("#connectFbLogin").hide();
-		       		_.each(response.data,function(e){
-		       			$("#connectFbPagesList").append('<li><input type="radio" name="shopPage" value="'+e.id +' '+ e.access_token +'"/ ><span class="pageName">'+e.name+'</span></li>')
-		       		});
-		       		$("#connectFbPages").show();
-    			});
    			} else {
     			console.log('User cancelled login or did not fully authorize.');
    			}
 	 	},{scope: 'manage_pages,publish_actions'});
-	},
-	"submit #chooseFbPage":function(e,t){
-		e.preventDefault();
-		var data = $("#chooseFbPage").serializeArray();
-		Meteor.call("connectFb",data,function(err,response){
-			if(!err){
-				$("#connectFbPages").hide();
-				var data = $("#connectFbPagesList input:checked")[0].nextElementSibling.innerHTML;
-				$("#connectedPage").html("Connected to "+data);
-			}
-		});
 	}
 }
