@@ -18,3 +18,19 @@ a.metroLink:hover{
 	width:60%;
 	float:left;
 }
+
+#loginWith {
+float: left;
+font-size: 21px;
+font-weight: 200;
+margin-top: 10px;
+margin-right: 10px;
+}
+#loginWithFB {
+color: #45619D;
+float: left;
+margin-right: 10px;
+}
+#loginWithGoogle {
+color: #DF5138;
+}
