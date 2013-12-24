@@ -12,3 +12,18 @@
 #map-suggestions li.active{
 	background-color: gray; 
 }
+
+#edit-form-shop{
+	padding: 10px 30px;
+	margin-left: 30px;
+	overflow: auto;
+	height: 97%;
+	z-index: 1;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background-color: rgba(0,0,0,0.2);
+	border: 5px solid gray;
+	color:rgba(0,0,0,0.8);
+	border-width: 0 5px;
+}

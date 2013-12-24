@@ -118,7 +118,7 @@
 }
 #shopMapInfo{
 	position: relative;
-	top: 66px;
+	top: 0px;
 }
 .cvShopFilters{
 	width: 14%;
@@ -196,7 +196,7 @@
 }
 .cvProductsContent{
 	width: 97%;
-	height: 82%;
+	height: 90%;
 	padding: 0px;
 	position: relative;
 	float: right;
