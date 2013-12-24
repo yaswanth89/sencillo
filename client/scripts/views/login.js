@@ -41,9 +41,10 @@ Template.login.events={
 		    if (error) {
 		        return console.log(error);
 		    }else{
-		    	Meteor.call('getAccessToken',function(err, result){
+		    	/*Meteor.call('getAccessToken',function(err, result){
 		    		console.log(result);
-		    	});
+		    	});*/
+		    	$('#LoginModal').modal('hide');
 		    	App.router.navigate('', {trigger:true});
 		    }
 		});
@@ -53,7 +54,7 @@ Template.login.events={
 			if(error){
 				return console.log(error);
 			}else{
-				Meteor.call('getAccessToken',function(err,result){
+				/*Meteor.call('getAccessToken',function(err,result){
 					console.log(result);
 					/*var url = "https://maps.google.com/maps/feeds/maps/default/full";
 				    var params = {
@@ -65,8 +66,9 @@ Template.login.events={
 				        //var retdata =  result.data;
 				        if(err) Session.set('res',err);
 				        else Session.set('res',result);
-				    });*/
-				});
+				    });
+				});*/
+				$('#LoginModal').modal('hide');
 				App.router.navigate('', {trigger:true});
 			}
 		});

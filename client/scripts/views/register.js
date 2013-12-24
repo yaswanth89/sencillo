@@ -165,7 +165,12 @@ Template.shopRegister.rendered = function(){
       position: place.geometry.location
     });
     displaySuccess('Move the marker around to point your location!');
-    Session.set('shopLocation',place.geometry.location);
+    Session.set('shopLocation',{'lat': place.geometry.location.nb, 'lng': place.geometry.location.ob });
+
+    google.maps.event.addListener(marker, 'dragend',function(e){
+      Session.set('shopLocation',{'lat': e.latLng.lat(), 'lng': e.latLng.lng()});
+    });
+
   });
 
   google.maps.event.addListener(landmarkBox, 'place_changed', function(){
@@ -199,12 +204,14 @@ Template.shopRegister.rendered = function(){
       crossOnDrag: false
     });
     displaySuccess('Move the marker around to point your location!');
-    Session.set('shopLocation',place.geometry.location);
+    Session.set('shopLocation',{'lat': place.geometry.location.nb, 'lng': place.geometry.location.ob });
+
+    google.maps.event.addListener(marker, 'dragend',function(e){
+      Session.set('shopLocation',{'lat': e.latLng.lat(), 'lng': e.latLng.lng()});
+    });
+
   });
 
-  google.maps.event.addListener(marker, 'dragend',function(e){
-    Session.set('shopLocation',{'lat': e.latLng.lat(), 'lng': e.latLng.lng()});
-  });
 };
 
 Template.shopRegister.destroyed = function() {

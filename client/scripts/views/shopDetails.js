@@ -133,6 +133,8 @@ Template.shopDetails.events = {
 		shopForm.style.fontWeight = 'bold';
 		shopForm.style.padding = '10px 30px';
 		shopForm.style.marginLeft = '30px';
+		shopForm.style.overflow = 'auto';
+		shopForm.style.height = '100%';
 
 		$('#edit-pincode').blur(function(){
 		    $.get('http://maps.googleapis.com/maps/api/geocode/json', {'address':$(this).val()+'+india', 'sensor':'true'},function(data){

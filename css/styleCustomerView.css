@@ -135,7 +135,7 @@
 #shopMainCat li.mainCat{
 	width: 93%;
 	height: 25px;
-	text-align: center;
+	text-align: left;
 	padding: 6px 8px;
 	border-bottom: 1px solid rgba(0,0,0,0.5);
 	cursor: pointer;
@@ -154,7 +154,7 @@
 	list-style-type: none;
 	background-color: white;
 	border: 1px solid rgba(0,0,0,0.3);
-	text-align: center;
+	text-align: left;
 	padding: 16px;
 	margin:0px;
 }
