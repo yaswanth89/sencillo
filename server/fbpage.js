@@ -1,4 +1,4 @@
-var connect = Meteor.require('connect');
+var connect = Npm.require('connect');
 var base64url = Meteor.require('base64url');
 var Fiber = Npm.require('fibers');
 var app = WebApp.connectHandlers;
