@@ -2,21 +2,9 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "mongodb-aggregation": {},
-      "streams": {},
       "npm": {}
     },
     "packages": {
-      "mongodb-aggregation": {
-        "git": "https://github.com/jhoxray/meteor-mongo-extensions.git",
-        "tag": "v0.1.71",
-        "commit": "da9661c47b3797cec062005f01f84a4723051438"
-      },
-      "streams": {
-        "git": "https://github.com/arunoda/meteor-streams.git",
-        "tag": "v0.1.17",
-        "commit": "9fcbbc9b7bf542827babc92089c19e730892a22f"
-      },
       "npm": {
         "git": "https://github.com/arunoda/meteor-npm.git",
         "tag": "v0.2.6",

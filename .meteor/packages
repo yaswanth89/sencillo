@@ -10,10 +10,8 @@ underscore
 accounts-ui
 accounts-password
 jquery
-mongodb-aggregation
 accounts-facebook
 accounts-google
 http
-streams
 bootstrap
 npm

@@ -1,7 +1,5 @@
 {
   "packages": {
-    "mongodb-aggregation": {},
-    "streams": {},
     "npm": {}
   }
 }
