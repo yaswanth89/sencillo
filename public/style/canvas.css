@@ -1,10 +1,11 @@
- div.show-product , .add-item {
-	width: 19%;
-	margin-right: 1%;
-	float: left;
-	background: white;
-	height: 250px;
-	margin-bottom: 2px;
+div.show-product, .add-item {
+width: 30%;
+margin-right: 2%;
+margin-left: 1%;
+float: left;
+background: white;
+height: 250px;
+margin-bottom: 2px;
 }
 div.show-product:hover{
 	box-shadow: 0px 0px 2px #115d8e;
@@ -16,13 +17,15 @@ div.show-product .item-model{
 div.show-product:hover{
 	box-shadow: 0px 0px 2px #115d8e;
 }
-div.show-product .item-model{
-	font-weight: bold;
-	font-size: 1.3em;
+div.show-product .item-model {
+font-weight: bold;
+font-size: 1.3em;
+padding: 0;
+margin: 0;
 }
-.ellipsis{
-	overflow: hidden;
-	height: 40px;
+.ellipsis {
+overflow: hidden;
+height: 60px;
 }
 .ellipsis:before{
 	content:"";
@@ -66,19 +69,19 @@ div.show-product .lead {
 	margin-bottom: 5px;
 	margin-top: -5px;
 }
-.item-image{
-	display: block !important;
-	height: 146px;
-	margin: 0px auto;
-	position: relative;
+.item-image {
+display: block !important;
+height: 150px;
+margin: 0px auto;
+position: relative;
 }
-.item-desc{
-	padding: 0px 5px;
-	display: block;
-	position: relative;
-	font-size: 10px;
-	height: 94px;
-	font-family: Tahoma, Geneva, Verdana;
+.item-desc {
+padding: 0px 5px;
+display: block;
+position: relative;
+font-size: 10px;
+height: 100px;
+font-family: Tahoma, Geneva, Verdana;
 }
 .item-price-brand{
 	position: absolute;
