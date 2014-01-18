@@ -122,18 +122,18 @@
  	padding: 2px;
  }
  div.show-product , .add-item {
-	width: 19%;
-	margin-right: 1%;
-	float: left;
-	background: white;
-	height: 250px;
-	margin-bottom: 2px;
+	width: 18.8%;
+  margin: 0 0.5% 2px;
+  float: left;
+  background: white;
+  height: 250px;
+  margin-bottom: 2px;
+  border: 1px solid #d5d4d4;
 }
 div.show-product:hover{
 	box-shadow: 0px 0px 2px #115d8e;
 }
 div.show-product .item-model{
-	font-weight: bold;
 	font-size: 1.3em;
 }
 .add-item{
@@ -203,13 +203,17 @@ div.show-product .lead {
 	font-size: 10px;
 	height: 94px;
 	font-family: Tahoma, Geneva, Verdana;
+  margin-top: 11px;
 }
 .item-price-brand{
 	position: absolute;
-	bottom: 0;
-	width: 95%;
-	overflow: hidden;
-	font-size: 13px;
+  bottom: 0;
+  width: 93.5%;
+  overflow: hidden;
+  font-size: 13px;
+  border: 1px solid #d5d4d4;
+  background-color: #f7f7f7;
+  margin-left: -6px;
 }
 .item-price-brand .pull-left{
 	background-color: #3598db;
@@ -231,7 +235,7 @@ body{
 }
 .item-price-brand{
 	//border-top: 1px solid rgb(112,112,112);
-	padding: 5px 0px;
+	padding: 5px 3.5%;
 }
 .galleryImage{
 	border: 1px gray solid;

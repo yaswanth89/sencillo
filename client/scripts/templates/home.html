@@ -84,12 +84,13 @@
               <div class='ellipsis'><div>
                 <p class="item-name">{{this.ProductName}}</p>
               </div></div>
-              <p class="item-model">{{this.ModelID}}</p>
+              <p class="item-model">{{this.ModelID}}
+              <span class="pull-right"><img src="{{brandLogo this.Brand}}" style="height:20px" /></span>
+              </p>
               <div class="item-price-brand">
                 {{#isolate}}
                   <span class="pull-left"><i class="fa fa-rupee"></i>{{this.leastPrice}}/-</span>
                 {{/isolate}}
-                <span class="pull-right"><img src="{{brandLogo this.Brand}}" style="height:24px" /></span>
               </div>
             </div>
           </div>
