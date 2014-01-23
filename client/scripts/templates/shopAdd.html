@@ -43,6 +43,7 @@
       </div>
       {{/each}}
     </p>
+<div style="float:right;position:relative;margin-right:10px;top:-8px;"><button id='addSelected' class="btn btn-primary">Add Selected Products</button></div>
   </div>
 
 </template>
@@ -51,15 +52,16 @@
   
     <div class="products-row" id="productsWrap" style="overflow:hidden">
    {{#each ProductArr}}
-      <div class="add-item" id="product_{{this._id}}" style="cursor:pointer;">
-        <div class='mask'><input type='button' class='addProduct' id="{{_id}}" value='Add to Shop'/></div>
+      <label for="productCheck_{{_id}}" class="add-item" id="product_{{this._id}}" style="cursor:pointer;">
+        <input type='checkbox' name='productCheck' id='productCheck_{{_id}}' class='productCheck'/>
+        <div class='mask'></div>
         <div class='item-content'>
           <img class="item-image" src="{{this.Image.[0]}}" />
           <p class="lead">{{this.ProductName}} </p>
           <span class="pull-right"><img src="{{brandLogo this.Brand}}" style="height:24px" /></span>
           <p>{{this.ModelID}}</p>
         </div>
-      </div>
+      </label>
    {{/each}}
   </div>
   <div  style="margin-left: 25px;">

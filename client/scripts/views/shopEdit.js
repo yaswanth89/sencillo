@@ -94,10 +94,14 @@ Template.shopEdit.allProducts = function(){
       productList = loop.productId;
       if(productList){
         q={_id:{$in:productList}};
-        if(Session.get('shopEditFilters')){
+        if(Session.get('editSearchQuery') && Session.get('editSearchQuery') != ''){
+          reg = new RegExp(Session.get('editSearchQuery'),'i');
+          q.searchIndex = {$regex: reg};
+        }else if(Session.get('shopEditFilters')){
           q.Sub = Session.get('shopEditFilters')[0];
           q.Brand = Session.get('shopEditFilters')[1];
         }
+        console.log(q);
         Products.find(q,{fields:{'Brand':1,'ProductName':1,'ModelID':1}}).forEach(function(e){
           pricetag = Prices.findOne({productId:e._id,shopId:loop._id});
           if(pricetag)
@@ -153,7 +157,23 @@ Template.shopEditCategories.events={
     filters = e.currentTarget.getAttribute('data-filter').split('-');
     console.log(filters);
     setTimeout(function(){
+      Session.set('editSearchQuery','');
       Session.set('shopEditFilters',filters);
     },100);
+  }
+}
+
+Template.shopEdit.events={
+  "click #editSearchSubmit":function(e){
+    e.preventDefault();
+    var query = $('#editSearchInput').val().trim();
+    if(query == '')
+      return;
+    var queryString = query.split(" ");
+    var a="";
+    _.each(queryString,function(e){
+      a += "(?=.*\\b"+e+"\\b)";
+    });
+    Session.set('editSearchQuery',a);
   }
 }

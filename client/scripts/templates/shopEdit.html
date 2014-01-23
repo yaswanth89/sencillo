@@ -2,16 +2,24 @@
   <div class="container" style="height:100%;width:1235px;" >
     <div class="row" style="height:100%" >
     {{> shopEditCategories}}
+      <div id='editHeader' class='span10'>
+        <form id="editSearchForm" style='float:right;'>
+					<div class="input-append">
+						<input type="text" id="editSearchInput" class="span3" placeholder="Search" />
+						<button id='editSearchSubmit' class="btn"><i class="icon-search"></i></button>
+					</div>
+				</form>
+      </div>
     <div id="shopEdit" class="span10" style="padding:0">
     <table class="table" id="editTable">
       <thead>
-        <th>Brand</th>
-        <th>Name</th>
-        <th>Model</th>
-        <th>Price</th>
-        <th>In Stock</th>
-        <th>On Display</th>
-        <th>Featured</th>
+        <th style="background-color:#f5f5f5;">Brand</th>
+        <th style="background-color:#e6e6e6;">Name</th>
+        <th style="background-color:#f5f5f5;">Model</th>
+        <th style="background-color:#e6e6e6;">Price</th>
+        <th style="background-color:#f5f5f5;">In Stock</th>
+        <th style="background-color:#e6e6e6;width:74px;">On Display</th>
+        <th style="background-color:#f5f5f5;">Featured</th>
       </thead>
       <form id="editProducts">
       {{#each allProducts}}
@@ -27,23 +35,23 @@
           </td>
           <td>
             <div class="toggle {{#if inStock}}on{{else}}off{{/if}}" id='stock_{{_id}}'>
-              <div>In</div>
+              <div>IN</div>
               <div class="cover"></div>
-              <div>Out</div>
+              <div>OUT</div>
             </div>
           </td>
           <td>
             <div class="toggle {{#if onDisplay}}on{{else}}off{{/if}}" id='display_{{_id}}'>
-              <div>On</div>
+              <div>YES</div>
               <div class="cover"></div>
-              <div>Off</div>
+              <div>NO</div>
             </div>
           </td>
           <td>
             <div class="toggle {{#if Featured}}on{{else}}off{{/if}}" id='featured_{{_id}}'>
-              <div>Yes</div>
+              <div>YES</div>
               <div class="cover"></div>
-              <div>No</div>
+              <div>NO</div>
             </div>
           </td>
           <td>

@@ -17,6 +17,7 @@
 	text-align: center;
 	line-height: 20px;
 	font-size: 0.9em;
+  color:white;
 }
 .toggle .cover{
 	width:30px;
@@ -28,7 +29,7 @@
 	-o-transition: left 0.5s;
 	transition: left 0.5s;
 	border: 1px solid rgba(0,0,0,0.1);
-	background: #ddd; /* Old browsers */
+	background: #e6e6e6; /* Old browsers */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 ); /* IE6-9 */
 }
 .toggle.off .cover{
@@ -36,7 +37,10 @@
 	top:0px;
 }
 .toggle.on{
-	background-color: #1DE40C;
+	background-color: #12608c;
+}
+.toggle.off{
+	background-color: #12608c;
 }
 .toggle.on .cover{
 	left: 30px;

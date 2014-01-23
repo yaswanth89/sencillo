@@ -108,7 +108,7 @@ Meteor.publish("shopProducts",function(filter){
     q.Sub = filter[0];
     q.Brand = filter[1];
   }
-  return Products.find(q,{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1}});
+  return Products.find(q,{fields:{'Sub':1,'Brand':1,'ProductName':1,'ModelID':1,'searchIndex':1}});
 });
 
 Meteor.publish('shopAddProducts',function(sub,brand,limit){

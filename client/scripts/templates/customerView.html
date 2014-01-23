@@ -24,14 +24,14 @@
     <table class='shop-primary-info'>
       <tr><td><i class="fa fa-map-marker" style='color:#3598db;font-size:1.3em;'></i></td><td>{{formatted_address}}</td></p>
       <tr><td><i class="fa fa-phone-square" style='color:#3598db;font-size:1.3em;'></i></td><td>{{contactnum}}</td></p>
+<tr><td><img src='/image/39.png' class='facility-icon'/></td><td>Weekdays: {{openHour}} - {{closeHour}}; Weekends: {{openHour}} - {{closeHour}}</td></tr>
     </table>
     <div class='shopFacilities'>
       <table>
         <tr>
-          <td><div class='fac-img-wrapper'>{{#if emi}}<img src='/image/36.png' class='facility-icon'/>{{else}}<img src='/image/31.png' class='facility-icon'/>{{/if}}</div> EMI</td>
-          <td><div class='fac-img-wrapper'><img src='/image/39.png' class='facility-icon'/></div>Weekdays: {{openHour}} - {{closeHour}}<br>Weekends: {{openHour}} - {{closeHour}}</td></tr>
-          <tr><td><div class='fac-img-wrapper'><img src='/image/14.png' class='facility-icon'/></div>{{#with payments}} {{#if debit}}Debit {{/if}} {{#if credit}}Credit {{/if}} {{#if cheque}}Cheque {{/if}} {{/with}}</td>
-          <td><div class='fac-img-wrapper'>{{#if homeDelivery}}<img src="/image/37.png" class='facility-icon'/>{{else}}<img src="/image/34.png" class='facility-icon'/>{{/if}}</div> Home Delivery</td></tr>
+          <td class='fac-img-wrapper'>{{#if emi}}<img src='/image/36.png' class='facility-icon'/>{{else}}<img src='/image/31.png' class='facility-icon'/>{{/if}}</td><td> EMI</td></tr>
+          <tr><td class='fac-img-wrapper'><img src='/image/14.png' class='facility-icon'/></td><td>{{#with payments}} {{#if debit}}Debit {{/if}} {{#if credit}}Credit {{/if}} {{#if cheque}}Cheque {{/if}} {{/with}}</td></tr>
+          <tr><td class='fac-img-wrapper'>{{#if homeDelivery}}<img src="/image/37.png" class='facility-icon'/>{{else}}<img src="/image/34.png" class='facility-icon'/>{{/if}}</td><td> Home Delivery</td></tr>
       </table>
     </div>
   {{/with}}

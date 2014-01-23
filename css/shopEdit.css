@@ -29,6 +29,40 @@
 	overflow-y:scroll;
 	overflow-x:hidden;
 }
+#editHeader{
+  border-bottom:1px solid black;
+  margin-top:15px;
+  margin-bottom:15px;
+}
+#editSearchForm .input-append{
+  margin:10px;
+  margin-right:0;
+}
+#editSearchForm .input-append input{
+  border-radius:0px;
+  box-shadow:none;
+}
+#editSearchForm .input-append .btn{
+  background-color:white;
+  border-radius:0;
+  box-shadow:none;
+}
+#shopEdit .table tbody{
+  border-top:0px;
+}
+#shopEdit .input-prepend{
+  margin-bottom:0px;
+}
+#shopEdit span.add-on{
+  border-radius: 0px;
+  width: 18px;
+  height: 17px;
+}
+input.edit-price{
+  height: 17px;
+  border-radius: 0px;
+  box-shadow: 0 0 0 rgb(0,0,0);
+}
 #editButton{
 	
 	height:10%;

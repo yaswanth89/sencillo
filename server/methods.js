@@ -55,6 +55,19 @@ Meteor.methods({
 		Brands.upsert({"shopid":Meteor.user().username,"Sub":product.Sub},{$addToSet:{"list":product.Brand}});
 		Meteor.users.update({'_id': Meteor.userId()}, {$push: {'productId':id}});
 	},
+  addMultipleProducts: function(arr){
+    products = Products.find({"_id": {$in: arr}},{'fields': {'Sub':1,'Brand':1}});
+    grouped = _.groupBy(products.fetch(),'Sub');
+    //due to bug in meteor...nxt line doesnt work :/
+    //Brands.upsert({"shopid":Meteor.user().username,"Sub":key},{$addToSet: { "list":{$each: _.pluck(val, 'Brand')} } });
+    _.each(grouped,function(val, key, e){
+      var brands = _.pluck(val, 'Brand');
+      _.each(brands, function(e){
+         Brands.upsert({"shopid":Meteor.user().username,"Sub":key},{$addToSet: { "list": e } });
+      });
+    });
+    Meteor.users.update({'_id':Meteor.userId()}, {$pushAll: {'productId': arr}});
+  },
 	readProducts: function(username){
 		if(!username)
 			var prod = Meteor.users.findOne({'username':Meteor.user().username}).products;

@@ -99,14 +99,38 @@ $(function(){
     }).get();
     Session.set('shopAddBrand',brandSel);
   });
-  /*$('#shopAddProducts .add-item .mask').hover(function(){
-    $(this).css('opacity',1);
-    $(this).find('.addProduct').fadeIn();
-  }, function(){
-    $(this).css('opacity',0);
-    $(this).find('.addProduct').fadeOut();
+  /*$('.addToList').live('click',function(e,t){
+    var now = e.currentTarget;
+    var id = now.id;
+    if(!window.productList)
+      window.productList = [id];
+    else
+      window.productList.push(id);
+  });
+  $('.removeFromList').live('click',function(e,t){
+    var now = e.currentTarget;
+    var id = now.id;
+    var i = window.productList.indexOf(id);
+    if(i != -1)
+      window.productList.splice(i,1);
   });*/
-  $('.addProduct').live('click',function(e,t){
+  $('#addSelected').live('click',function(e,t){
+    var selected = [];
+    $('.productCheck:checked').each(function(){ 
+      selected.push($(this).attr('id').split('_')[1]); 
+    });
+    Meteor.call('addMultipleProducts', selected, function(error){
+      if(error)
+        displayError(error);
+      else{
+        $('.productCheck:checked').each(function(){ 
+          $(this).parent().fadeOut();
+        });
+        displaySuccess('Selected items have been added to your shop!');
+      }
+    });
+  });
+  /*$('.addProduct').live('click',function(e,t){
     var now = e.currentTarget;
     var id=now.id;
     Meteor.call('addProduct', id, function(error){
@@ -117,7 +141,7 @@ $(function(){
         displaySuccess('Item has been added to the shop');
       }
     });
-  });
+  });*/
 });
 /*
 Template.shopAdd.destroyed = function(){
