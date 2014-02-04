@@ -35,6 +35,7 @@ app
         Fiber(function(){
           var str = "<html><head><link href='https://"+req.headers.host+"/style/canvas.css' type='text/css' rel='stylesheet' /></head><body>";
 	  var htmldata={};
+    var insertHeader = str.search('<body>')+6;
  	  var header='<li class="selected"><a href="#" data-open="0">Featured</a></li>';
           var shop = Meteor.users.findOne({"shopFbPage":data.page.id},{"fields":{"_id":1}});
 	  str+="<div class='popular'>";
@@ -53,8 +54,9 @@ app
 	  	str+="</div><div id='tab"+io.toString()+"' class='tabs'>"+v+"</div>";
 		io++;
 	  });
-	  
-          str += header+"</body></html>";
+	        
+          //str.splice(insertHeader,0,header);
+          str += "</body></html>";
           res.writeHead(200, {'Content-Type': 'text/html'});
           res.end(str);
         }).run();
