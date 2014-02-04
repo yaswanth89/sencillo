@@ -50,11 +50,11 @@
 
 <template name="shopAddProducts">
   
-    <div class="products-row" id="productsWrap" style="overflow:hidden">
+  <div class="products-row" id="productsWrap">
    {{#each ProductArr}}
       <label for="productCheck_{{_id}}" class="add-item" id="product_{{this._id}}" style="cursor:pointer;">
-        <input type='checkbox' name='productCheck' id='productCheck_{{_id}}' class='productCheck'/>
-        <div class='mask'></div>
+        <!--<input type='checkbox' name='productCheck' id='productCheck_{{_id}}' class='productCheck'/>-->
+        <div class='mask'><input type='button' class='addProduct' id="{{_id}}" value='Add to Shop'/></div>
         <div class='item-content'>
           <img class="item-image" src="{{this.Image.[0]}}" />
           <p class="lead">{{this.ProductName}} </p>
@@ -64,7 +64,8 @@
       </label>
    {{/each}}
   </div>
-  <div  style="margin-left: 25px;">
+  <div class='listSelected'><ul>{{#each selectedArr}}<li id='{{this.productId}}'>{{this.Brand}} &nbsp;&nbsp;&nbsp; {{this.ModelID}}&nbsp;&nbsp;<i class="fa fa-times-circle removeFromList" id='remove_{{this.productId}}' style='float:right;cursor:pointer;'></i></li>{{/each}}</ul></div>
+  <div  style="margin-left: 25px;clear:both;">
       <button id="showMoreResults" class="btn btn-medium">Loading....</button>
   </div>
 </template>

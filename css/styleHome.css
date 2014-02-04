@@ -122,8 +122,8 @@
  	padding: 2px;
  }
  div.show-product , .add-item {
-	width: 18.8%;
-  margin: 0 0.5% 2px;
+	width: 19.8%;
+  margin:0;
   float: left;
   background: white;
   height: 250px;
@@ -135,6 +135,7 @@ div.show-product:hover{
 }
 div.show-product .item-model{
 	font-size: 1.3em;
+  line-height:34px;
 }
 .add-item{
 	width: 24%;
@@ -201,7 +202,7 @@ div.show-product .lead {
 	display: block;
 	position: relative;
 	font-size: 10px;
-	height: 94px;
+	height: 113px;
 	font-family: Tahoma, Geneva, Verdana;
   margin-top: 11px;
 }

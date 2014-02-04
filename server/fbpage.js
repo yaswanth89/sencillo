@@ -34,18 +34,27 @@ app
         }
         Fiber(function(){
           var str = "<html><head><link href='https://"+req.headers.host+"/style/canvas.css' type='text/css' rel='stylesheet' /></head><body>";
+	  var htmldata={};
+ 	  var header='<li class="selected"><a href="#" data-open="0">Featured</a></li>';
           var shop = Meteor.users.findOne({"shopFbPage":data.page.id},{"fields":{"_id":1}});
 	  str+="<div class='popular'>";
           Prices.find({"shopId":shop._id,"price":{$gt:0},"Featured":0},{limit:20}).forEach(function(e){
-	  	var product = Products.findOne({"_id":e.productId},{fields:{"Image":1,"ProductName":1,"ModelID":1,"Brand":1}});
-		str+='<div class="show-product" style="cursor:pointer"> <img class="item-image" src="'+product.Image[0]+'"/><div class="item-dec"><div class="ellipsis"><div><p class="item-name">'+product.ProductName+'</p></div></div><p class="item-model">'+product.ModelID+'</p><div class="item-price-brand"><span class="pull-left">Rs'+e.price+'/-</span><span class="pull-right">'+product.Brand+'</span></div></div></div>';
+	  	var product = Products.findOne({"_id":e.productId},{fields:{"Sub":1,"Image":1,"ProductName":1,"ModelID":1,"Brand":1}});
+		htmldata[product.Sub]+='<div class="show-product" style="cursor:pointer"> <img class="item-image" src="'+product.Image[0]+'"/><div class="item-dec"><div class="ellipsis"><div><p class="item-name">'+product.ProductName+'</p></div></div><p class="item-model">'+product.ModelID+'</p><div class="item-price-brand"><span class="pull-left">Rs'+e.price+'/-</span><span class="pull-right">'+product.Brand+'</span></div></div></div>';
 	  });
-	  str+="</div><div class='featured'>";
+	  str+="</div><div id='featured' class='tabs active'>";
 	  Prices.find({"shopId":shop._id,"Featured":1}).forEach(function(e){
             var product = Products.findOne({"_id":e.productId},{fields:{"Image":1,"ProductName":1,"ModelID":1,"Brand":1}});
           str += '<div class="show-product" id="product_{{_id}}" style="cursor:pointer"> <img class="item-image" src="'+product.Image[0]+'"/><div class="item-desc"><div class="ellipsis"><div><p class="item-name">'+product.ProductName+'</p></div></div><p class="item-model">'+product.ModelID+'</p><div class="item-price-brand"><span class="pull-left">Rs'+e.price+'/-</span><span class="pull-right">'+product.Brand+'</span></div></div></div>';
           });
-          str += "</div></body></html>";
+	  io=1;
+	  _.each(htmldata,function(v,k){
+		header+='<li><a href="#" data-open="'+io.toString()+'">'+k+'</li>';
+	  	str+="</div><div id='tab"+io.toString()+"' class='tabs'>"+v+"</div>";
+		io++;
+	  });
+	  
+          str += header+"</body></html>";
           res.writeHead(200, {'Content-Type': 'text/html'});
           res.end(str);
         }).run();

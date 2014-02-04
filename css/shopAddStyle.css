@@ -10,8 +10,8 @@
 }
 
 #shopAddProducts{
-	width:78%;
-	overflow-y:scroll;
+	width:81%;
+	overflow-y:hidden;
 	overflow-x:hidden; 
 	float:right;
 	height:85%;
@@ -21,14 +21,13 @@
 	width:16.5%;
 	float:left;
 	margin-left: 1.5%;
-	margin-right: 2.5%;
 	margin-top: 0%;
 	font-family: armata;
 	height: 100%;
 	background-color: #eee;
 }
 #shopAddBrandSelect{
-	width:78%;
+	width:81%;
 	float:right;
 }
 #shopAddHeading{
@@ -71,7 +70,7 @@ font-weight: 500;
 padding-left: 10px;
 }
 div.products-row p {
-font-size: 1.2em;
+font-size: 1.4em;
 }
 .products-row .lead {
 	font-size: 1.4em;
@@ -84,9 +83,27 @@ font-size: 1.2em;
 	padding-top: 6px;
 }
 
+#shopAddProducts .products-row{
+  overflow-y:auto;
+  overflow-x:hidden;
+  width:72%;
+  float:left;
+  height:100%;
+}
+#shopAddProducts .listSelected{
+  float:left;
+  width:27%;
+}
+.listSelected ul{
+  list-style-type:none;
+  border:1px solid rgba(0,0,0,0.4);
+  padding:5px;
+  margin:8px;
+}
 #shopAddProducts .add-item{
   display:block;
-  width:23%;
+  width:33%;
+  margin:0;
 }
 
 #shopAddProducts .productCheck{

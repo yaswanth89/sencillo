@@ -65,9 +65,12 @@ Template.shopAddProducts.ProductArr = function(){
     }
   }
 };
+Template.shopAddProducts.selectedArr = function(){
+  return addSelected.find({},{sort: {_id: -1}});
+};
 Template.shopAddProducts.rendered = function (argument) {
   if(!this.rendered)
-    $("#shopAddProducts").scroll(function() {
+    $("#productsWrap").scroll(function() {
         if(!window.loading && $("#shopAddProducts").scrollTop() + $("#shopAddProducts").height() > $("#productsWrap").height() - 200) {
           console.log("loading...");
           $('#showMoreResults').html('loading....');
@@ -88,6 +91,15 @@ $(function(){
     Session.set('shopAddBrand',[]);
     Session.set('subForBrand',$(this).text());
     
+  });
+  $('.removeFromList').live('click',function(e){
+    e.preventDefault();
+    /*var a = Session.get('selectedAddProds');
+    a.splice(a.indexOf($(this).attr('id').split('_')[1]),1);
+    Session.set('selectedAddProds',a);*/
+    var prod = $(this).attr('id').split('_')[1];
+    addSelected.remove({'productId': prod});
+    $('#product_'+prod).fadeIn();
   });
   $('#showMoreResults').live('click',function(e){
     e.preventDefault();
@@ -116,32 +128,49 @@ $(function(){
   });*/
   $('#addSelected').live('click',function(e,t){
     var selected = [];
-    $('.productCheck:checked').each(function(){ 
+    /*$('.productCheck:checked').each(function(){ 
       selected.push($(this).attr('id').split('_')[1]); 
+    });*/
+    $('.listSelected ul li').each(function(){
+      selected.push($(this).attr('id'));
     });
     Meteor.call('addMultipleProducts', selected, function(error){
       if(error)
         displayError(error);
       else{
-        $('.productCheck:checked').each(function(){ 
+        /*'.productCheck:checked').each(function(){ 
           $(this).parent().fadeOut();
-        });
+        });*/
+        addSelected.remove({});
         displaySuccess('Selected items have been added to your shop!');
       }
     });
   });
-  /*$('.addProduct').live('click',function(e,t){
-    var now = e.currentTarget;
-    var id=now.id;
-    Meteor.call('addProduct', id, function(error){
-      if(error)
-        displayError(error);
-      else{
-        $('div#product_'+id).fadeOut();
-        displaySuccess('Item has been added to the shop');
+  $('.accordion-heading').live('click',function(e,t){
+    var tar = $(this).find('h4').attr('data-target');
+    $('.collapse').each(function(){
+      console.log($(this).attr('id')+'       '+tar.substring(1));
+      if($(this).attr('id') != tar.substring(1)){
+        $(this).removeClass('in'); 
+        $(this).css('height','0px');
       }
     });
-  });*/
+  });
+  $('.addProduct').live('click',function(e,t){
+    var now = e.currentTarget;
+    var id=now.id;
+    /*if(Session.get('selectedAddProds') != undefined){
+      var a = Session.get('selectedAddProds');
+      a.push(id);
+      Session.set('selectedAddProds',a);
+    }else{
+      var a = [id];
+      Session.set('selectedAddProds',a);
+    }*/
+    var prod = Products.findOne({_id: id});
+    addSelected.insert({'productId':id, 'ModelID': prod.ModelID, 'ProductName': prod.ProductName, 'Brand': prod.Brand});
+    $('#product_'+id).fadeOut();
+  });
 });
 /*
 Template.shopAdd.destroyed = function(){

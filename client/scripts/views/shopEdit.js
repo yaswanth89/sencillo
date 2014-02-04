@@ -16,7 +16,20 @@ Deps.autorun(function(){
   Meteor.subscribe('productPrices');
 });
 Template.shopEdit.events={
-  "click .toggle" : function(e){
+  "click #editSearchSubmit":function(e){
+    e.preventDefault();
+    var query = $('#editSearchInput').val().trim();
+    if(query == '')
+      return;
+    var queryString = query.split(" ");
+    var a="";
+    _.each(queryString,function(e){
+      a += "(?=.*\\b"+e+"\\b)";
+    });
+    Session.set('editSearchQuery',a);
+  },
+  "click .toggle": function(e){
+    console.log('yessssssssssssssss '+e.currentTarget.className);
     if(e.currentTarget.className.indexOf('on')>-1)
       e.currentTarget.className = "toggle off";
     else if(e.currentTarget.className.indexOf('off')>-1)
@@ -160,20 +173,5 @@ Template.shopEditCategories.events={
       Session.set('editSearchQuery','');
       Session.set('shopEditFilters',filters);
     },100);
-  }
-}
-
-Template.shopEdit.events={
-  "click #editSearchSubmit":function(e){
-    e.preventDefault();
-    var query = $('#editSearchInput').val().trim();
-    if(query == '')
-      return;
-    var queryString = query.split(" ");
-    var a="";
-    _.each(queryString,function(e){
-      a += "(?=.*\\b"+e+"\\b)";
-    });
-    Session.set('editSearchQuery',a);
   }
 }

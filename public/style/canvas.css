@@ -95,3 +95,9 @@ font-family: Tahoma, Geneva, Verdana;
 	padding: 1px 10px;
 	color:white;
 }
+.tabs{
+	display:none;
+}
+.tabs.active{
+	display:block;
+}

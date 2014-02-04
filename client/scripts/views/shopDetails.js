@@ -95,7 +95,12 @@ Template.shopDetails.events = {
 		  zoom:5,
 		  mapTypeId:google.maps.MapTypeId.ROADMAP
 		  };*/
+    if(!Session.get('user'))
+      return;
+    var markers = [];
+    var init = new google.maps.LatLng(Session.get('user').shopLatitude, Session.get('user').shopLongitude);
 		  var mapOptions = {
+        center: init,
 		    panControl: false,
 		    zoomControl: false,
 		    scrollwheel: false
@@ -112,16 +117,28 @@ Template.shopDetails.events = {
 		localityBox.setTypes(['geocode']);
 		console.log('crossed full');
 		var info;
-		$.get("http://maps.googleapis.com/maps/api/geocode/json", {'address':Session.get('user').pincode+'+india','sensor':'true'}, function(data){
-			info = data;
-			var bounds = info.results[0].geometry.bounds;
-			var ne = new google.maps.LatLng(bounds.northeast.lat, bounds.northeast.lng);
-			var sw = new google.maps.LatLng(bounds.southwest.lat, bounds.southwest.lng);
-			var b = new google.maps.LatLngBounds(sw, ne);
-			console.log(b.getCenter());
-			map.fitBounds(b);
-			//map.setCenter(b.getCenter());
-		});
+    console.log(Session.get('user'));
+      $.get("http://maps.googleapis.com/maps/api/geocode/json", {'address':Session.get('user').pincode+'+india','sensor':'true'}, function(data){
+        info = data;
+        var bounds = info.results[0].geometry.bounds;
+        var ne = new google.maps.LatLng(bounds.northeast.lat, bounds.northeast.lng);
+        var sw = new google.maps.LatLng(bounds.southwest.lat, bounds.southwest.lng);
+        var b = new google.maps.LatLngBounds(sw, ne);
+        console.log(b.getCenter());
+        map.fitBounds(b);
+        //map.setCenter(b.getCenter());
+      });
+    if(marker != undefined)
+		      marker.setMap(null);
+
+    marker = new google.maps.Marker({
+      map: map,
+      visible: true,
+      draggable: true,
+      position: init,
+      crossOnDrag: false
+    });
+    map.setCenter(init);
 
 		// var shopForm = document.getElementById('edit-form-shop');
 		// map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
@@ -240,14 +257,18 @@ Template.shopDetails.events = {
 			var loc = new google.maps.LatLng(focus.location.lat,focus.location.lng);
 			placeMarker(loc,map,5);
 		}
-
-  		/*function placeMarker(location, map, zoom) {
+    
+  		function placeMarker(location, map, zoom) {
+        console.log(location);
+        console.log(map);
 		  	marker = new google.maps.Marker({
+          map: map,
+          visible: true,
 			    position: location,
-			    map: map
+          draggable: true
 			});
 			console.log('zooming to '+zoom);
-			deleteMarkers();
+			//deleteMarkers();
 			markers.push(marker);
 			//if(zoom != undefined)
 				//map.setZoom(zoom);
@@ -257,7 +278,7 @@ Template.shopDetails.events = {
   				markers[i].setMap(null);
   			}
   			markers = [];
-		}*/
+		}
 	}
 	//google.maps.event.addDomListener(window, 'load', initialize);
 	

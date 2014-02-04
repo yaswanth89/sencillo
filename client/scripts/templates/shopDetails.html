@@ -42,23 +42,33 @@
 				<div class="control-group">
 					<label class="control-label">Mode of Payments available</label>
 					<div class="controls">
-						<input type="checkbox" name="edit-payments" value="debit" /> Debit Card
-						<input type="checkbox" name="edit-payments" value="credit" /> Credit Card
-						<input type="checkbox" name="edit-payments" value="cheque" /> Cheque
+            <label for='edit-debit'>{{#if payments.debit}}<input type="checkbox" id='edit-debit' name="edit-payments" value="debit" checked/>{{else}}<input type="checkbox" name="edit-payments" value="debit" />{{/if}} Debit Card</label>
+            <label for='edit-credit'>{{#if payments.credit}}<input type="checkbox" id='edit-credit' name="edit-payments" value="credit" checked/>{{else}}<input type="checkbox" name="edit-payments" value="credit" />{{/if}} Credit Card</label>
+            <label for='edit-cheque'>{{#if payments.cheque}}<input type="checkbox" id='edit-cheque' name="edit-payments" value="cheque" checked/>{{else}}<input type="checkbox" name="edit-payments" value="cheque" />{{/if}} Cheque</label>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Emi Option</label>
 					<div class="controls">
-						<input type="radio" name="edit-emi" id="edit-emi" value="yes" /> Yes
-						<input type="radio" name="edit-emi" id="edit-emi" value="no" /> No
+            {{#if emi}}
+              <input type="radio" name="edit-emi" id="edit-emi" value="yes" checked='checked'/> Yes
+              <input type="radio" name="edit-emi" id="edit-emi" value="no" /> No
+            {{else}}
+              <input type="radio" name="edit-emi" id="edit-emi" value="yes" /> Yes
+              <input type="radio" name="edit-emi" id="edit-emi" value="no" checked='checked'/> No
+            {{/if}}
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Exchange Available</label>
 					<div class="controls">
-						<input type="radio" name="edit-exchange" id="edit-exchange" value="yes" /> Yes
-						<input type="radio" name="edit-exchange" id="edit-exchange" value="no" /> No
+            {{#if exchange}}
+              <input type="radio" name="edit-exchange" id="edit-exchange" value="yes" checked='checked'/> Yes
+              <input type="radio" name="edit-exchange" id="edit-exchange" value="no" /> No
+            {{else}}
+              <input type="radio" name="edit-exchange" id="edit-exchange" value="yes" /> Yes
+						  <input type="radio" name="edit-exchange" id="edit-exchange" value="no" checked='checked'/> No
+            {{/if}}
 					</div>
 				</div>
 				<div class="control-group">

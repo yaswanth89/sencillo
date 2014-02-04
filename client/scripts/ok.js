@@ -7,6 +7,7 @@ Products = new Meteor.Collection('Products');
 Brands = new Meteor.Collection("Brands");
 Prices = new Meteor.Collection("Prices");
 pricerange = new Meteor.Collection('price_range');
+addSelected = new Meteor.Collection(null);
 Meteor.startup(function(){
 	return $(function(){
 		App.router = new Router();

@@ -63,3 +63,6 @@ this.HeaderView = Backbone.View.extend({
 Template.header.MainCatArr=function(){
 	return FrameDetail.find({});
 };
+Template.header.username = function(){
+  return Meteor.user().username;
+};
