@@ -105,6 +105,7 @@ Template.shopDetails.events = {
 		    zoomControl: false,
 		    scrollwheel: false
 		  };
+    console.log(init);
 		var map=new google.maps.Map(document.getElementById('googleMap'),mapOptions);
 		map.setZoom(12);
 		console.log('map set');
@@ -128,6 +129,7 @@ Template.shopDetails.events = {
         map.fitBounds(b);
         //map.setCenter(b.getCenter());
       });
+    var marker;
     if(marker != undefined)
 		      marker.setMap(null);
 
@@ -138,8 +140,12 @@ Template.shopDetails.events = {
       position: init,
       crossOnDrag: false
     });
+    google.maps.event.addListener(marker, 'dragend',function(e){
+		  Session.set('selected',{'lat': e.latLng.lat(), 'lng': e.latLng.lng()});
+		});
     map.setCenter(init);
-
+    console.log('marker is');
+    console.log(marker);
 		// var shopForm = document.getElementById('edit-form-shop');
 		// map.controls[google.maps.ControlPosition.TOP_LEFT].push(shopForm);
 		// console.log('controls pushed');
@@ -163,7 +169,6 @@ Template.shopDetails.events = {
 		      console.log('bounded!');
 		    });
 		});
-		var marker;
 
 		google.maps.event.addListener(localityBox, 'place_changed', function(){
 		    var place = localityBox.getPlace();

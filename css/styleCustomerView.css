@@ -125,42 +125,54 @@
 	border-right: 1px solid gray;
 	padding-right: 42px;
 }
-#shopMainCat{
-	list-style-type: none;
-	margin: 8px;
-	width: 191px;
+#shopMainCat {
+list-style-type: none;
+margin: 0;
+width: 100%;
+position: relative;
 }
-#shopMainCat li.mainCat{
-	width: 93%;
-	height: 25px;
-	text-align: left;
-	padding: 6px 8px;
-	border-bottom: 1px solid rgba(0,0,0,0.5);
-	cursor: pointer;
+#shopMainCat li.mainCat {
+width: 95%;
+height: 25px;
+text-align: left;
+padding-left: 5%;
+padding-top: 2%;
+margin-top: 0;
+cursor: pointer;
 }
 #shopMainCat li:hover{
-	background-color: gray;
+	background-color: crimson;
+}
+#shopMainCat li:hover a{
+  color:#fff;
 }
 #shopMainCat li:hover ul.shopSubCat{
 	display: block;
 }
-#shopMainCat ul.shopSubCat{
-	display: none;
-	position: relative;
-	left: 103.5%;
-	top: -100%;
-	list-style-type: none;
-	background-color: white;
-	border: 1px solid rgba(0,0,0,0.3);
-	text-align: left;
-	padding: 16px;
-	margin:0px;
+#shopMainCat ul.shopSubCat {
+display: none;
+height: 500px;
+width: 100%;
+position: absolute;
+left: 100%;
+top: 0%;
+list-style-type: none;
+background-color: white;
+border: 1px solid rgba(0,0,0,0.3);
+text-align: left;
+margin: 0px;
 }
-#shopMainCat li.subCat{
-	width: 93%;
-	padding: 4px;
-	border-bottom: 1px solid rgba(0,0,0,0.5);
-	cursor: pointer;
+#shopMainCat li.subCat {
+width: 95%;
+padding-left: 2.5%;
+padding-right: 2.5%;
+padding-top: 2%;
+cursor: pointer;
+height: 25px;
+}
+
+#shopMainCat li.subCat:hover{
+color:#fff;
 }
 .cvShopContent{
 	width: 68%;
@@ -170,7 +182,7 @@
 .cvShopTabs{
 	width: 100%;
 	height: 100%;
-	padding: 1px 16px;
+	/*padding: 1px 16px;*/
 	position: relative;
 	margin:0px auto;
 }
@@ -186,19 +198,20 @@
 	height: 100%;
 }
 .cvShopTabs .show-product{
-	width: 22.6%;
-	margin: 1%;
+	width: 24.8%;
+	/*margin: 1%;*/
 }
 .cvShopTabs .show-product p{
 	font-size: 1.4em;
 }
 .cvProductsContent{
-	width: 97%;
+	width: 100%;
 	height: 90%;
 	padding: 0px;
 	position: relative;
 	float: right;
 	overflow-y: auto; 
+  margin-top:1%
 }
 .cvProductsContent .show-product .item-image{
 	height: 125px;
@@ -224,5 +237,13 @@
     overflow-y:scroll; 
 }
 .cvShopTabs .products-list{
-	width: 97%;
+	width: 100%;
+}
+ul#shopFilters {
+margin: 0;
+width: 99%%;
+padding: 0;
+border-radius: 0;
+height: 500px;
+position: absolute;
 }

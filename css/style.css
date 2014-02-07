@@ -14,9 +14,13 @@ body,#body {
 #body{
 	overflow-x:hidden;
 }
+#header{
+  height:13%;
+}
 #content{
 	overflow: hidden;
 	position: relative;
+  height:87%;
 }
 #loadmask{
 	position: absolute;

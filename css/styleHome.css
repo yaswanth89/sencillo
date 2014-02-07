@@ -115,23 +115,21 @@
  	height:500px; 
  }*/
  .products-list{
- 	width:96%;
- 	margin: 20px;
  	overflow:hidden;
  	position: relative;
- 	padding: 2px;
+ 	
  }
  div.show-product , .add-item {
-	width: 19.8%;
+	width: 19.9%;
   margin:0;
   float: left;
   background: white;
-  height: 250px;
-  margin-bottom: 2px;
   border: 1px solid #d5d4d4;
+  margin-left:-1px;
+  margin-bottom:-2px;
 }
 div.show-product:hover{
-	box-shadow: 0px 0px 2px #115d8e;
+	/*box-shadow: 5px 5px 5px 5px #888888 inset;*/
 }
 div.show-product .item-model{
 	font-size: 1.3em;

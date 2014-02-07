@@ -10,11 +10,11 @@
 }
 
 #shopAddProducts{
-	width:81%;
+	width:82%;
 	overflow-y:hidden;
 	overflow-x:hidden; 
 	float:right;
-	height:85%;
+	height:93%;
 }
 
 #shopAddWrap{
@@ -27,8 +27,9 @@
 	background-color: #eee;
 }
 #shopAddBrandSelect{
-	width:81%;
+	width:82%;
 	float:right;
+  height:7%;
 }
 #shopAddHeading{
 
@@ -101,9 +102,11 @@ font-size: 1.4em;
   margin:8px;
 }
 #shopAddProducts .add-item{
+  position:relative;
   display:block;
   width:33%;
-  margin:0;
+  margin-left:-1px;
+  margin-bottom:-1px;
 }
 
 #shopAddProducts .productCheck{
@@ -119,14 +122,13 @@ font-size: 1.4em;
 	margin-bottom: 12px;
 }
 .add-item .item-content{
-	position: relative;
 	top: -100%;
 	z-index: 2;
 	padding: 12px;
 	font-family: helvetica;
 }
 .add-item .mask{
-	position: relative;
+	position: absolute;
 	top: 0px;
 	left: 0px;
 	width: 100%;
@@ -138,10 +140,11 @@ font-size: 1.4em;
 }
 .add-item .mask .addProduct{
 	position: relative;
-	display: none;
-	margin: 0px auto;
-	top: 84%;
-	width: 100%;
+display: none;
+margin: 0 auto;
+top: 42.5%;
+height: 15%;
+width: 75%;
 }
 #shopAddProducts .add-item:hover .mask{
 	opacity: 1;

@@ -29,9 +29,9 @@
     <div class='shopFacilities'>
       <table>
         <tr>
-          <td class='fac-img-wrapper'>{{#if emi}}<img src='/image/36.png' class='facility-icon'/>{{else}}<img src='/image/31.png' class='facility-icon'/>{{/if}}</td><td> EMI</td></tr>
+          {{#if emi}}<td class='fac-img-wrapper'><img src='/image/36.png' class='facility-icon'/></td><td> EMI Available</td>{{else}}<td class='fac-img-wrapper'><img src='/image/31.png' class='facility-icon'/></td><td> No EMI</td>{{/if}}</tr>
           <tr><td class='fac-img-wrapper'><img src='/image/14.png' class='facility-icon'/></td><td>{{#with payments}} {{#if debit}}Debit {{/if}} {{#if credit}}Credit {{/if}} {{#if cheque}}Cheque {{/if}} {{/with}}</td></tr>
-          <tr><td class='fac-img-wrapper'>{{#if homeDelivery}}<img src="/image/37.png" class='facility-icon'/>{{else}}<img src="/image/34.png" class='facility-icon'/>{{/if}}</td><td> Home Delivery</td></tr>
+          <tr>{{#if homeDelivery}}<td class='fac-img-wrapper'><img src="/image/37.png" class='facility-icon'/></td><td> Home Delivery Available</td>{{else}}<td class='fac-img-wrapper'><img src="/image/34.png" class='facility-icon'/></td><td> No Home Delivery</td>{{/if}}</tr>
       </table>
     </div>
   {{/with}}

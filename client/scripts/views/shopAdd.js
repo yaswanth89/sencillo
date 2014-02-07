@@ -66,7 +66,7 @@ Template.shopAddProducts.ProductArr = function(){
   }
 };
 Template.shopAddProducts.selectedArr = function(){
-  return addSelected.find({},{sort: {_id: -1}});
+  return addSelected.find({},{sort: {time: -1}});
 };
 Template.shopAddProducts.rendered = function (argument) {
   if(!this.rendered)
@@ -90,7 +90,6 @@ $(function(){
     Session.set('itemsLimit',ITEMS_INCREMENT);
     Session.set('shopAddBrand',[]);
     Session.set('subForBrand',$(this).text());
-    
   });
   $('.removeFromList').live('click',function(e){
     e.preventDefault();
@@ -168,7 +167,8 @@ $(function(){
       Session.set('selectedAddProds',a);
     }*/
     var prod = Products.findOne({_id: id});
-    addSelected.insert({'productId':id, 'ModelID': prod.ModelID, 'ProductName': prod.ProductName, 'Brand': prod.Brand});
+    var d = new Date();
+    addSelected.insert({'productId':id, 'ModelID': prod.ModelID, 'ProductName': prod.ProductName, 'Brand': prod.Brand, 'time':d.getTime()});
     $('#product_'+id).fadeOut();
   });
 });

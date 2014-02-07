@@ -124,7 +124,7 @@ Template.ShopProducts.ProductArr = function(){
       id = e._id;
     });
     x = Prices.find({shopId:id,"Featured":1},{limit:5}).forEach(function(e){
-      product = Products.find({_id:e.productId},{fields:{"ProductName":1,"ModelID":1,"Image":1}}).fetch();
+      product = Products.find({_id:e.productId},{fields:{"ProductName":1,"ModelID":1,"Image":1,"Brand":1}}).fetch();
       product[0].price = e.price;
       blah.push(product[0]);
     });
